@@ -1,0 +1,8 @@
+# 暫存工具結果與審計報告
+.tmp-tool-results/
+
+# 依賴目錄
+node_modules/
+
+# 日誌檔
+*.log
