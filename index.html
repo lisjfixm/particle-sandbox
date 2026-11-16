@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v5.0 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v7.0 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -55,6 +55,42 @@
       display: block;
       cursor: crosshair;
       touch-action: none;
+    }
+
+    /* v7.0 F3：CRT 掃描線 + 暈影疊層（純 CSS，零物理成本；預設關閉） */
+    #crt-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      background:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.42) 100%),
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0.18) 3px, rgba(0, 0, 0, 0.18) 4px);
+      mix-blend-mode: multiply;
+    }
+    #crt-overlay.crt-on {
+      opacity: 1;
+    }
+
+    /* 指令面板 / 自訂預設列表項目 */
+    .cmd-result-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .cmd-result-btn:hover {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(96, 165, 250, 0.4);
     }
 
     /* 觸控裝置：圓形圖示按鈕最小可點擊尺寸 40px */
@@ -411,6 +447,12 @@
     <video id="video-preview" class="hidden" loop muted playsinline crossorigin="anonymous"></video>
     <img id="img-preview" class="hidden" alt="Preview">
 
+    <!-- v7.0 F1：自訂粒子造型去背圖片上傳（僅圖片；上限於 JS 守衛） -->
+    <input type="file" id="hidden-glyph-upload" accept="image/*" class="hidden">
+
+    <!-- v7.0 F3：CRT 掃描線 / 暈影疊層（預設關閉，純 CSS） -->
+    <div id="crt-overlay" aria-hidden="true"></div>
+
     <!-- Toast Notification -->
     <div id="toast-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-300 glass-panel px-4 py-2 rounded-full text-xs font-medium text-blue-300 border border-blue-500/30 whitespace-nowrap">
       已執行操作
@@ -456,6 +498,8 @@
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">D</span> <span data-i18n="keyDock">收起/展開導覽</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">H</span> <span data-i18n="keyZen">沉浸全螢幕</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">K</span> <span data-i18n="keyActionCode">開啟行動碼系統（匯出/匯入/秘技指令）</span></div>
+              <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+K</span> <span data-i18n="keyCmdPalette">開啟指令面板 (Ctrl+K)</span></div>
+              <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+Z / Ctrl+Y</span> <span data-i18n="undoBtn">還原 (Ctrl+Z)</span> / <span data-i18n="redoBtn">重做 (Ctrl+Y)</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">1 - 5</span> <span data-i18n="keyCat">快速切換 5 大模式分類 (全部/力場/流體/聲光/幾何)</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">E</span> <span data-i18n="keyRespawn">重生粒子</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">F</span> <span data-i18n="keyBounce">邊界反彈切換</span></div>
@@ -490,7 +534,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB50-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB70-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -503,7 +547,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB46- / PSB50- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB46- / PSB50- / PSB65- / PSB70- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -593,6 +637,34 @@
       </div>
     </div>
 
+    <!-- v7.0 F5：自訂預設庫彈窗 -->
+    <div id="modal-custom-presets" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md interactive-el transition-opacity">
+      <div class="glass-panel rounded-3xl p-5 max-w-md w-full flex flex-col gap-3.5 border border-white/15 shadow-2xl">
+        <div class="flex justify-between items-center border-b border-white/10 pb-2.5">
+          <div class="flex items-center gap-2">
+            <svg class="icon-svg text-purple-400"><use href="#icon-dice"/></svg>
+            <span class="text-sm font-bold text-white tracking-wide" data-i18n="customPresetsTitle">自訂預設庫</span>
+          </div>
+          <button id="btn-close-custom-presets" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-lg transition-all">
+            <svg class="icon-svg-sm"><use href="#icon-close"/></svg>
+          </button>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <input type="text" id="custom-preset-name" maxlength="16" placeholder="" class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+          <button id="btn-save-custom-preset" class="bg-purple-600/40 hover:bg-purple-600/60 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold text-[11px] transition-all whitespace-nowrap" data-i18n="customPresetSave">儲存目前</button>
+        </div>
+        <div id="custom-presets-list" class="flex flex-col gap-1.5 max-h-[48vh] overflow-y-auto no-scrollbar"></div>
+      </div>
+    </div>
+
+    <!-- v7.0 F6：指令面板 lite 浮層 -->
+    <div id="modal-command-palette" class="hidden fixed inset-0 z-50 flex items-start justify-center p-4 pt-[12vh] bg-black/55 backdrop-blur-sm interactive-el transition-opacity">
+      <div class="glass-panel rounded-3xl p-4 max-w-lg w-full flex flex-col gap-2.5 border border-white/15 shadow-2xl">
+        <input type="text" id="cmd-search-input" autocomplete="off" class="bg-black/50 border border-white/15 rounded-xl px-3 py-2 text-sm text-white placeholder-white/40 outline-none focus:border-cyan-400" data-i18n-placeholder="cmdPlaceholder">
+        <div id="cmd-palette-results" class="flex flex-col gap-1.5 max-h-[52vh] overflow-y-auto no-scrollbar"></div>
+      </div>
+    </div>
+
     <!-- Main UI Overlay -->
     <div id="main-ui-layer" class="ui-layer">
       <!-- Top Bar -->
@@ -670,7 +742,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v5.0</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.0</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -702,6 +774,25 @@
                 <button data-scene="gearworks" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-700/25 hover:border-orange-400 transition-all" data-i18n="sceneGearworks">機械齒輪</button>
                 <button data-scene="bloomField" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-pink-600/25 hover:border-pink-400 transition-all" data-i18n="sceneBloomField">花海潮叢</button>
                 <button data-scene="twinStar" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-yellow-600/25 hover:border-yellow-300 transition-all" data-i18n="sceneTwinStar">雙星糾纏</button>
+                <button data-scene="sceneLorenz" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-purple-600/25 hover:border-purple-300 transition-all" data-i18n="sceneLorenz">洛倫茲蝶舞</button>
+                <button data-scene="scenePendulum" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-blue-600/25 hover:border-blue-300 transition-all" data-i18n="scenePendulum">擺浪陣列</button>
+                <button data-scene="sceneGalton" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-amber-600/25 hover:border-amber-300 transition-all" data-i18n="sceneGalton">高爾頓鐘形</button>
+                <button data-scene="scenePrism" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-rose-600/25 hover:border-rose-300 transition-all" data-i18n="scenePrism">稜鏡七彩光</button>
+                <button data-scene="sceneDyson" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-yellow-600/25 hover:border-yellow-300 transition-all" data-i18n="sceneDyson">戴森球恆星</button>
+                <button data-scene="sceneJwst" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-slate-500/25 hover:border-slate-300 transition-all" data-i18n="sceneJwst">韋伯太空鏡</button>
+                <button data-scene="sceneOrrery" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-600/25 hover:border-orange-300 transition-all" data-i18n="sceneOrrery">太陽系星儀</button>
+                <button data-scene="sceneInkland" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-white/15 hover:border-white/40 transition-all" data-i18n="sceneInkland">水墨山水卷</button>
+              </div>
+              <div class="mt-1.5">
+                <div class="text-[10px] font-semibold text-amber-300/80 mb-1" data-i18n="curatedPresets">精選一鍵預設</div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-1.5">
+                  <button data-preset="presetNebula" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-purple-600/25 hover:border-purple-300 transition-all" data-i18n="presetNebula">創世星雲</button>
+                  <button data-preset="presetLava" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-red-600/25 hover:border-red-300 transition-all" data-i18n="presetLava">地心熔岩</button>
+                  <button data-preset="presetNeon" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-pink-600/25 hover:border-pink-300 transition-all" data-i18n="presetNeon">霓虹萬花</button>
+                  <button data-preset="presetLorenz" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-violet-600/25 hover:border-violet-300 transition-all" data-i18n="presetLorenz">洛倫茲蝶</button>
+                  <button data-preset="presetGolden" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-amber-600/25 hover:border-amber-300 transition-all" data-i18n="presetGolden">黃金螺旋</button>
+                  <button data-preset="presetJwst" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-slate-500/25 hover:border-slate-300 transition-all" data-i18n="presetJwst">韋伯星鏡</button>
+                </div>
               </div>
             </div>
           </div>
@@ -771,6 +862,18 @@
                 <button data-palette="champagne" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palChampagne">玫瑰香檳</button>
                 <button data-palette="bronze" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palBronze">古銅青銅</button>
                 <button data-palette="pastel" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palPastel">棉花糖粉彩</button>
+                <button data-palette="sunset" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palSunset">落日熔金</button>
+                <button data-palette="emerald" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palEmerald">翡翠森林</button>
+                <button data-palette="royal" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palRoyal">紫金皇室</button>
+                <button data-palette="ice" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palIce">極地冰晶</button>
+                <button data-palette="synthwave" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palSynthwave">復古合成波</button>
+                <button data-palette="gold" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palGold">黑金奢華</button>
+                <button data-palette="lava" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palLava">地心熔岩</button>
+                <button data-palette="mint" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palMint">薄荷蘇打</button>
+                <button data-palette="nebula" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palNebula">獵戶星雲</button>
+                <button data-palette="bloodmoon" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palBloodmoon">血月蝕日</button>
+                <button data-palette="amber" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palAmber">琥珀化石</button>
+                <button data-palette="monochrome" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palMonochrome">水墨銀灰</button>
               </div>
             </div>
           </div>
@@ -885,7 +988,7 @@
             </div>
           </div>
 
-          <!-- Accordion 6: v5.0 Engine Tuning (Gravity / Lifespan / Quality / Rhythm / Background) -->
+          <!-- Accordion 6: v7.0 Engine Tuning (Gravity / Lifespan / Quality / Rhythm / Background) -->
           <div class="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
             <button id="btn-acc-engine" class="w-full flex justify-between items-center py-2 px-3 hover:bg-white/5 transition-all text-left">
               <span class="text-xs font-semibold text-rose-300" data-i18n="engineGroupTitle">引擎調校與進階開關</span>
@@ -958,6 +1061,63 @@
                     <button data-mat="ember" class="mat-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="matEmber">餘燼</button>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion 7: v7.0 Appearance, Glyph & Data Tools -->
+          <div class="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+            <button id="btn-acc-appearance" class="w-full flex justify-between items-center py-2 px-3 hover:bg-white/5 transition-all text-left">
+              <span class="text-xs font-semibold text-cyan-300" data-i18n="appearanceGroupTitle">粒子造型 / 視覺效果 / 資料工具</span>
+              <svg id="icon-acc-appearance" class="icon-svg-sm text-white/70 transition-transform duration-200"><use href="#icon-chevron-down"/></svg>
+            </button>
+            <div id="body-acc-appearance" class="hidden p-2.5 pt-0 transition-all flex flex-col gap-2.5">
+              <div class="flex flex-col gap-1.5">
+                <div class="text-xs text-white/80" data-i18n="glyphLabel">粒子造型</div>
+                <div class="flex gap-1.5 flex-wrap">
+                  <button data-glyph="circle" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-blue-600/30 border border-blue-400/50 text-white transition-all" data-i18n="glyphCircle">圓點</button>
+                  <button data-glyph="star" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphStar">星形</button>
+                  <button data-glyph="hexagon" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphHexagon">六角</button>
+                  <button data-glyph="heart" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphHeart">愛心</button>
+                  <button data-glyph="lightning" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphLightning">閃電</button>
+                  <button data-glyph="feather" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphFeather">羽毛</button>
+                  <button data-glyph="snowflake" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphSnowflake">雪花</button>
+                  <button data-glyph="sakura" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphSakura">櫻瓣</button>
+                  <button data-glyph="diamond" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphDiamond">鑽石</button>
+                  <button data-glyph="ring" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphRing">圓環</button>
+                  <button data-glyph="note" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphNote">音符</button>
+                  <button id="btn-glyph-upload" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-dashed border-white/20 text-white/75 transition-all" data-i18n="glyphCustom">自訂圖片</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                <button id="btn-toggle-crt" class="py-1.5 px-2.5 rounded-xl text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 flex items-center justify-between transition-all">
+                  <span data-i18n="toggleCrt">CRT 螢幕</span>
+                  <span id="state-crt" class="font-mono text-[10px] text-white/55">OFF</span>
+                </button>
+                <button id="btn-toggle-dof" class="py-1.5 px-2.5 rounded-xl text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 flex items-center justify-between transition-all">
+                  <span data-i18n="toggleDof">景深縮放</span>
+                  <span id="state-dof" class="font-mono text-[10px] text-white/55">OFF</span>
+                </button>
+                <button id="btn-toggle-anaglyph" class="py-1.5 px-2.5 rounded-xl text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 flex items-center justify-between transition-all">
+                  <span data-i18n="toggleAnaglyph">紅藍立體</span>
+                  <span id="state-anaglyph" class="font-mono text-[10px] text-white/55">OFF</span>
+                </button>
+                <button id="btn-toggle-chromatic" class="py-1.5 px-2.5 rounded-xl text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 flex items-center justify-between transition-all">
+                  <span data-i18n="toggleChromatic">色差透鏡</span>
+                  <span id="state-chromatic" class="font-mono text-[10px] text-white/55">OFF</span>
+                </button>
+                <button id="btn-toggle-quiver" class="py-1.5 px-2.5 rounded-xl text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 flex items-center justify-between transition-all">
+                  <span data-i18n="toggleQuiver">速度向量</span>
+                  <span id="state-quiver" class="font-mono text-[10px] text-white/55">OFF</span>
+                </button>
+              </div>
+
+              <div class="flex gap-1.5 flex-wrap">
+                <button id="btn-export-csv" class="px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-emerald-600/25 border border-emerald-400/40 text-emerald-200 hover:bg-emerald-600/35 active:scale-95 transition-all" data-i18n="exportCsv">匯出 CSV</button>
+                <button id="btn-open-custom-presets" class="px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-purple-600/25 border border-purple-400/40 text-purple-200 hover:bg-purple-600/35 active:scale-95 transition-all" data-i18n="customPresetsBtn">自訂預設</button>
+                <button id="btn-undo" class="px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 hover:bg-white/15 active:scale-95 transition-all" data-i18n="undoBtn">還原 (Ctrl+Z)</button>
+                <button id="btn-redo" class="px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 hover:bg-white/15 active:scale-95 transition-all" data-i18n="redoBtn">重做 (Ctrl+Y)</button>
               </div>
             </div>
           </div>
@@ -1044,7 +1204,7 @@
           <!-- Shape Category Tabs (Includes New 3D Sculptural Models Category) -->
           <div id="shape-category-bar" class="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5">
             <button id="shape-cat-all" data-shape-cat-btn="all" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600/30 border border-blue-400/50 text-blue-200 transition-all whitespace-nowrap" data-i18n="shapeCatAll">全部</button>
-            <button data-shape-cat-btn="models" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 transition-all whitespace-nowrap" data-i18n="shapeCatModels">3D 模型 (8)</button>
+            <button data-shape-cat-btn="models" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 transition-all whitespace-nowrap" data-i18n="shapeCatModels">3D 模型 (24)</button>
             <button data-shape-cat-btn="basic" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatBasic">基礎幾何 (6)</button>
             <button data-shape-cat-btn="spiral" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatSpiral">自然螺旋 (5)</button>
             <button data-shape-cat-btn="topology" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatTopology">高維拓撲 (9)</button>
@@ -1078,6 +1238,22 @@
             <button id="shape-hourglass" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeHourglass">時空沙漏</button>
             <button id="shape-jellyfish" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeJellyfish">深海水母</button>
             <button id="shape-phoenix" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapePhoenix">浴火鳳凰</button>
+            <button id="shape-neuronNet" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeNeuronNet">神經元網絡</button>
+            <button id="shape-tourbillon" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTourbillon">陀飛輪機芯</button>
+            <button id="shape-globeRelief" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeGlobeRelief">地形地球儀</button>
+            <button id="shape-orrery" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeOrrery">太陽系星儀</button>
+            <button id="shape-coral3d" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCoral3d">珊瑚枝叢</button>
+            <button id="shape-trex" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTrex">暴龍骨架</button>
+            <button id="shape-inkLandscape" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeInkLandscape">水墨山水</button>
+            <button id="shape-dysonSphere" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeDysonSphere">戴森球殼</button>
+            <button id="shape-jwstMirror" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeJwstMirror">韋伯蜂巢鏡</button>
+            <button id="shape-quantumFridge" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeQuantumFridge">量子制冷機</button>
+            <button id="shape-toroidalCoil" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeToroidalCoil">環形線圈</button>
+            <button id="shape-heart3d" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeHeart3d">立體心形</button>
+            <button id="shape-tesseract" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTesseract">超立方骨架</button>
+            <button id="shape-toriiGate" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeToriiGate">鳥居</button>
+            <button id="shape-stellarator" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeStellarator">仿星器線圈</button>
+            <button id="shape-calabiYau" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCalabiYau">卡拉比-丘流形</button>
           </div>
           <div id="panel-shape-advanced" class="hidden border-t border-white/10 pt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
             <div class="flex flex-col gap-1">
@@ -1201,11 +1377,11 @@
           <div class="w-full flex flex-wrap items-center justify-between gap-1.5 px-1">
             <!-- Mode Category Filter Pills -->
             <div id="dock-category-bar" class="interactive-el glass-panel rounded-full p-1 flex items-center gap-1 overflow-x-auto no-scrollbar max-w-full">
-              <button data-mode-cat-btn="all" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600 text-white transition-all whitespace-nowrap" data-i18n="catAll">全部 (19)</button>
-              <button data-mode-cat-btn="force" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catForce">力場物理 (5)</button>
-              <button data-mode-cat-btn="nature" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catNature">自然流體 (6)</button>
-              <button data-mode-cat-btn="audio" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catAudio">聲光慶典 (4)</button>
-              <button data-mode-cat-btn="media" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catMedia">幾何媒體 (4)</button>
+              <button data-mode-cat-btn="all" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600 text-white transition-all whitespace-nowrap" data-i18n="catAll">全部 (31)</button>
+              <button data-mode-cat-btn="force" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catForce">力場物理 (11)</button>
+              <button data-mode-cat-btn="nature" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catNature">自然流體 (10)</button>
+              <button data-mode-cat-btn="audio" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catAudio">聲光慶典 (5)</button>
+              <button data-mode-cat-btn="media" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catMedia">幾何媒體 (5)</button>
             </div>
 
             <!-- Right Sub-panel & Dock Collapse Controls -->
@@ -1298,19 +1474,67 @@
               <svg class="icon-svg-md"><use href="#icon-aurora"/></svg>
               <span class="text-[10px] font-bold tracking-wider" data-i18n="modeAuroraBand">極光帶</span>
             </button>
+            <button id="mode-lorenz" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-vortex"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeLorenz">洛倫茲吸引子</span>
+            </button>
+            <button id="mode-rossler" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-blackhole"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeRossler">羅斯勒吸引子</span>
+            </button>
+            <button id="mode-pendulumWave" data-mode-cat="nature" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-wave"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modePendulumWave">單擺陣波</span>
+            </button>
+            <button id="mode-galtonBoard" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-swarm"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeGaltonBoard">高爾頓釘板</span>
+            </button>
+            <button id="mode-phyllotaxis" data-mode-cat="nature" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-galaxy"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modePhyllotaxis">葉序螺旋</span>
+            </button>
+            <button id="mode-brownian" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-wind"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeBrownian">布朗運動</span>
+            </button>
+            <button id="mode-convection" data-mode-cat="nature" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-aurora"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeConvection">對流浮力</span>
+            </button>
+            <button id="mode-reactionDiffusion" data-mode-cat="nature" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-crystal"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeReactionDiffusion">反應擴散斑</span>
+            </button>
+            <button id="mode-fireflies" data-mode-cat="audio" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-sparkles"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeFireflies">螢火蟲同步</span>
+            </button>
+            <button id="mode-newtonsCradle" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-clock"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeNewtonsCradle">牛頓擺球</span>
+            </button>
+            <button id="mode-threeBody" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-galaxy"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeThreeBody">三體引力</span>
+            </button>
+            <button id="mode-clifford" data-mode-cat="media" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-kaleidoscope"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeClifford">克利福德吸引子</span>
+            </button>
           </nav>
         </div>
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v5.0</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.0</span>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- Application State (Ultra v5.0) ---
+    // --- Application State (Ultra v7.0) ---
     window.appState = {
       particleCount: 7000,
       maxSpeed: 10.5,
@@ -1383,7 +1607,7 @@
       lastSoundTimes: {},
       lastSyncedCount: 0,
       lastSyncedSize: 0,
-      // --- v5.0 第二波：引擎層新狀態欄位 ---
+      // --- v7.0 引擎層狀態欄位 ---
       material: 'none', // 'none', 'viscous', 'bouncy', 'ember'
       gravityDir: 'none', // 'none', 'up', 'down', 'left', 'right'
       particleLifespan: 0, // 0 = 關；3–30 秒後粒子 reset()
@@ -1394,27 +1618,38 @@
       trailReticle: true, // 軌跡光環開關
       persistConfig: false, // 自動儲存配置開關（預設關）
       baseHueOverride: null, // 全域基色鎖定；null = 隨機
+      // --- v7.0 Wave3：外觀 / 視覺效果狀態（預設關閉或低強度）---
+      particleGlyph: 'circle', // F1 粒子造型：circle/star/hexagon/heart/lightning/feather/snowflake/sakura/diamond/ring/note/custom
+      crtOverlay: false, // F3 CRT 掃描線 + 暈影疊層
+      dofScale: false, // F4 景深 Z 軸縮放
+      anaglyph: false, // F4 紅藍 3D 立體
+      chromatic: false, // F4 色差透鏡
+      quiver: false, // F4 速度向量箭頭
       cursorTrail: [], // 指標軌跡環形緩衝（執行期陣列，不進 DEFAULT_STATE）
       rulerStart: null, // 直尺筆刷起點（執行期暫存，不進 DEFAULT_STATE）
-      pinchPrevDist: null // 雙指捏合上一次距離（執行期暫存，不進 DEFAULT_STATE）
+      pinchPrevDist: null, // 雙指捏合上一次距離（執行期暫存，不進 DEFAULT_STATE）
+      customCutoutSprite: null, // F1 去背圖片離屏 canvas（執行期暫存，不進 DEFAULT_STATE / 快照 / 動作碼）
+      undoStack: [], // F7 還原堆疊（執行期陣列，上限 25，不進 DEFAULT_STATE / 快照 / 動作碼）
+      redoStack: [] // F7 重做堆疊（執行期陣列，上限 25）
     };
 
-    // --- v5.0 列舉白名單（動作碼解碼校驗用；第二波新增項目直接擴充對應陣列即可）---
+    // --- v7.0 列舉白名單（動作碼解碼校驗用；後續波次新增項目直接擴充對應陣列即可）---
     const WHITELIST = {
-      modes: ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand'],
+      modes: ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford'],
       brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler'],
-      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel'],
-      shapes: ['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil', 'saturn', 'spaceship', 'dragon', 'crystal', 'castle', 'hourglass', 'jellyfish', 'phoenix'],
+      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome'],
+      shapes: ['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil', 'saturn', 'spaceship', 'dragon', 'crystal', 'castle', 'hourglass', 'jellyfish', 'phoenix', 'neuronNet', 'tourbillon', 'globeRelief', 'orrery', 'coral3d', 'trex', 'inkLandscape', 'dysonSphere', 'jwstMirror', 'quantumFridge', 'toroidalCoil', 'heart3d', 'tesseract', 'toriiGate', 'stellarator', 'calabiYau'],
       textEffects: ['static', 'wave', 'pulse'],
       shellTypes: ['all', 'peony', 'heart', 'saturn', 'willow'],
       anchorTypes: ['pull', 'vortex', 'push', 'orbit'],
       mirrorSteps: [1, 2, 4, 6],
       materials: ['none', 'viscous', 'bouncy', 'ember'],
       gravityDirs: ['none', 'up', 'down', 'left', 'right'],
-      qualityTiers: ['high', 'mid', 'low']
+      qualityTiers: ['high', 'mid', 'low'],
+      glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom']
     };
 
-    // --- v5.0 預設狀態常數（重置 / 開場 / 解碼相容路徑共用；執行期集合另行清空）---
+    // --- v7.0 預設狀態常數（重置 / 開場 / 解碼相容路徑共用；執行期集合另行清空）---
     const DEFAULT_STATE = {
       particleCount: 7000,
       maxSpeed: 10.5,
@@ -1481,7 +1716,13 @@
       bgShade: 50,
       trailReticle: true,
       persistConfig: false,
-      baseHueOverride: null
+      baseHueOverride: null,
+      particleGlyph: 'circle',
+      crtOverlay: false,
+      dofScale: false,
+      anaglyph: false,
+      chromatic: false,
+      quiver: false
     };
 
     // --- 輔助陣列數量上限（超限丟棄最舊，避免長時間互動後每幀遍歷負擔）---
@@ -1521,7 +1762,18 @@
           matrixrain: '代碼流暴',
           crystal: '結晶',
           current: '電流',
-          auroraBand: '極光帶'
+                    lorenz: '洛倫茲吸引子',
+          rossler: '羅斯勒吸引子',
+          pendulumWave: '單擺陣波',
+          galtonBoard: '高爾頓釘板',
+          phyllotaxis: '葉序螺旋',
+          brownian: '布朗運動',
+          convection: '對流浮力',
+          reactionDiffusion: '反應擴散斑',
+          fireflies: '螢火蟲同步',
+          newtonsCradle: '牛頓擺球',
+          threeBody: '三體引力',
+          clifford: '克利福德吸引子',
         }[mode] || mode}`,
         sandboxControl: '沙盒物理與色彩設定',
         resetDefaults: '重設預設值',
@@ -1554,6 +1806,18 @@
         palChampagne: '玫瑰香檳',
         palBronze: '古銅青銅',
         palPastel: '棉花糖粉彩',
+        palSunset: '落日熔金',
+        palEmerald: '翡翠森林',
+        palRoyal: '紫金皇室',
+        palIce: '極地冰晶',
+        palSynthwave: '復古合成波',
+        palGold: '黑金奢華',
+        palLava: '地心熔岩',
+        palMint: '薄荷蘇打',
+        palNebula: '獵戶星雲',
+        palBloodmoon: '血月蝕日',
+        palAmber: '琥珀化石',
+        palMonochrome: '水墨銀灰',
         particleCount: '粒子數量',
         particleSize: '粒子基礎大小',
         forceStrength: '引力與物理強度',
@@ -1594,7 +1858,23 @@
         shapeHourglass: '時空沙漏',
         shapeJellyfish: '深海水母',
         shapePhoenix: '浴火鳳凰',
-        shapeCatModels: '3D 模型 (8)',
+        shapeNeuronNet: '神經元網絡',
+        shapeTourbillon: '陀飛輪機芯',
+        shapeGlobeRelief: '地形地球儀',
+        shapeOrrery: '太陽系星儀',
+        shapeCoral3d: '珊瑚枝叢',
+        shapeTrex: '暴龍骨架',
+        shapeInkLandscape: '水墨山水',
+        shapeDysonSphere: '戴森球殼',
+        shapeJwstMirror: '韋伯蜂巢鏡',
+        shapeQuantumFridge: '量子制冷機',
+        shapeToroidalCoil: '環形線圈',
+        shapeHeart3d: '立體心形',
+        shapeTesseract: '超立方骨架',
+        shapeToriiGate: '鳥居',
+        shapeStellarator: '仿星器線圈',
+        shapeCalabiYau: '卡拉比-丘流形',
+        shapeCatModels: '3D 模型 (24)',
         shapeOrbitOn: '360° 視角：開',
         shapeOrbitOff: '360° 視角：移動',
         shapeWireOn: '3D 骨架：開',
@@ -1609,6 +1889,21 @@
         sceneGearworks: '機械齒輪',
         sceneBloomField: '花海潮叢',
         sceneTwinStar: '雙星糾纏',
+        sceneLorenz: '洛倫茲蝶舞',
+        scenePendulum: '擺浪陣列',
+        sceneGalton: '高爾頓鐘形',
+        scenePrism: '稜鏡七彩光',
+        sceneDyson: '戴森球恆星',
+        sceneJwst: '韋伯太空鏡',
+        sceneOrrery: '太陽系星儀',
+        sceneInkland: '水墨山水卷',
+        presetNebula: '創世星雲',
+        presetLava: '地心熔岩',
+        presetNeon: '霓虹萬花',
+        presetLorenz: '洛倫茲蝶',
+        presetGolden: '黃金螺旋',
+        presetJwst: '韋伯星鏡',
+        curatedPresets: '精選一鍵預設',
         artRose: '玫瑰',
         artFeather: '羽毛',
         artMask: '面具',
@@ -1660,7 +1955,7 @@
         acCopyBtn: '複製',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB46- / PSB50- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB46- / PSB50- / PSB65- / PSB70- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -1676,7 +1971,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB46- / PSB50- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB46- / PSB50- / PSB65- / PSB70- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -1703,11 +1998,11 @@
         quality_low: '低',
         webDist: '星網最大連線半徑',
         timeSpeed: '時空物理流速',
-        catAll: '全部 (19)',
-        catForce: '力場物理 (5)',
-        catNature: '自然流體 (6)',
-        catAudio: '聲光慶典 (4)',
-        catMedia: '幾何媒體 (4)',
+        catAll: '全部 (31)',
+        catForce: '力場物理 (11)',
+        catNature: '自然流體 (10)',
+        catAudio: '聲光慶典 (5)',
+        catMedia: '幾何媒體 (5)',
         shapeCatAll: '全部',
         shapeCatBasic: '基礎幾何 (6)',
         shapeCatSpiral: '自然螺旋 (5)',
@@ -1736,6 +2031,18 @@
         modeCrystal: '結晶',
         modeCurrent: '電流',
         modeAuroraBand: '極光帶',
+        modeLorenz: '洛倫茲吸引子',
+        modeRossler: '羅斯勒吸引子',
+        modePendulumWave: '單擺陣波',
+        modeGaltonBoard: '高爾頓釘板',
+        modePhyllotaxis: '葉序螺旋',
+        modeBrownian: '布朗運動',
+        modeConvection: '對流浮力',
+        modeReactionDiffusion: '反應擴散斑',
+        modeFireflies: '螢火蟲同步',
+        modeNewtonsCradle: '牛頓擺球',
+        modeThreeBody: '三體引力',
+        modeClifford: '克利福德吸引子',
         textModeTitle: '粒子文字矩陣',
         textStatic: '穩定陣列',
         textWave: '波浪旗幟',
@@ -1811,6 +2118,25 @@
         toastUnsupportedMedia: '不支援的檔案類型，請上傳圖片或影片',
         toastMediaLoadFail: '媒體載入失敗，請更換檔案',
         toastCodeExists: '此狀態碼已收藏，不重複加入',
+        appearanceGroupTitle: '粒子造型 / 視覺效果 / 資料工具',
+        glyphLabel: '粒子造型',
+        glyphCircle: '圓點', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '愛心',
+        glyphLightning: '閃電', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '櫻瓣',
+        glyphDiamond: '鑽石', glyphRing: '圓環', glyphNote: '音符', glyphCustom: '自訂圖片',
+        toggleCrt: 'CRT 螢幕', toggleDof: '景深縮放', toggleAnaglyph: '紅藍立體',
+        toggleChromatic: '色差透鏡', toggleQuiver: '速度向量',
+        exportCsv: '匯出 CSV',
+        customPresetsBtn: '自訂預設', customPresetsTitle: '自訂預設庫', customPresetSave: '儲存目前',
+        customPresetEmpty: '尚無自訂預設，輸入名稱後儲存（最多 8 組）。',
+        customPresetSaved: '已儲存自訂預設', customPresetApplied: '已載入自訂預設',
+        customPresetDeleted: '已刪除該組自訂預設', customPresetExists: '同名預設已存在，未重複加入',
+        customPresetNameEmpty: '請輸入預設名稱',
+        undoBtn: '還原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
+        cmdPlaceholder: '搜尋模式、造型或精選預設…', cmdEmpty: '找不到符合的指令', cmdApplied: '已執行指令',
+        toastCsvExported: '已匯出粒子物理數據 CSV', toastGlyphUploadFail: '圖片載入失敗，已還原預設圓點',
+        toastGlyphSize: '圖片檔案過大（上限 8MB）',
+        toastUndoEmpty: '沒有可還原的步驟', toastRedoEmpty: '沒有可重做的步驟',
+        keyCmdPalette: '開啟指令面板 (Ctrl+K)',
         statusPaused: '已暫停',
         statusSlowmo: '慢動作 0.25x'
       },
@@ -1835,7 +2161,18 @@
           matrixrain: '代码流暴',
           crystal: '结晶',
           current: '电流',
-          auroraBand: '极光带'
+                    lorenz: '洛伦兹吸引子',
+          rossler: '罗斯勒吸引子',
+          pendulumWave: '单摆阵列波',
+          galtonBoard: '高尔顿钉板',
+          phyllotaxis: '叶序螺旋',
+          brownian: '布朗运动',
+          convection: '对流浮力',
+          reactionDiffusion: '反应扩散斑',
+          fireflies: '萤火虫同步',
+          newtonsCradle: '牛顿摆球',
+          threeBody: '三体引力',
+          clifford: '克利福德吸引子',
         }[mode] || mode}`,
         sandboxControl: '沙盒物理与色彩设置',
         resetDefaults: '重置默认值',
@@ -1868,6 +2205,18 @@
         palChampagne: '玫瑰香槟',
         palBronze: '古铜青铜',
         palPastel: '棉花糖粉彩',
+        palSunset: '落日熔金',
+        palEmerald: '翡翠森林',
+        palRoyal: '紫金皇室',
+        palIce: '极地冰晶',
+        palSynthwave: '复古合成波',
+        palGold: '黑金奢华',
+        palLava: '地心熔岩',
+        palMint: '薄荷苏打',
+        palNebula: '猎户星云',
+        palBloodmoon: '血月蚀日',
+        palAmber: '琥珀化石',
+        palMonochrome: '水墨银灰',
         particleCount: '粒子数量',
         particleSize: '粒子基础大小',
         forceStrength: '引力与物理强度',
@@ -1908,7 +2257,23 @@
         shapeHourglass: '时空沙漏',
         shapeJellyfish: '深海水母',
         shapePhoenix: '浴火凤凰',
-        shapeCatModels: '3D 模型 (8)',
+        shapeNeuronNet: '神经元网络',
+        shapeTourbillon: '陀飞轮机芯',
+        shapeGlobeRelief: '地形地球仪',
+        shapeOrrery: '太阳系星仪',
+        shapeCoral3d: '珊瑚枝丛',
+        shapeTrex: '暴龙骨架',
+        shapeInkLandscape: '水墨山水',
+        shapeDysonSphere: '戴森球壳',
+        shapeJwstMirror: '韦伯蜂巢镜',
+        shapeQuantumFridge: '量子制冷机',
+        shapeToroidalCoil: '环形线圈',
+        shapeHeart3d: '立体心形',
+        shapeTesseract: '超立方骨架',
+        shapeToriiGate: '鸟居',
+        shapeStellarator: '仿星器线圈',
+        shapeCalabiYau: '卡拉比-丘流形',
+        shapeCatModels: '3D 模型 (24)',
         shapeOrbitOn: '360° 视角：开',
         shapeOrbitOff: '360° 视角：移动',
         shapeWireOn: '3D 骨架：开',
@@ -1923,6 +2288,21 @@
         sceneGearworks: '机械齿轮',
         sceneBloomField: '花海潮丛',
         sceneTwinStar: '双星纠缠',
+        sceneLorenz: '洛伦兹蝶舞',
+        scenePendulum: '摆浪阵列',
+        sceneGalton: '高尔顿钟形',
+        scenePrism: '棱镜七彩光',
+        sceneDyson: '戴森球恒星',
+        sceneJwst: '韦伯太空镜',
+        sceneOrrery: '太阳系星仪',
+        sceneInkland: '水墨山水卷',
+        presetNebula: '创世星云',
+        presetLava: '地心熔岩',
+        presetNeon: '霓虹万花',
+        presetLorenz: '洛伦兹蝶',
+        presetGolden: '黄金螺旋',
+        presetJwst: '韦伯星镜',
+        curatedPresets: '精选一键预设',
         artRose: '玫瑰',
         artFeather: '羽毛',
         artMask: '面具',
@@ -1974,7 +2354,7 @@
         acCopyBtn: '复制',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB46- / PSB50- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB46- / PSB50- / PSB65- / PSB70- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -1990,7 +2370,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB46- / PSB50- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB46- / PSB50- / PSB65- / PSB70- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -2017,11 +2397,11 @@
         quality_low: '低',
         webDist: '星网最大连线半径',
         timeSpeed: '时空物理流速',
-        catAll: '全部 (19)',
-        catForce: '力场物理 (5)',
-        catNature: '自然流体 (6)',
-        catAudio: '声光庆典 (4)',
-        catMedia: '几何媒体 (4)',
+        catAll: '全部 (31)',
+        catForce: '力场物理 (11)',
+        catNature: '自然流体 (10)',
+        catAudio: '声光庆典 (5)',
+        catMedia: '几何媒体 (5)',
         shapeCatAll: '全部',
         shapeCatBasic: '基础几何 (6)',
         shapeCatSpiral: '自然螺旋 (5)',
@@ -2050,6 +2430,18 @@
         modeCrystal: '结晶',
         modeCurrent: '电流',
         modeAuroraBand: '极光带',
+        modeLorenz: '洛伦兹吸引子',
+        modeRossler: '罗斯勒吸引子',
+        modePendulumWave: '单摆阵列波',
+        modeGaltonBoard: '高尔顿钉板',
+        modePhyllotaxis: '叶序螺旋',
+        modeBrownian: '布朗运动',
+        modeConvection: '对流浮力',
+        modeReactionDiffusion: '反应扩散斑',
+        modeFireflies: '萤火虫同步',
+        modeNewtonsCradle: '牛顿摆球',
+        modeThreeBody: '三体引力',
+        modeClifford: '克利福德吸引子',
         textModeTitle: '粒子文字矩阵',
         textStatic: '稳定阵列',
         textWave: '波浪旗帜',
@@ -2125,6 +2517,25 @@
         toastUnsupportedMedia: '不支持的文件类型，请上传图片或影片',
         toastMediaLoadFail: '媒体载入失败，请更换文件',
         toastCodeExists: '此状态码已收藏，不重复加入',
+        appearanceGroupTitle: '粒子造型 / 视觉效果 / 数据工具',
+        glyphLabel: '粒子造型',
+        glyphCircle: '圆点', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '爱心',
+        glyphLightning: '闪电', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '樱瓣',
+        glyphDiamond: '钻石', glyphRing: '圆环', glyphNote: '音符', glyphCustom: '自定义图片',
+        toggleCrt: 'CRT 屏幕', toggleDof: '景深缩放', toggleAnaglyph: '红蓝立体',
+        toggleChromatic: '色差透镜', toggleQuiver: '速度向量',
+        exportCsv: '导出 CSV',
+        customPresetsBtn: '自定义预设', customPresetsTitle: '自定义预设库', customPresetSave: '保存当前',
+        customPresetEmpty: '暂无自定义预设，输入名称后保存（最多 8 组）。',
+        customPresetSaved: '已保存自定义预设', customPresetApplied: '已载入自定义预设',
+        customPresetDeleted: '已删除该组自定义预设', customPresetExists: '同名预设已存在，未重复加入',
+        customPresetNameEmpty: '请输入预设名称',
+        undoBtn: '还原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
+        cmdPlaceholder: '搜索模式、造型或精选预设…', cmdEmpty: '找不到符合的指令', cmdApplied: '已执行指令',
+        toastCsvExported: '已导出粒子物理数据 CSV', toastGlyphUploadFail: '图片载入失败，已还原默认圆点',
+        toastGlyphSize: '图片文件过大（上限 8MB）',
+        toastUndoEmpty: '没有可还原的步骤', toastRedoEmpty: '没有可重做的步骤',
+        keyCmdPalette: '开启指令面板 (Ctrl+K)',
         statusPaused: '已暂停',
         statusSlowmo: '慢动作 0.25x'
       },
@@ -2149,7 +2560,18 @@
           matrixrain: 'Digital Matrix Rain',
           crystal: 'Crystal',
           current: 'Current',
-          auroraBand: 'Aurora Band'
+                    lorenz: 'Lorenz Attractor',
+          rossler: 'Rössler Attractor',
+          pendulumWave: 'Pendulum Wave',
+          galtonBoard: 'Galton Board',
+          phyllotaxis: 'Phyllotaxis',
+          brownian: 'Brownian Motion',
+          convection: 'Convection',
+          reactionDiffusion: 'Reaction-Diffusion',
+          fireflies: 'Fireflies',
+          newtonsCradle: 'Newton\'s Cradle',
+          threeBody: 'Three-Body',
+          clifford: 'Clifford Attractor',
         }[mode] || mode}`,
         sandboxControl: 'Physics & Color Settings',
         resetDefaults: 'Reset Defaults',
@@ -2182,6 +2604,18 @@
         palChampagne: 'Rosy Champagne',
         palBronze: 'Aged Bronze',
         palPastel: 'Cotton Candy',
+        palSunset: 'Sunset Glow',
+        palEmerald: 'Emerald',
+        palRoyal: 'Royal Purple',
+        palIce: 'Ice Crystal',
+        palSynthwave: 'Synthwave',
+        palGold: 'Gold Luxury',
+        palLava: 'Deep Lava',
+        palMint: 'Mint Soda',
+        palNebula: 'Nebula',
+        palBloodmoon: 'Blood Moon',
+        palAmber: 'Amber',
+        palMonochrome: 'Monochrome',
         particleCount: 'Particle Count',
         particleSize: 'Base Particle Size',
         forceStrength: 'Force Intensity',
@@ -2222,7 +2656,23 @@
         shapeHourglass: 'Hourglass',
         shapeJellyfish: 'Jellyfish',
         shapePhoenix: 'Neon Phoenix',
-        shapeCatModels: '3D Models (8)',
+        shapeNeuronNet: 'Neuron Net',
+        shapeTourbillon: 'Tourbillon',
+        shapeGlobeRelief: 'Relief Globe',
+        shapeOrrery: 'Orrery',
+        shapeCoral3d: 'Coral 3D',
+        shapeTrex: 'T-Rex Skeleton',
+        shapeInkLandscape: 'Ink Landscape',
+        shapeDysonSphere: 'Dyson Sphere',
+        shapeJwstMirror: 'JWST Mirror',
+        shapeQuantumFridge: 'Quantum Fridge',
+        shapeToroidalCoil: 'Toroidal Coil',
+        shapeHeart3d: '3D Heart',
+        shapeTesseract: 'Tesseract',
+        shapeToriiGate: 'Torii Gate',
+        shapeStellarator: 'Stellarator',
+        shapeCalabiYau: 'Calabi-Yau',
+        shapeCatModels: '3D Models (24)',
         shapeOrbitOn: '360° Orbit: ON',
         shapeOrbitOff: '360° Orbit: Move',
         shapeWireOn: '3D Mesh: ON',
@@ -2237,6 +2687,21 @@
         sceneGearworks: 'Gearworks',
         sceneBloomField: 'Bloom Field',
         sceneTwinStar: 'Twin Star',
+        sceneLorenz: 'Lorenz Butterfly',
+        scenePendulum: 'Pendulum Wave',
+        sceneGalton: 'Galton Bell',
+        scenePrism: 'Prism Light',
+        sceneDyson: 'Dyson Star',
+        sceneJwst: 'JWST Mirror',
+        sceneOrrery: 'Orrery System',
+        sceneInkland: 'Ink Landscape',
+        presetNebula: 'Genesis Nebula',
+        presetLava: 'Deep Lava',
+        presetNeon: 'Neon Kaleido',
+        presetLorenz: 'Lorenz Butterfly',
+        presetGolden: 'Golden Spiral',
+        presetJwst: 'JWST Mirror',
+        curatedPresets: 'Curated Presets',
         artRose: 'Rose',
         artFeather: 'Feather',
         artMask: 'Mask',
@@ -2288,7 +2753,7 @@
         acCopyBtn: 'Copy',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB46- / PSB50- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB46- / PSB50- / PSB65- / PSB70- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -2304,7 +2769,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB46- / PSB50- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB46- / PSB50- / PSB65- / PSB70- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -2331,11 +2796,11 @@
         quality_low: 'Low',
         webDist: 'Star Web Distance',
         timeSpeed: 'Simulation Speed',
-        catAll: 'All (19)',
-        catForce: 'Force (5)',
-        catNature: 'Nature (6)',
-        catAudio: 'Audio & FX (4)',
-        catMedia: 'Geo & Media (4)',
+        catAll: 'All (31)',
+        catForce: 'Force (11)',
+        catNature: 'Nature (10)',
+        catAudio: 'Audio & FX (5)',
+        catMedia: 'Geo & Media (5)',
         shapeCatAll: 'All',
         shapeCatBasic: 'Basic (6)',
         shapeCatSpiral: 'Spiral (5)',
@@ -2364,6 +2829,18 @@
         modeCrystal: 'Crystal',
         modeCurrent: 'Current',
         modeAuroraBand: 'Aurora',
+        modeLorenz: 'Lorenz',
+        modeRossler: 'Rössler',
+        modePendulumWave: 'Pendulum',
+        modeGaltonBoard: 'Galton',
+        modePhyllotaxis: 'Phyllo',
+        modeBrownian: 'Brownian',
+        modeConvection: 'Convection',
+        modeReactionDiffusion: 'Reaction-Diff',
+        modeFireflies: 'Fireflies',
+        modeNewtonsCradle: 'Cradle',
+        modeThreeBody: 'Three-Body',
+        modeClifford: 'Clifford',
         textModeTitle: 'Particle Typography',
         textStatic: 'Static',
         textWave: 'Wave Flag',
@@ -2439,6 +2916,25 @@
         toastUnsupportedMedia: 'Unsupported file type. Please upload an image or video.',
         toastMediaLoadFail: 'Media failed to load. Please try another file.',
         toastCodeExists: 'This code is already saved. It was not added again.',
+        appearanceGroupTitle: 'Particle Glyph / FX / Data Tools',
+        glyphLabel: 'Particle Glyph',
+        glyphCircle: 'Dot', glyphStar: 'Star', glyphHexagon: 'Hexagon', glyphHeart: 'Heart',
+        glyphLightning: 'Bolt', glyphFeather: 'Feather', glyphSnowflake: 'Snowflake', glyphSakura: 'Petal',
+        glyphDiamond: 'Diamond', glyphRing: 'Ring', glyphNote: 'Note', glyphCustom: 'Custom Image',
+        toggleCrt: 'CRT Screen', toggleDof: 'Depth Scale', toggleAnaglyph: 'Anaglyph 3D',
+        toggleChromatic: 'Chromatic Lens', toggleQuiver: 'Velocity Arrows',
+        exportCsv: 'Export CSV',
+        customPresetsBtn: 'Custom Presets', customPresetsTitle: 'Custom Preset Library', customPresetSave: 'Save Current',
+        customPresetEmpty: 'No custom presets yet. Enter a name and save (max 8).',
+        customPresetSaved: 'Custom preset saved', customPresetApplied: 'Custom preset loaded',
+        customPresetDeleted: 'Preset deleted', customPresetExists: 'A preset with this name already exists',
+        customPresetNameEmpty: 'Please enter a preset name',
+        undoBtn: 'Undo (Ctrl+Z)', redoBtn: 'Redo (Ctrl+Y)',
+        cmdPlaceholder: 'Search modes, shapes or curated presets…', cmdEmpty: 'No matching command', cmdApplied: 'Command executed',
+        toastCsvExported: 'Particle physics data exported to CSV', toastGlyphUploadFail: 'Image failed to load; reverted to dot glyph',
+        toastGlyphSize: 'Image too large (8MB limit)',
+        toastUndoEmpty: 'Nothing to undo', toastRedoEmpty: 'Nothing to redo',
+        keyCmdPalette: 'Open command palette (Ctrl+K)',
         statusPaused: 'Paused',
         statusSlowmo: 'Slow Motion 0.25x'
       },
@@ -2463,7 +2959,18 @@
           matrixrain: 'コードの雨',
           crystal: '結晶',
           current: '電流',
-          auroraBand: 'オーロラ帯'
+                    lorenz: 'ローレンツ吸引子',
+          rossler: 'レスラー吸引子',
+          pendulumWave: '振り子の波',
+          galtonBoard: 'ガルトン板',
+          phyllotaxis: '葉序螺旋',
+          brownian: 'ブラウン運動',
+          convection: '対流',
+          reactionDiffusion: '反応拡散',
+          fireflies: 'ホタル同期',
+          newtonsCradle: 'ニュートンの吊り鐘',
+          threeBody: '三体問題',
+          clifford: 'クリフォード吸引子',
         }[mode] || mode}`,
         sandboxControl: 'サンドボックス物理と色彩設定',
         resetDefaults: '初期設定に戻す',
@@ -2496,6 +3003,18 @@
         palChampagne: 'ロゼシャンパン',
         palBronze: '古青銅',
         palPastel: '綿菓子パステル',
+        palSunset: '夕日の金',
+        palEmerald: 'エメラルド',
+        palRoyal: 'ロイヤル紫',
+        palIce: '氷結晶',
+        palSynthwave: 'シンセウェーブ',
+        palGold: 'ブラックゴールド',
+        palLava: '溶岩',
+        palMint: 'ミントソーダ',
+        palNebula: '星雲',
+        palBloodmoon: 'ブラッドムーン',
+        palAmber: 'アンバー',
+        palMonochrome: 'モノクローム',
         particleCount: '粒子数',
         particleSize: '粒子基本サイズ',
         forceStrength: '引力・物理強度',
@@ -2536,7 +3055,23 @@
         shapeHourglass: '時空砂時計',
         shapeJellyfish: '深海クラゲ',
         shapePhoenix: '不死鳥フェニックス',
-        shapeCatModels: '3Dモデル (8)',
+        shapeNeuronNet: 'ニューロン網',
+        shapeTourbillon: 'トゥールビヨン',
+        shapeGlobeRelief: '地形地球儀',
+        shapeOrrery: '惑星儀',
+        shapeCoral3d: '珊瑚3D',
+        shapeTrex: 'ティラノ骨格',
+        shapeInkLandscape: '水墨山水',
+        shapeDysonSphere: 'ダイソン球',
+        shapeJwstMirror: 'JWSTミラー',
+        shapeQuantumFridge: '量子冷凍機',
+        shapeToroidalCoil: 'トロイダルコイル',
+        shapeHeart3d: '3Dハート',
+        shapeTesseract: 'テッセラクト',
+        shapeToriiGate: '鳥居',
+        shapeStellarator: 'ステラレーター',
+        shapeCalabiYau: 'カラビ-ヤウ',
+        shapeCatModels: '3Dモデル (24)',
         shapeOrbitOn: '360°視点：オン',
         shapeOrbitOff: '360°視点：移動',
         shapeWireOn: '3D骨格：オン',
@@ -2551,6 +3086,21 @@
         sceneGearworks: '機械歯車',
         sceneBloomField: '花畑の潮',
         sceneTwinStar: '双星の絡み合い',
+        sceneLorenz: 'ローレンツ蝶',
+        scenePendulum: '振り子の波',
+        sceneGalton: 'ガルトン鐘',
+        scenePrism: 'プリズム光',
+        sceneDyson: 'ダイソン恒星',
+        sceneJwst: 'JWST宇宙鏡',
+        sceneOrrery: '惑星儀',
+        sceneInkland: '水墨山水巻',
+        presetNebula: '創世星雲',
+        presetLava: 'マグマ',
+        presetNeon: 'ネオン万花',
+        presetLorenz: 'ローレンツ蝶',
+        presetGolden: '黄金螺旋',
+        presetJwst: 'JWST星鏡',
+        curatedPresets: '厳選プリセット',
         artRose: 'バラ',
         artFeather: '羽根',
         artMask: '仮面',
@@ -2602,7 +3152,7 @@
         acCopyBtn: 'コピー',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB46- / PSB50- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB46- / PSB50- / PSB65- / PSB70- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -2618,7 +3168,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB46- / PSB50- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB46- / PSB50- / PSB65- / PSB70- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -2645,11 +3195,11 @@
         quality_low: '低',
         webDist: '星網最大リンク半径',
         timeSpeed: '時空物理速度',
-        catAll: 'すべて (19)',
-        catForce: '力場物理 (5)',
-        catNature: '自然流体 (6)',
-        catAudio: '音響・花火 (4)',
-        catMedia: '幾何・投影 (4)',
+        catAll: 'すべて (31)',
+        catForce: '力場物理 (11)',
+        catNature: '自然流体 (10)',
+        catAudio: '音響・花火 (5)',
+        catMedia: '幾何・投影 (5)',
         shapeCatAll: 'すべて',
         shapeCatBasic: '基本幾何 (6)',
         shapeCatSpiral: '螺旋・軌道 (5)',
@@ -2678,6 +3228,18 @@
         modeCrystal: '結晶',
         modeCurrent: '電流',
         modeAuroraBand: 'オーロラ',
+        modeLorenz: 'ローレンツ',
+        modeRossler: 'レスラー',
+        modePendulumWave: '振り子の波',
+        modeGaltonBoard: 'ガルトン板',
+        modePhyllotaxis: '葉序螺旋',
+        modeBrownian: 'ブラウン',
+        modeConvection: '対流',
+        modeReactionDiffusion: '反応拡散',
+        modeFireflies: 'ホタル',
+        modeNewtonsCradle: 'ニュートン',
+        modeThreeBody: '三体',
+        modeClifford: 'クリフォード',
         textModeTitle: '粒子テキストマトリクス',
         textStatic: '安定配列',
         textWave: '波打つ旗',
@@ -2753,6 +3315,25 @@
         toastUnsupportedMedia: 'サポートされていない形式です。画像または動画をアップロードしてください',
         toastMediaLoadFail: 'メディアの読み込みに失敗しました。別のファイルをお試しください',
         toastCodeExists: 'このコードは既に保存済みです。重複して追加しません',
+        appearanceGroupTitle: '粒子ジオメトリ / 視覚効果 / データツール',
+        glyphLabel: '粒子の形',
+        glyphCircle: 'ドット', glyphStar: '星', glyphHexagon: '六角形', glyphHeart: 'ハート',
+        glyphLightning: '稲妻', glyphFeather: '羽根', glyphSnowflake: '雪の結晶', glyphSakura: '花びら',
+        glyphDiamond: 'ダイヤ', glyphRing: 'リング', glyphNote: '音符', glyphCustom: 'カスタム画像',
+        toggleCrt: 'CRT 画面', toggleDof: '被写界深度', toggleAnaglyph: '赤青立体',
+        toggleChromatic: '色収差レンズ', toggleQuiver: '速度ベクトル',
+        exportCsv: 'CSV 出力',
+        customPresetsBtn: 'カスタムプリセット', customPresetsTitle: 'カスタムプリセット庫', customPresetSave: '現在を保存',
+        customPresetEmpty: 'カスタムプリセットはまだありません。名前を入力して保存（最大 8 件）。',
+        customPresetSaved: 'カスタムプリセットを保存しました', customPresetApplied: 'カスタムプリセットを読み込みました',
+        customPresetDeleted: 'プリセットを削除しました', customPresetExists: '同名のプリセットが既に存在します',
+        customPresetNameEmpty: 'プリセット名を入力してください',
+        undoBtn: '元に戻す (Ctrl+Z)', redoBtn: 'やり直し (Ctrl+Y)',
+        cmdPlaceholder: 'モード・形状・プリセットを検索…', cmdEmpty: '一致するコマンドがありません', cmdApplied: 'コマンドを実行しました',
+        toastCsvExported: '粒子データを CSV に出力しました', toastGlyphUploadFail: '画像の読み込みに失敗しました。ドットに戻します',
+        toastGlyphSize: '画像が大きすぎます（上限 8MB）',
+        toastUndoEmpty: '戻す操作がありません', toastRedoEmpty: 'やり直す操作がありません',
+        keyCmdPalette: 'コマンドパレットを開く (Ctrl+K)',
         statusPaused: '一時停止中',
         statusSlowmo: 'スローモーション 0.25x'
       }
@@ -2987,7 +3568,10 @@
     const PALETTE_MAIN_HUE = {
       spectrum: 210, cyber: 195, fire: 25, aurora: 150,
       ocean: 200, sakura: 300, matrix: 125, mono: 215,
-      dusk: 280, forest: 130, champagne: 35, bronze: 25, pastel: 320
+      dusk: 280, forest: 130, champagne: 35, bronze: 25, pastel: 320,
+      sunset: 12, emerald: 120, royal: 270, ice: 195, synthwave: 315,
+      gold: 42, lava: 5, mint: 160, nebula: 250, bloodmoon: 355,
+      amber: 30, monochrome: 210
     };
     function getPaletteMainHue() {
       return PALETTE_MAIN_HUE[window.appState.palette] ?? 210;
@@ -3007,6 +3591,12 @@
         lightness = Math.min(88, Math.round((58 + roundedSpeed * 2.3) / 4) * 4);
       }
       const norm = (((hue || 0) % 360) + 360) % 360;
+
+      const band3 = (h1, h2, h3) => {
+        const t = norm / 360;
+        if (t < 1 / 3) return h1 + (h2 - h1) * (t * 3);
+        return h2 + (h3 - h2) * ((t - 1 / 3) * 1.5);
+      };
 
       if (palette === 'cyber') {
         const mappedHue = norm < 180
@@ -3055,6 +3645,30 @@
           ? Math.max(20, Math.min(96, Math.round((62 - depthNorm * 34) / 6) * 6))
           : Math.min(96, Math.round((68 + roundedSpeed * 2.4) / 4) * 4);
         return `hsl(215, 22%, ${l}%)`;
+      } else if (palette === 'sunset') {
+        return `hsl(${Math.round(band3(12, 35, 340) / 5) * 5}, ${Math.min(100, 90 + satBoost)}%, ${Math.min(92, lightness + 2)}%)`;
+      } else if (palette === 'emerald') {
+        return `hsl(${Math.round(band3(120, 150, 95) / 5) * 5}, ${Math.min(100, 78 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'royal') {
+        return `hsl(${Math.round(band3(270, 300, 45) / 5) * 5}, ${Math.min(100, 72 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'ice') {
+        return `hsl(${Math.round(band3(195, 205, 225) / 5) * 5}, ${Math.min(100, 55 + satBoost)}%, ${Math.min(94, lightness + 6)}%)`;
+      } else if (palette === 'synthwave') {
+        return `hsl(${Math.round(band3(315, 260, 185) / 5) * 5}, ${Math.min(100, 88 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'gold') {
+        return `hsl(${Math.round(band3(42, 48, 35) / 5) * 5}, ${Math.min(100, 60 + satBoost)}%, ${Math.min(92, lightness + 2)}%)`;
+      } else if (palette === 'lava') {
+        return `hsl(${Math.round(band3(5, 22, 290) / 5) * 5}, ${Math.min(100, 95 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'mint') {
+        return `hsl(${Math.round(band3(160, 180, 140) / 5) * 5}, ${Math.min(100, 70 + satBoost)}%, ${Math.min(92, lightness + 4)}%)`;
+      } else if (palette === 'nebula') {
+        return `hsl(${Math.round(band3(250, 310, 200) / 5) * 5}, ${Math.min(100, 82 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'bloodmoon') {
+        return `hsl(${Math.round(band3(355, 10, 270) / 5) * 5}, ${Math.min(100, 85 + satBoost)}%, ${Math.max(18, lightness - 2)}%)`;
+      } else if (palette === 'amber') {
+        return `hsl(${Math.round(band3(30, 42, 18) / 5) * 5}, ${Math.min(100, 68 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'monochrome') {
+        return `hsl(${Math.round(band3(210, 215, 220) / 5) * 5}, ${Math.min(100, 18 + satBoost)}%, ${lightness}%)`;
       } else {
         const roundedH = Math.round(norm / 6) * 6;
         return `hsl(${roundedH}, ${Math.min(100, 88 + satBoost)}%, ${lightness}%)`;
@@ -3122,6 +3736,11 @@
     const anchorDragMap = new Map();
     let particles = [];
     let timeTick = 0;
+    // v7.0 3D 吸附：每幀 2D 目標快取（執行期陣列，不進 DEFAULT_STATE / 動作碼 / 配置快照）
+    // 條目：{ x, y, z, depthNorm }；x/y 為相對成形中心的投影偏移，z 為深度，depthNorm 為歸一化深度
+    let target2DCache = [];
+    let target2DDirty = true;
+    function invalidateTarget2DCache() { target2DDirty = true; }
     // current 模式：指標軌跡環形緩衝（上限 24 點）；亮色節點每幀上限 12
     const CURRENT_TRACE_CAP = 24;
     const currentTrace = [];
@@ -3137,6 +3756,344 @@
       const trail = window.appState.cursorTrail;
       trail.push({ x, y });
       if (trail.length > CURSOR_TRAIL_CAP) trail.shift();
+    }
+
+    // ==================== v7.0 Wave3 模組（F1–F8） ====================
+
+    // F8：標準 2D Perlin 噪聲（純函式、無副作用；僅供內部流場/新模式使用，不暴露 UI 開關）
+    const PERLIN_PERM = new Uint8Array(512);
+    (function initPerlinPerm() {
+      const p = new Uint8Array(256);
+      for (let i = 0; i < 256; i++) p[i] = i;
+      let seed = 1337; // 確定性洗牌：每次載入排列一致，避免噪聲種子漂移
+      const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+      for (let i = 255; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        const t = p[i]; p[i] = p[j]; p[j] = t;
+      }
+      for (let i = 0; i < 256; i++) PERLIN_PERM[i] = PERLIN_PERM[i + 256] = p[i];
+    })();
+    function perlinFade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function perlinLerp(a, b, t) { return a + t * (b - a); }
+    function perlinGrad(hash, x, y) {
+      const h = hash & 7;
+      const u = h < 4 ? x : y;
+      const v = h < 4 ? y : x;
+      return ((h & 1) ? -u : u) + ((h & 2) ? -2 * v : 2 * v);
+    }
+    function perlin2D(x, y) {
+      const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+      const xf = x - Math.floor(x), yf = y - Math.floor(y);
+      const u = perlinFade(xf), v = perlinFade(yf);
+      const A = PERLIN_PERM[X] + Y, B = PERLIN_PERM[X + 1] + Y;
+      return perlinLerp(
+        perlinLerp(perlinGrad(PERLIN_PERM[A], xf, yf), perlinGrad(PERLIN_PERM[B], xf - 1, yf), u),
+        perlinLerp(perlinGrad(PERLIN_PERM[A + 1], xf, yf - 1), perlinGrad(PERLIN_PERM[B + 1], xf - 1, yf - 1), u),
+        v
+      );
+    }
+
+    // F1：粒子造型向量繪製（沿用 v6.5 drawParticleGlyph 概念，改寫進 v5.0 繪製路徑）
+    function drawParticleGlyph(glyph, x, y, r, sprite) {
+      if (glyph === 'custom' && sprite) {
+        const s = r * 4.4;
+        ctx.drawImage(sprite, x - s * 0.5, y - s * 0.5, s, s);
+        return;
+      }
+      if (glyph === 'circle' || r < 1.3) {
+        ctx.fillRect(x - r, y - r, r * 2, r * 2);
+        return;
+      }
+      ctx.beginPath();
+      if (glyph === 'heart') {
+        const s = r * 1.45;
+        ctx.moveTo(x, y + s * 0.85);
+        ctx.bezierCurveTo(x - s * 1.2, y + s * 0.1, x - s * 0.9, y - s * 0.95, x, y - s * 0.35);
+        ctx.bezierCurveTo(x + s * 0.9, y - s * 0.95, x + s * 1.2, y + s * 0.1, x, y + s * 0.85);
+        ctx.fill();
+      } else if (glyph === 'star') {
+        const spikes = 5, outerR = r * 1.6, innerR = r * 0.7;
+        for (let k = 0; k < spikes * 2; k++) {
+          const rad = k % 2 === 0 ? outerR : innerR;
+          const ang = (k * Math.PI) / spikes - Math.PI / 2;
+          const px = x + Math.cos(ang) * rad;
+          const py = y + Math.sin(ang) * rad;
+          if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath(); ctx.fill();
+      } else if (glyph === 'hexagon') {
+        const rad = r * 1.55;
+        for (let k = 0; k < 6; k++) {
+          const ang = (k * Math.PI) / 3 - Math.PI / 6;
+          const px = x + Math.cos(ang) * rad;
+          const py = y + Math.sin(ang) * rad;
+          if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath(); ctx.fill();
+      } else if (glyph === 'lightning') {
+        const s = r * 1.75;
+        ctx.moveTo(x + s * 0.2, y - s);
+        ctx.lineTo(x - s * 0.55, y + s * 0.1);
+        ctx.lineTo(x + s * 0.05, y + s * 0.1);
+        ctx.lineTo(x - s * 0.25, y + s);
+        ctx.lineTo(x + s * 0.6, y - s * 0.15);
+        ctx.lineTo(x, y - s * 0.15);
+        ctx.closePath(); ctx.fill();
+      } else if (glyph === 'feather') {
+        const s = r * 1.75;
+        ctx.ellipse(x, y, s * 0.95, s * 0.36, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (glyph === 'snowflake') {
+        const s = r * 1.7;
+        ctx.fillRect(x - s, y - 0.6, s * 2, 1.2);
+        ctx.fillRect(x - 0.6, y - s, 1.2, s * 2);
+      } else if (glyph === 'sakura') {
+        const s = r * 1.55;
+        ctx.ellipse(x, y, s * 0.85, s * 0.55, Math.PI / 5, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (glyph === 'diamond') {
+        const s = r * 1.65;
+        ctx.moveTo(x, y - s);
+        ctx.lineTo(x + s * 0.75, y);
+        ctx.lineTo(x, y + s);
+        ctx.lineTo(x - s * 0.75, y);
+        ctx.closePath(); ctx.fill();
+      } else if (glyph === 'ring') {
+        const prevLineWidth = ctx.lineWidth;
+        ctx.strokeStyle = ctx.fillStyle;
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.arc(x, y, r * 1.35, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.lineWidth = prevLineWidth;
+      } else if (glyph === 'note') {
+        const s = r * 1.35;
+        ctx.beginPath();
+        ctx.arc(x - s * 0.3, y + s * 0.35, s * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillRect(x + s * 0.1, y - s * 1.1, s * 0.28, s * 1.45);
+        ctx.fillRect(x + s * 0.1, y - s * 1.1, s * 0.85, s * 0.35);
+      } else {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // F4：景深 Z 軸縮放尺寸倍率（DOF 關閉時原尺寸）
+    function particleRenderSize(p) {
+      const base = p.renderSize || p.size || 2;
+      if (!window.appState.dofScale) return base;
+      const dn = (p.depthNorm === null || p.depthNorm === undefined) ? 0 : p.depthNorm;
+      return base * Math.max(0.6, Math.min(1.5, 1 + dn * 0.35));
+    }
+
+    // F1：去背圖片處理（角落底色 + 近白判透明；失敗回預設圓點）
+    const GLYPH_FILE_LIMIT = 8 * 1024 * 1024;
+    function processGlyphCutout(img) {
+      try {
+        const off = document.createElement('canvas');
+        const sz = 64;
+        off.width = sz; off.height = sz;
+        const octx = off.getContext('2d', { willReadFrequently: true });
+        octx.drawImage(img, 0, 0, sz, sz);
+        const imgData = octx.getImageData(0, 0, sz, sz);
+        const d = imgData.data;
+        const br = d[0], bg = d[1], bb = d[2];
+        for (let i = 0; i < d.length; i += 4) {
+          const dr = Math.abs(d[i] - br), dg = Math.abs(d[i + 1] - bg), db = Math.abs(d[i + 2] - bb);
+          const isCornerBg = (dr + dg + db) < 42;
+          const isNearWhite = d[i] > 240 && d[i + 1] > 240 && d[i + 2] > 240;
+          if (isCornerBg || isNearWhite) d[i + 3] = 0;
+        }
+        octx.putImageData(imgData, 0, 0);
+        window.appState.customCutoutSprite = off;
+        window.appState.particleGlyph = 'custom';
+      } catch (e) {
+        window.appState.customCutoutSprite = null;
+        window.appState.particleGlyph = 'circle';
+      }
+    }
+
+    // F7：Undo / Redo lite（堆疊上限 25；快照不含粒子位置，還原後自然收斂）
+    const UNDO_CAP = 25;
+    function buildStateSnapshot() {
+      const st = window.appState;
+      return {
+        activeMode: st.activeMode, palette: st.palette, activeShape: st.activeShape,
+        particleCount: st.particleCount, brushRadius: st.brushRadius, brushOverride: st.brushOverride,
+        particleSize: st.particleSize, attractForce: st.attractForce, trailPersistence: st.trailPersistence,
+        chaos: st.chaos, colorChaos: st.colorChaos, bloomStrength: st.bloomStrength,
+        mirrorSymmetry: st.mirrorSymmetry, material: st.material, gravityDir: st.gravityDir,
+        orbitAnchors: st.orbitAnchors, beatPulse: st.beatPulse, additiveGlow: st.additiveGlow,
+        constellationWeb: st.constellationWeb, wallBounce: st.wallBounce, hoverInfluence: st.hoverInfluence,
+        trailReticle: st.trailReticle, particleGlyph: st.particleGlyph
+      };
+    }
+    function captureUndoSnapshot() {
+      const st = window.appState;
+      st.undoStack.push(buildStateSnapshot());
+      if (st.undoStack.length > UNDO_CAP) st.undoStack.shift();
+      st.redoStack.length = 0;
+    }
+    function applyStateSnapshotData(data) {
+      const st = window.appState;
+      if (!data || typeof data !== 'object') return;
+      const num = (v, lo, hi, fb) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(lo, Number(v))) : fb;
+      if (WHITELIST.modes.includes(data.activeMode)) st.activeMode = data.activeMode;
+      if (WHITELIST.palettes.includes(data.palette)) st.palette = data.palette;
+      if (WHITELIST.shapes.includes(data.activeShape)) st.activeShape = data.activeShape;
+      if (WHITELIST.brushes.includes(data.brushOverride)) st.brushOverride = data.brushOverride;
+      if (WHITELIST.materials.includes(data.material)) st.material = data.material;
+      if (WHITELIST.gravityDirs.includes(data.gravityDir)) st.gravityDir = data.gravityDir;
+      if (WHITELIST.glyphs.includes(data.particleGlyph)) st.particleGlyph = data.particleGlyph;
+      st.particleCount = num(data.particleCount, 1000, 18000, st.particleCount);
+      st.brushRadius = num(data.brushRadius, 80, 500, st.brushRadius);
+      st.particleSize = num(data.particleSize, 0.5, 6.0, st.particleSize);
+      st.attractForce = num(data.attractForce, 0.1, 1.5, st.attractForce);
+      st.trailPersistence = num(data.trailPersistence, 0.4, 0.95, st.trailPersistence);
+      st.chaos = num(data.chaos, 0, 5.0, st.chaos);
+      st.colorChaos = num(data.colorChaos, 0, 3.0, st.colorChaos);
+      st.bloomStrength = num(data.bloomStrength, 0.2, 2.5, st.bloomStrength);
+      if (WHITELIST.mirrorSteps.includes(Number(data.mirrorSymmetry))) st.mirrorSymmetry = Number(data.mirrorSymmetry);
+      st.orbitAnchors = Boolean(data.orbitAnchors);
+      st.beatPulse = Boolean(data.beatPulse);
+      st.additiveGlow = Boolean(data.additiveGlow);
+      st.constellationWeb = Boolean(data.constellationWeb);
+      st.wallBounce = Boolean(data.wallBounce);
+      st.hoverInfluence = Boolean(data.hoverInfluence);
+      st.trailReticle = Boolean(data.trailReticle);
+    }
+    function undoAction() {
+      const st = window.appState;
+      const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+      if (!st.undoStack.length) { showToast(dict.toastUndoEmpty, true); return; }
+      st.redoStack.push(buildStateSnapshot());
+      if (st.redoStack.length > UNDO_CAP) st.redoStack.shift();
+      applyStateSnapshotData(st.undoStack.pop());
+      if (typeof window.__syncAppUI === 'function') window.__syncAppUI();
+      syncParticleSettings();
+      playProceduralSound('change');
+    }
+    function redoAction() {
+      const st = window.appState;
+      const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+      if (!st.redoStack.length) { showToast(dict.toastRedoEmpty, true); return; }
+      st.undoStack.push(buildStateSnapshot());
+      if (st.undoStack.length > UNDO_CAP) st.undoStack.shift();
+      applyStateSnapshotData(st.redoStack.pop());
+      if (typeof window.__syncAppUI === 'function') window.__syncAppUI();
+      syncParticleSettings();
+      playProceduralSound('change');
+    }
+
+    // F5：自訂預設庫（localStorage 上限 8；型別校驗、去重、錯誤資料歸 []）
+    const CUSTOM_PRESETS_KEY = 'psb70_custom_presets';
+    const CUSTOM_PRESETS_CAP = 8;
+    function loadCustomPresets() {
+      try {
+        const raw = localStorage.getItem(CUSTOM_PRESETS_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list)) return [];
+        return list
+          .filter(item => item && typeof item === 'object' && typeof item.name === 'string' && item.name.trim())
+          .slice(0, CUSTOM_PRESETS_CAP);
+      } catch (e) { return []; }
+    }
+    function saveCustomPresets(list) {
+      try { localStorage.setItem(CUSTOM_PRESETS_KEY, JSON.stringify(list.slice(0, CUSTOM_PRESETS_CAP))); } catch (e) {}
+    }
+
+    // F2：CSV 匯出（前 2000 筆；越界/非有限守衛；Blob URL 回收）
+    function exportParticlesCSV() {
+      const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+      const rows = ['id,x,y,z,vx,vy,speed,hue'];
+      const limit = Math.min(particles.length, 2000);
+      for (let i = 0; i < limit; i++) {
+        const p = particles[i];
+        if (!p || !Number.isFinite(p.x) || !Number.isFinite(p.y)) continue;
+        const z = Number.isFinite(p.targetZ) ? p.targetZ : (p.zDepth || 0);
+        const vx = Number.isFinite(p.vx) ? p.vx : 0;
+        const vy = Number.isFinite(p.vy) ? p.vy : 0;
+        const sp = Math.hypot(vx, vy);
+        const hue = Number.isFinite(p.hue) ? Math.round(p.hue) : 0;
+        rows.push(`${i},${p.x.toFixed(1)},${p.y.toFixed(1)},${z.toFixed(1)},${vx.toFixed(3)},${vy.toFixed(3)},${sp.toFixed(3)},${hue}`);
+      }
+      const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `particle-data-v7.0-${Date.now()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+      showToast(dict.toastCsvExported);
+    }
+
+    // F4：視覺效果後處理疊層（save/restore 包裹；用完重置 filter/globalAlpha/lineWidth/strokeStyle）
+    function drawVisualEffectPass() {
+      const st = window.appState;
+      if (!st.anaglyph && !st.chromatic && !st.quiver) return;
+      const len = particles.length;
+      ctx.save();
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.filter = 'none';
+      ctx.lineWidth = 1;
+      if (st.anaglyph) {
+        ctx.globalAlpha = 0.35;
+        for (let i = 0; i < len; i++) {
+          const p = particles[i];
+          if (!p || !Number.isFinite(p.x) || !Number.isFinite(p.y)) continue;
+          ctx.fillStyle = 'rgba(255,40,60,0.5)';
+          ctx.fillRect(p.x - 2.5, p.y - 1.5, 3, 3);
+          ctx.fillStyle = 'rgba(40,180,255,0.5)';
+          ctx.fillRect(p.x - 0.5, p.y - 1.5, 3, 3);
+        }
+      }
+      if (st.chromatic) {
+        ctx.globalAlpha = 0.3;
+        for (let i = 0; i < len; i += 2) {
+          const p = particles[i];
+          if (!p || !Number.isFinite(p.x) || !Number.isFinite(p.y)) continue;
+          ctx.fillStyle = 'rgba(255,60,60,0.45)';
+          ctx.fillRect(p.x - 1.5, p.y - 1, 2, 2);
+          ctx.fillStyle = 'rgba(60,200,255,0.45)';
+          ctx.fillRect(p.x - 0.5, p.y - 1, 2, 2);
+        }
+      }
+      if (st.quiver) {
+        ctx.globalAlpha = 0.8;
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < len; i += 6) {
+          const p = particles[i];
+          if (!p || !Number.isFinite(p.vx) || !Number.isFinite(p.vy)) continue;
+          const sp = Math.hypot(p.vx, p.vy);
+          if (sp < 0.6) continue;
+          const nx = p.vx / sp, ny = p.vy / sp;
+          const ex = p.x + nx * Math.min(14, sp * 3);
+          const ey = p.y + ny * Math.min(14, sp * 3);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(ex, ey);
+          ctx.stroke();
+          const ah = 3;
+          ctx.beginPath();
+          ctx.moveTo(ex, ey);
+          ctx.lineTo(ex - nx * ah - ny * ah * 0.6, ey - ny * ah + nx * ah * 0.6);
+          ctx.moveTo(ex, ey);
+          ctx.lineTo(ex - nx * ah + ny * ah * 0.6, ey - ny * ah - nx * ah * 0.6);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+      // 狀態重置保險，避免污染後續繪製
+      ctx.globalAlpha = 1;
+      ctx.filter = 'none';
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#ffffff';
     }
 
     // Initialize 7 Laser Harp Strings
@@ -3173,6 +4130,8 @@
         this.targetY = null;
         this.targetZ = 0;
         this.targetColor = null;
+        this.smoothX = null; // v7.0 吸附目標低通平滑（執行期欄位，不進快照）
+        this.smoothY = null;
         this.fireworkSpark = 0;
         this.willowDrag = false;
         this.settled = false; // crystal 模式結晶後鎖定，跳過每幀力學
@@ -3292,7 +4251,7 @@
         // ruler 為直線排放筆刷，於 emitter 處理，這裡不施加點力
       }
 
-      update(activePoints, centerPoint, rotYCos, rotYSin, rotXCos, rotXSin, dtScale) {
+      update(activePoints, centerPoint, rotYCos, rotYSin, rotXCos, rotXSin, dtScale, pIdx) {
         const mode = window.appState.activeMode;
         const brush = window.appState.brushOverride;
         const force = window.appState.attractForce * dtScale;
@@ -3300,6 +4259,8 @@
         const colorChaos = window.appState.colorChaos;
         const anchors = window.appState.anchors;
         const rScale = Math.max(0.25, (window.appState.brushRadius || 245) / 245);
+        // v7.0 目標凝聚模式：錨點等持續性外來干擾豁免，不與吸附力對打（以模式判斷，不開新開關）
+        const isAttractMode = (mode === 'shapes' || mode === 'text' || mode === 'image');
 
         // 粒子再生壽命：到期 reset()，保留當前模式與設定（與暫停相容，暫停時不推進）
         const lifespan = window.appState.particleLifespan || 0;
@@ -3325,10 +4286,12 @@
 
         this.renderSize = this.size;
 
-        // 1. Apply persistent Gravity Anchors
-        for (let aIdx = 0; aIdx < anchors.length; aIdx++) {
-          const anc = anchors[aIdx];
-          this.applyPointForce(anc.x, anc.y, anc.type, force, colorChaos, 0.85);
+        // 1. Apply persistent Gravity Anchors（凝聚模式豁免錨點力）
+        if (!isAttractMode) {
+          for (let aIdx = 0; aIdx < anchors.length; aIdx++) {
+            const anc = anchors[aIdx];
+            this.applyPointForce(anc.x, anc.y, anc.type, force, colorChaos, 0.85);
+          }
         }
 
         // 2. Apply Brush Override if user selected a custom brush
@@ -3343,26 +4306,28 @@
         this.depthNorm = null;
 
         // 3. Mode-specific simulation
-        if ((mode === 'shapes' || mode === 'text' || mode === 'image') && this.targetX !== null) {
-          const sScale = (mode === 'shapes') ? (window.appState.shapeScale || 1.0) : 1.0;
-          let tx = this.targetX * sScale;
-          let ty = this.targetY * sScale;
+        if (isAttractMode && this.targetX !== null) {
+          const is3DActive = (mode === 'shapes' && window.appState.shape3D);
+          // v7.0 唯讀每幀 2D 目標快取；快取缺條目時退回直接座標，不崩潰
+          const t2 = (pIdx !== undefined && target2DCache[pIdx]) || null;
+          let tx;
+          let ty;
+          if (t2) {
+            tx = t2.x;
+            ty = t2.y;
+            this.zDepth = t2.z;
+            this.depthNorm = t2.depthNorm;
+          } else {
+            const sScale = (mode === 'shapes') ? (window.appState.shapeScale || 1.0) : 1.0;
+            tx = this.targetX * sScale;
+            ty = this.targetY * sScale;
+            this.zDepth = 0;
+            this.depthNorm = null;
+          }
 
-          if (mode === 'shapes' && window.appState.shape3D) {
-            const tz = (this.targetZ || 0) * sScale;
-            const x1 = tx * rotYCos - tz * rotYSin;
-            const z1 = tx * rotYSin + tz * rotYCos;
-            const y2 = ty * rotXCos - z1 * rotXSin;
-            const z2 = ty * rotXSin + z1 * rotXCos;
-            const fov = 370;
-            const perspective = fov / Math.max(85, fov + z2);
-            tx = x1 * perspective;
-            ty = y2 * perspective;
-            this.zDepth = z2;
-            const maxZSpan = Math.max(100, Math.min(viewW, viewH) * 0.31 * sScale);
-            this.depthNorm = Math.max(-1, Math.min(1, z2 / maxZSpan));
-            // Strong 3D foreshortening: foreground particles up to 1.85x, far background down to 0.42x
-            const depthSizeScale = Math.pow(2.05, -this.depthNorm * 0.68);
+          if (is3DActive && t2) {
+            // 深度僅影響 renderSize / 明暗，不回授改變投影縮放（固定焦距，見 rebuildTarget2DCache）
+            const depthSizeScale = Math.pow(2.05, -t2.depthNorm * 0.68);
             this.renderSize = Math.max(0.45, this.size * depthSizeScale);
           } else if (mode === 'text') {
             const eff = window.appState.textEffect;
@@ -3383,18 +4348,44 @@
 
           const seekX = formationCenter.x + tx;
           const seekY = formationCenter.y + ty;
-          const is3DActive = (mode === 'shapes' && window.appState.shape3D);
           const isOrbitDragging = is3DActive && window.appState.pointers.size > 0 && window.appState.orbitDragMode && brush === 'default';
-          const spring = isOrbitDragging ? 0.52 : (is3DActive ? 0.28 : (mode === 'image' ? 0.14 : 0.125));
-          const damp = isOrbitDragging ? 0.62 : (is3DActive ? 0.78 : 0.90);
-          const jitterAmt = is3DActive ? 0.09 : 0.30;
 
-          this.vx += (seekX - this.x) * spring * Math.max(0.55, force);
-          this.vy += (seekY - this.y) * spring * Math.max(0.55, force);
+          // v7.0 低通平滑 seek 目標，抑制目標漂移造成的殘留振盪
+          if (this.smoothX === null || !Number.isFinite(this.smoothX) || !Number.isFinite(this.smoothY)) {
+            this.smoothX = seekX;
+            this.smoothY = seekY;
+          }
+          const smoothK = is3DActive ? 0.35 : 0.30;
+          this.smoothX += (seekX - this.smoothX) * smoothK;
+          this.smoothY += (seekY - this.smoothY) * smoothK;
+
+          // 提高剛性與阻尼；拖曳旋轉中保持較高追趕率
+          const spring = isOrbitDragging ? 0.60 : (is3DActive ? 0.42 : (mode === 'image' ? 0.20 : 0.16));
+          const damp = isOrbitDragging ? 0.72 : (is3DActive ? 0.86 : 0.90);
+
+          const dxT = this.smoothX - this.x;
+          const dyT = this.smoothY - this.y;
+          const distT = Math.sqrt(dxT * dxT + dyT * dyT);
+          // 凝聚判定：低速且近目標 → 關閉隨機 jitter，僅成形初期注入擾動
+          const settledEnough = distT < (is3DActive ? 14 : 10) && this.speed < 1.6;
+          const jitterAmt = settledEnough ? 0 : (is3DActive ? 0.06 : 0.22);
+
+          this.vx += dxT * spring * Math.max(0.55, force);
+          this.vy += dyT * spring * Math.max(0.55, force);
           this.vx *= damp;
           this.vy *= damp;
-          this.vx += (Math.random() - 0.5) * jitterAmt * chaos;
-          this.vy += (Math.random() - 0.5) * jitterAmt * chaos;
+
+          // 避免反向超調：速度分量遠離目標時額外阻尼
+          const vDot = this.vx * dxT + this.vy * dyT;
+          if (vDot < 0) {
+            this.vx *= 0.70;
+            this.vy *= 0.70;
+          }
+
+          if (jitterAmt > 0) {
+            this.vx += (Math.random() - 0.5) * jitterAmt * chaos;
+            this.vy += (Math.random() - 0.5) * jitterAmt * chaos;
+          }
 
           if ((mode === 'shapes' || mode === 'text') && this.shapeHue !== null) {
             this.targetHue = (this.shapeHue + timeTick * 0.25 * colorChaos) % 360;
@@ -3720,6 +4711,139 @@
             }
           }
           this.targetHue = (120 + (this.y / (viewH || 1)) * 120) % 360;
+        } else if (mode === 'lorenz') {
+          // 洛倫茲吸引子：經典混沌蝴蝶，三維狀態映射回二維畫面
+          const cx = centerPoint ? centerPoint.x : viewW * 0.5;
+          const cy = centerPoint ? centerPoint.y : viewH * 0.5;
+          const lx = (this.x - cx) / 14;
+          const ly = (this.y - cy) / 14;
+          const lz = (this.zDepth || 0) / 10 + 25;
+          const dLx = 10 * (ly - lx);
+          const dLy = lx * (28 - lz) - ly;
+          const dLz = lx * ly - (8 / 3) * lz;
+          this.vx = dLx * 0.08 * force;
+          this.vy = dLy * 0.08 * force;
+          this.zDepth = Math.max(-180, Math.min(180, (lz + dLz * 0.008 - 25) * 10));
+          this.targetHue = (this.baseHue + lx * 4 + timeTick * 0.1) % 360;
+        } else if (mode === 'rossler') {
+          // 羅斯勒吸引子：單螺旋迴繞的混沌軌跡
+          const cx = centerPoint ? centerPoint.x : viewW * 0.5;
+          const cy = centerPoint ? centerPoint.y : viewH * 0.5;
+          const rx = (this.x - cx) / 12;
+          const ry = (this.y - cy) / 12;
+          const rz = (this.zDepth || 0) / 10 + 1;
+          const dRx = -ry - rz;
+          const dRy = rx + 0.2 * ry;
+          const dRz = 0.2 + rz * (rx - 5.7);
+          this.vx = dRx * 0.09 * force;
+          this.vy = dRy * 0.09 * force;
+          this.zDepth = Math.max(-180, Math.min(180, (rz + dRz * 0.01 - 1) * 10));
+          this.targetHue = (this.baseHue + rx * 6) % 360;
+        } else if (mode === 'pendulumWave') {
+          // 單擺陣波：索引相位錯開，擺回垂直平衡線
+          const laneCount = 24;
+          const lane = pIdx % laneCount;
+          const laneX = viewW * 0.08 + lane * (viewW * 0.84 / (laneCount - 1));
+          const laneY = viewH * 0.5;
+          const swing = Math.sin(timeTick * 0.05 - lane * 0.35) * 70 * rScale;
+          this.vx += (laneX - this.x) * 0.01;
+          this.vy += (laneY + swing - this.y) * 0.035 * force;
+          this.targetHue = (this.baseHue + lane * 10) % 360;
+        } else if (mode === 'galtonBoard') {
+          // 高爾頓釘板：重力下落，虛擬釘位偏轉，落底重生
+          this.vy += 0.18 * force;
+          if (Math.random() < 0.06) this.vx += (Math.random() - 0.5) * 1.6;
+          if (Math.random() < 0.04 && Math.abs(this.y % 60) < 8) {
+            this.vx += (Math.random() < 0.5 ? -0.8 : 0.8) * force;
+          }
+          if (this.y > viewH - 6) {
+            this.x = viewW * 0.5 + (Math.random() - 0.5) * 24;
+            this.y = 8;
+            this.vx = (Math.random() - 0.5) * 1.2;
+            this.vy = 0;
+          }
+          this.targetHue = (40 + (this.x / (viewW || 1)) * 320) % 360;
+        } else if (mode === 'phyllotaxis') {
+          // 葉序螺旋：黃金角固定索引花盤，緩慢收向目標點
+          const total = (typeof particles !== 'undefined' && particles.length) ? particles.length : 1;
+          const u = (pIdx + 0.5) / total;
+          const golden = Math.PI * (3 - Math.sqrt(5));
+          const r = Math.sqrt(u) * Math.min(viewW, viewH) * 0.34;
+          const ang = pIdx * golden;
+          const tx = viewW * 0.5 + Math.cos(ang) * r;
+          const ty = viewH * 0.5 + Math.sin(ang) * r;
+          this.vx += (tx - this.x) * 0.03 * force;
+          this.vy += (ty - this.y) * 0.03 * force;
+          this.targetHue = (35 + u * 50) % 360;
+        } else if (mode === 'brownian') {
+          // 布朗運動：隨機衝擊，輕微向中心回擴散
+          this.vx += (Math.random() - 0.5) * 0.9 * chaos;
+          this.vy += (Math.random() - 0.5) * 0.9 * chaos;
+          if (centerPoint) {
+            this.vx += (centerPoint.x - this.x) * 0.0012;
+            this.vy += (centerPoint.y - this.y) * 0.0012;
+          }
+          this.targetHue = this.baseHue;
+        } else if (mode === 'convection') {
+          // 對流浮力：下半受熱上升、上半冷卻下沉，水平環流
+          const normY = this.y / (viewH || 1);
+          const buoy = (0.5 - normY) * 0.35 * force;
+          this.vy -= buoy;
+          this.vx += Math.sin(normY * 6 + timeTick * 0.06) * 0.14 * force;
+          this.targetHue = ((normY < 0.5 ? 10 : 200) + normY * 60) % 360;
+        } else if (mode === 'reactionDiffusion') {
+          // 反應擴散斑：切向漂移，色相隨擴散場循環
+          const val = Math.sin(this.x * 0.02 + timeTick * 0.04) * Math.cos(this.y * 0.02 - timeTick * 0.03);
+          this.vx += Math.cos(this.y * 0.02) * 0.12 * force;
+          this.vy -= Math.sin(this.x * 0.02) * 0.12 * force;
+          this.targetHue = (120 + (val + 1) * 60) % 360;
+        } else if (mode === 'fireflies') {
+          // 螢火蟲：慢遊場域，相位同步閃爍
+          const phase = (pIdx * 0.137 + timeTick * 0.04) % (Math.PI * 2);
+          this.vx += (Math.random() - 0.5) * 0.3;
+          this.vy += (Math.random() - 0.5) * 0.3;
+          if (centerPoint) {
+            this.vx += (centerPoint.x - this.x) * 0.0008;
+            this.vy += (centerPoint.y - this.y) * 0.0008;
+          }
+          const blink = Math.max(0, Math.sin(phase));
+          this.targetHue = 60 + blink * 20;
+          this.fireworkSpark = blink > 0.7 ? 1 : 0;
+        } else if (mode === 'newtonsCradle') {
+          // 牛頓擺球：五顆擺錘沿橫軸同步振盪
+          const lanes = 5;
+          const lane = pIdx % lanes;
+          const laneX = viewW * 0.3 + lane * (viewW * 0.4 / (lanes - 1));
+          const swing = Math.sin(timeTick * 0.1 - lane * 0.6) * 46 * rScale;
+          this.vx += (laneX - this.x) * 0.02;
+          this.vy += (viewH * 0.45 + swing - this.y) * 0.04 * force;
+          this.targetHue = (200 + lane * 20) % 360;
+        } else if (mode === 'threeBody') {
+          // 三體引力：三顆動態恆星交互牽引粒子
+          const cx = viewW * 0.5;
+          const cy = viewH * 0.5;
+          for (let s = 0; s < 3; s++) {
+            const sa = timeTick * 0.015 + (s * Math.PI * 2) / 3;
+            const sx = cx + Math.cos(sa) * 120 * rScale;
+            const sy = cy + Math.sin(sa) * 120 * rScale;
+            const dx = sx - this.x;
+            const dy = sy - this.y;
+            const d = Math.sqrt(dx * dx + dy * dy) || 1;
+            const f = (force * 1.4) / Math.sqrt(d + 60);
+            this.vx += (dx / d) * f;
+            this.vy += (dy / d) * f;
+          }
+          this.targetHue = (this.baseHue + timeTick * 0.2) % 360;
+        } else if (mode === 'clifford') {
+          // 克利福德吸引子：逐幀迭代收斂二維軌跡
+          const a = -1.4, b = 1.6, c = 1.0, d = 0.7;
+          const nx = Math.sin(b * this.y) + c * Math.cos(a * this.x);
+          const ny = Math.sin(a * this.x) + d * Math.cos(b * this.y);
+          const scaleX = viewW / 6;
+          const scaleY = viewH / 6;
+          this.vx += (viewW * 0.5 + nx * scaleX - this.x) * 0.05 * force;
+          this.vy += (viewH * 0.5 + ny * scaleY - this.y) * 0.05 * force;
+          this.targetHue = (this.baseHue + nx * 30) % 360;
         } else if (brush === 'default' && activePoints.length > 0) {
           for (let pIdx = 0; pIdx < activePoints.length; pIdx++) {
             const pt = activePoints[pIdx];
@@ -3984,6 +5108,7 @@
         p.size = Math.max(0.5, Math.min(14, dynamicSize * p.sizeRatio));
         p.renderSize = p.size;
       }
+      invalidateTarget2DCache();
 
       const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
       const badge = document.getElementById('particle-count-badge');
@@ -4010,6 +5135,46 @@
         x: p1.x + (p2.x - p1.x) * segmentProgress,
         y: p1.y + (p2.y - p1.y) * segmentProgress
       };
+    }
+
+    // v7.0 固定透視焦距：投影位置不做 z2 透視除法，深度僅影響 renderSize / 明暗，不回授縮放
+
+    // 每幀相機角算出後，先把形狀/文字/圖片目標點統一投影一次寫入快取；粒子 update 唯讀快取，不再逐粒子重算旋轉/透視
+    function rebuildTarget2DCache(rotYCos, rotYSin, rotXCos, rotXSin) {
+      const st = window.appState;
+      const mode = st.activeMode;
+      const isAttract = (mode === 'shapes' || mode === 'text' || mode === 'image');
+      target2DCache.length = 0;
+      if (!isAttract) { target2DDirty = false; return; }
+      const sScale = (mode === 'shapes') ? (st.shapeScale || 1.0) : 1.0;
+      const is3DActive = (mode === 'shapes' && st.shape3D);
+      const maxZSpan = Math.max(100, Math.min(viewW, viewH) * 0.31 * sScale);
+      const n = particles.length;
+      for (let i = 0; i < n; i++) {
+        const p = particles[i];
+        if (p.targetX === null || p.targetX === undefined) {
+          target2DCache.push(null);
+          continue;
+        }
+        let tx = p.targetX * sScale;
+        let ty = p.targetY * sScale;
+        let z = 0;
+        let depthNorm = 0;
+        if (is3DActive) {
+          const tz = (p.targetZ || 0) * sScale;
+          const x1 = tx * rotYCos - tz * rotYSin;
+          const z1 = tx * rotYSin + tz * rotYCos;
+          const y2 = ty * rotXCos - z1 * rotXSin;
+          const z2 = ty * rotXSin + z1 * rotXCos;
+          // 固定焦距：x/y 投影偏移不隨單點 z2 做透視除法，避免深度回授造成縮放振盪
+          tx = x1;
+          ty = y2;
+          z = z2;
+          depthNorm = Math.max(-1, Math.min(1, z2 / maxZSpan));
+        }
+        target2DCache.push({ x: tx, y: ty, z, depthNorm });
+      }
+      target2DDirty = false;
     }
 
     function updateParticleTargetsForShape(shape) {
@@ -4717,13 +5882,217 @@
             tz = scale * (0.22 + tNorm * 0.98);
             p.shapeHue = (335 + tNorm * 65) % 360;
           }
+        } else if (shape === 'neuronNet') {
+          // 神經元網絡：多層節點 + 偽隨機連線
+          const pr = Math.sin(idx * 12.9898) * 43758.5453;
+          const rand = pr - Math.floor(pr);
+          const layer = Math.floor(idx / 64) % 8;
+          const nodeU = ((idx % 64) / 64) - 0.5;
+          tx = nodeU * scale * 1.3;
+          ty = (layer / 8 - 0.5) * scale * 1.1;
+          tz = (rand - 0.5) * scale * 0.5;
+          p.shapeHue = 210 + layer * 15;
+        } else if (shape === 'tourbillon') {
+          // 陀飛輪機芯：頂部轉輪環 + 內層螺旋擒縱
+          const rotorR = scale * 0.42;
+          const ang = theta;
+          if (idx % 3 === 0) {
+            tx = Math.cos(ang) * rotorR;
+            ty = -scale * 0.1 + Math.sin(ang) * rotorR;
+            tz = scale * 0.12;
+            p.shapeHue = 45;
+          } else {
+            const spiralT = ((idx * 7) % total) / total;
+            tx = Math.cos(ang * 2) * scale * 0.22 * spiralT;
+            ty = scale * 0.25 - spiralT * scale * 0.55;
+            tz = Math.sin(ang) * scale * 0.1;
+            p.shapeHue = 30 + spiralT * 20;
+          }
+        } else if (shape === 'globeRelief') {
+          // 地形地球儀：球面經緯 + 陸地起伏
+          const phi = Math.acos(1 - 2 * ((idx + 0.5) / total));
+          const gTheta = Math.PI * (1 + Math.sqrt(5)) * idx;
+          const bump = (Math.sin(phi * 6) * Math.cos(gTheta * 4)) > 0 ? scale * 0.06 : 0;
+          const rad = scale * 0.82 + bump;
+          tx = rad * Math.sin(phi) * Math.cos(gTheta);
+          ty = rad * Math.cos(phi);
+          tz = rad * Math.sin(phi) * Math.sin(gTheta);
+          p.shapeHue = 110 + Math.cos(phi) * 40;
+        } else if (shape === 'orrery') {
+          // 太陽系星儀：中央恆星 + 三條軌道行星環
+          const ring = idx % 3;
+          const orbitR = scale * (0.34 + ring * 0.24);
+          const ang = theta + ring * 1.7;
+          if (idx % 9 === 0) {
+            tx = 0; ty = 0; tz = 0;
+            p.shapeHue = 45;
+          } else {
+            tx = Math.cos(ang) * orbitR;
+            ty = Math.sin(ang) * orbitR * 0.28;
+            tz = Math.sin(ang) * orbitR * 0.7;
+            p.shapeHue = 30 + ring * 35;
+          }
+        } else if (shape === 'coral3d') {
+          // 珊瑚枝叢：偽隨機分枝向上生長
+          const pr = Math.sin(idx * 7.233) * 12345.6789;
+          const rand = pr - Math.floor(pr);
+          const depth = ((idx * 13) % 100) / 100;
+          tx = Math.sin(idx * 0.35) * depth * scale * 0.5 + (rand - 0.5) * scale * 0.12;
+          ty = -depth * scale * 0.9;
+          tz = Math.cos(idx * 0.3) * depth * scale * 0.4;
+          p.shapeHue = 160 + depth * 40;
+        } else if (shape === 'trex') {
+          // 暴龍骨架：脊椎沿 s 曲線，胸段肋骨環繞、尾段側擺，z 隨 theta 擺動（v6.5 dino_trex）
+          const u = (idx + 0.5) / total;
+          const s = (u - 0.5) * 2;
+          tx = s * scale * 0.88;
+          const spineY = -Math.sin(s * 1.8) * scale * 0.28 - (s > 0.55 ? scale * 0.22 : 0);
+          const rib = idx % 9;
+          if (s > 0.55) {
+            ty = spineY + ((idx % 2 === 0 ? -1 : 1) * scale * 0.16 * (1 - (s - 0.55) * 1.4));
+            tz = Math.sin(theta) * scale * 0.18;
+          } else if (s > -0.25 && s <= 0.55 && rib < 5) {
+            const ribAngle = (rib / 5) * Math.PI;
+            ty = spineY + Math.sin(ribAngle) * scale * 0.34;
+            tz = Math.cos(ribAngle) * scale * 0.26;
+          } else {
+            ty = spineY + (1 - Math.abs(s)) * scale * 0.08 * Math.cos(theta);
+            tz = (1 + s) * scale * 0.12 * Math.sin(theta);
+          }
+          p.shapeHue = 30 + (rib % 5) * 6;
+        } else if (shape === 'inkLandscape') {
+          // 水墨山水：60 欄 × 列地形網格，雙高斯山峰 + 正弦山脊高程（v6.5 inklandscape）
+          const gx = ((idx % 60) / 59 - 0.5) * 2;
+          const gz = (Math.floor(idx / 60) / (total / 60) - 0.5) * 2;
+          const peak1 = Math.exp(-((gx + 0.35) ** 2 + (gz + 0.2) ** 2) * 3.5) * scale * 0.95;
+          const peak2 = Math.exp(-((gx - 0.4) ** 2 + (gz - 0.15) ** 2) * 4.2) * scale * 0.80;
+          const ridgeWave = Math.sin(gx * 4 + gz * 3) * scale * 0.12;
+          tx = gx * scale * 0.88;
+          tz = gz * scale * 0.80;
+          ty = scale * 0.38 - (peak1 + peak2 + ridgeWave);
+          p.shapeHue = 210 - gx * 20;
+        } else if (shape === 'dysonSphere') {
+          // 戴森球殼：球面網格，赤道帶少量縫隙
+          const phi = Math.acos(1 - 2 * ((idx + 0.5) / total));
+          const gTheta = Math.PI * (1 + Math.sqrt(5)) * idx;
+          const rad = scale * 0.9;
+          tx = rad * Math.sin(phi) * Math.cos(gTheta);
+          ty = rad * Math.cos(phi);
+          tz = rad * Math.sin(phi) * Math.sin(gTheta);
+          p.shapeHue = 42 + Math.cos(phi) * 18;
+        } else if (shape === 'jwstMirror') {
+          // 韋伯蜂巢鏡：19 環蜂窩（內圈 1–6、外圈 7–18），格內極座標填充 + 拋物面凹陷（v6.5 jwst_mirror）
+          const u = (idx + 0.5) / total;
+          const ring = idx % 19;
+          const cellR = scale * 0.22;
+          let cxHex = 0, cyHex = 0;
+          if (ring > 0 && ring <= 6) {
+            const a = ((ring - 1) * Math.PI) / 3;
+            cxHex = Math.cos(a) * cellR * 1.8;
+            cyHex = Math.sin(a) * cellR * 1.8;
+          } else if (ring > 6) {
+            const a = ((ring - 7) * Math.PI) / 6;
+            cxHex = Math.cos(a) * cellR * 3.0;
+            cyHex = Math.sin(a) * cellR * 3.0;
+          }
+          const localA = theta;
+          const localR = (u * 0.85 + 0.15) * cellR * 0.70;
+          tx = cxHex + Math.cos(localA) * localR;
+          ty = cyHex + Math.sin(localA) * localR;
+          tz = -((tx * tx + ty * ty) / (scale * 2.5)) + scale * 0.15;
+          p.shapeHue = 210 + ring * 8;
+        } else if (shape === 'quantumFridge') {
+          // 量子制冷機：低溫腔體 + 環形超導層
+          const layer = idx % 4;
+          if (layer === 0) { tx = 0; ty = 0; tz = 0; p.shapeHue = 200; }
+          else {
+            const orbitR = scale * (0.3 + layer * 0.12);
+            tx = Math.cos(theta) * orbitR;
+            ty = (layer - 1.5) * scale * 0.12;
+            tz = Math.sin(theta) * orbitR;
+            p.shapeHue = 195 + layer * 10;
+          }
+        } else if (shape === 'toroidalCoil') {
+          // 環形線圈：環面本體 + 螺旋繞組
+          const major = scale * 0.55;
+          const minor = scale * 0.18;
+          if (idx % 2 === 0) {
+            tx = (major + minor * Math.cos(theta * 3)) * Math.cos(theta);
+            ty = minor * Math.sin(theta * 3);
+            tz = (major + minor * Math.cos(theta * 3)) * Math.sin(theta);
+            p.shapeHue = 200;
+          } else {
+            tx = major * Math.cos(theta);
+            ty = minor * Math.sin(theta * 12);
+            tz = major * Math.sin(theta);
+            p.shapeHue = 260;
+          }
+        } else if (shape === 'heart3d') {
+          // 立體心形：心形參數曲線 + v 厚度擠出，z 隨 v 與 cos t 衰減（v6.5 heart3d）
+          const u = (idx + 0.5) / total;
+          const t = u * Math.PI * 2;
+          const v = ((idx * 0.618) % 1 - 0.5) * 2;
+          tx = scale * 0.05 * 16 * Math.pow(Math.sin(t), 3);
+          ty = -scale * 0.05 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+          tz = v * scale * 0.28 * (1 - Math.abs(Math.cos(t)) * 0.5);
+          p.shapeHue = 340;
+        } else if (shape === 'tesseract') {
+          // 超立方骨架：內外立方 + 連接棱線
+          const cubeR = idx % 2 === 0 ? scale : scale * 0.45;
+          const face = idx % 6;
+          const u = (((idx * 19) % total) / total) * 2 - 1;
+          if (face < 3) { tx = u * cubeR; ty = (face - 1) * cubeR; tz = 0; }
+          else { tx = u * cubeR; ty = 0; tz = (face - 4) * cubeR; }
+          p.shapeHue = 260 + (idx % 2) * 40;
+        } else if (shape === 'toriiGate') {
+          // 鳥居：雙柱垂直分布 + 頂笠彎曲 + 下橫樑，z 用 theta 小徑擺動（v6.5 torii_gate）
+          const u = (idx + 0.5) / total;
+          const part = idx % 5;
+          const s = (u - 0.5) * 2;
+          if (part === 0 || part === 1) {
+            const px = (part === 0 ? -1 : 1) * scale * 0.44;
+            tx = px + Math.cos(theta) * scale * 0.06;
+            tz = Math.sin(theta) * scale * 0.06;
+            ty = s * scale * 0.78;
+          } else if (part === 2) {
+            tx = s * scale * 0.86;
+            ty = -scale * 0.70 - Math.pow(s, 2) * scale * 0.14;
+            tz = Math.sin(theta) * scale * 0.07;
+          } else {
+            tx = s * scale * 0.68;
+            ty = -scale * 0.46;
+            tz = Math.cos(theta) * scale * 0.05;
+          }
+          p.shapeHue = part < 2 ? 10 : 5;
+        } else if (shape === 'stellarator') {
+          // 仿星器：五股扭曲環形線圈
+          const strand = idx % 5;
+          const twist = theta * 2 + strand * (Math.PI * 2 / 5);
+          const major = scale * 0.6;
+          const minor = scale * 0.16;
+          tx = (major + minor * Math.cos(twist)) * Math.cos(theta);
+          ty = minor * Math.sin(twist);
+          tz = (major + minor * Math.cos(twist)) * Math.sin(theta);
+          p.shapeHue = 200 + strand * 16;
+        } else if (shape === 'calabiYau') {
+          // 卡拉比-丘流形：六維約束投影到三維點雲
+          const pr = Math.sin(idx * 3.71) * 9876.54321;
+          const rand = pr - Math.floor(pr);
+          const u = ((idx * 11) % total) / total;
+          tx = Math.sin(u * Math.PI * 2) * scale * 0.5 + (rand - 0.5) * scale * 0.12;
+          ty = Math.cos(u * Math.PI * 3) * scale * 0.4;
+          tz = Math.sin(u * Math.PI * 5) * scale * 0.35;
+          p.shapeHue = 270 + rand * 60;
         }
 
         p.color = computeParticleColor(p.shapeHue, 4, 0);
         p.targetX = tx;
         p.targetY = ty;
         p.targetZ = tz;
+        p.smoothX = null;
+        p.smoothY = null;
       }
+      invalidateTarget2DCache();
     }
 
     // --- 3D Holographic Stage (Perspective Turntable Grid + Shadow + 3D Structural Wireframe) ---
@@ -4732,7 +6101,6 @@
       const shape = window.appState.activeShape;
       const sScale = window.appState.shapeScale || 1.0;
       const scale = Math.min(viewW, viewH) * 0.30 * sScale;
-      const fov = 370;
       const fc = (window.appState.brushOverride === 'default' && !window.appState.orbitDragMode)
         ? centerPoint
         : (window.appState.formationPos || { x: viewW * 0.5, y: viewH * 0.5 });
@@ -4742,8 +6110,8 @@
         const z1 = x * rotYSin + z * rotYCos;
         const y2 = y * rotXCos - z1 * rotXSin;
         const z2 = y * rotXSin + z1 * rotXCos;
-        const p = fov / Math.max(85, fov + z2);
-        return { sx: fc.x + x1 * p, sy: fc.y + y2 * p, z: z2, p };
+        // 固定焦距：投影縮放為常數，z2 僅用於明暗/粗細，不回授縮放（與粒子快取投影一致）
+        return { sx: fc.x + x1, sy: fc.y + y2, z: z2, p: 1.0 };
       }
 
       function stroke3DLine(ax, ay, az, bx, by, bz, baseHue, baseAlpha) {
@@ -4960,6 +6328,21 @@
           stroke3DLine(sh[0], sh[1], sh[2], mid[0], mid[1], mid[2], 25, 0.52);
           stroke3DLine(mid[0], mid[1], mid[2], tip[0], tip[1], tip[2], 15, 0.52);
         }
+      } else if (shape === 'dysonSphere' || shape === 'globeRelief') {
+        stroke3DRing(scale * 0.82, 0, 28, 0, 0, 195, 0.34);
+        stroke3DRing(scale * 0.82, 0, 28, Math.PI * 0.5, 0, 195, 0.34);
+        stroke3DRing(scale * 0.82, 0, 28, 0, Math.PI * 0.5, 280, 0.34);
+      } else if (shape === 'orrery') {
+        stroke3DRing(scale * 0.34, 0, 20, 0, 0.28, 45, 0.34);
+        stroke3DRing(scale * 0.58, 0, 24, 0, 0.28, 30, 0.34);
+        stroke3DRing(scale * 0.82, 0, 28, 0, 0.28, 15, 0.34);
+      } else if (shape === 'toroidalCoil' || shape === 'stellarator' || shape === 'quantumFridge') {
+        stroke3DRing(scale * 0.55, 0, 28, 0, 0, 210, 0.34);
+        stroke3DRing(scale * 0.2, 0, 18, Math.PI * 0.5, 0, 260, 0.30);
+      } else if (shape === 'tourbillon') {
+        stroke3DRing(scale * 0.42, -scale * 0.1, 20, 0, 0, 45, 0.36);
+      } else if (shape === 'jwstMirror') {
+        stroke3DRing(scale * 0.5, -scale * 0.08, 22, 0, 0.2, 210, 0.34);
       } else if (shape === 'circle' || shape === 'atom') {
         stroke3DRing(scale * 0.92, 0, 28, 0, 0, 195, 0.38);
         stroke3DRing(scale * 0.92, 0, 28, Math.PI * 0.5, 0, 195, 0.38);
@@ -5024,20 +6407,28 @@
           particles[i].targetZ = 0;
           particles[i].targetColor = null;
           particles[i].shapeHue = null;
+          particles[i].smoothX = null;
+          particles[i].smoothY = null;
         }
+        invalidateTarget2DCache();
         return;
       }
 
-      for (let i = 0; i < particles.length; i++) {
-        const pt = points[(i * 7) % points.length];
+      const totalText = particles.length;
+      for (let i = 0; i < totalText; i++) {
+        // 固定索引映射：不足時均分複製來源點，不用簡單 modulo 重疊
+        const pt = points[Math.floor(i * points.length / totalText) % points.length];
         particles[i].targetX = pt.dx + (Math.random() - 0.5) * 2.2;
         particles[i].targetY = pt.dy + (Math.random() - 0.5) * 2.2;
         particles[i].targetZ = 0;
         particles[i].shapeHue = pt.hue;
         particles[i].targetHue = pt.hue;
         particles[i].targetColor = null;
+        particles[i].smoothX = null;
+        particles[i].smoothY = null;
         particles[i].color = computeParticleColor(pt.hue, 5);
       }
+      invalidateTarget2DCache();
     }
 
     // --- Media & Built-in Procedural Art Presets (7 Presets + Responsive Normalized Coordinates) ---
@@ -5380,15 +6771,20 @@
     function mapImagePointsToParticles() {
       if (imageScanData.length === 0) return;
       const projSpan = Math.min(viewW || 360, viewH || 640) * 0.72;
-      for (let idx = 0; idx < particles.length; idx++) {
-        const point = imageScanData[(idx * 5) % imageScanData.length];
+      const totalImg = particles.length;
+      for (let idx = 0; idx < totalImg; idx++) {
+        // 固定索引映射：不足時均分複製來源點，不用簡單 modulo 重疊
+        const point = imageScanData[Math.floor(idx * imageScanData.length / totalImg) % imageScanData.length];
         particles[idx].targetX = point.nx * projSpan + (Math.random() - 0.5) * 2.2;
         particles[idx].targetY = point.ny * projSpan + (Math.random() - 0.5) * 2.2;
         particles[idx].targetZ = 0;
         particles[idx].shapeHue = null;
+        particles[idx].smoothX = null;
+        particles[idx].smoothY = null;
         particles[idx].targetColor = point.color;
         particles[idx].color = point.color;
       }
+      invalidateTarget2DCache();
     }
 
     // --- Radial Shockwave Impulse ---
@@ -5513,6 +6909,10 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.setAttribute('placeholder', dict[key]);
       });
       syncShapeCatAllLabel();
       document.getElementById('lang-indicator').textContent = dict.label;
@@ -5768,6 +7168,8 @@
             particles[i].targetY = null;
             particles[i].targetColor = null;
             particles[i].shapeHue = null;
+            particles[i].smoothX = null;
+            particles[i].smoothY = null;
           }
         }
         currentTrace.length = 0;
@@ -5867,9 +7269,9 @@
         });
       });
 
-      ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand'].forEach(m => {
+      ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford'].forEach(m => {
         const el = document.getElementById(`mode-${m}`);
-        if (el) el.addEventListener('click', () => switchMode(m));
+        if (el) el.addEventListener('click', () => { captureUndoSnapshot(); switchMode(m); });
       });
 
       // Fireworks Sub-panel Controls
@@ -5943,6 +7345,7 @@
       const shapeButtons = document.querySelectorAll('.shape-btn');
       shapeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
+          captureUndoSnapshot();
           const targetShape = btn.id.replace('shape-', '');
           window.appState.activeShape = targetShape;
           if (btn.getAttribute('data-shape-cat') === 'models' && !window.appState.shape3D) {
@@ -6184,7 +7587,9 @@
       const modalActionCode = document.getElementById('modal-action-code');
 
       // 彈窗單層管理：開啟目標前先關閉其餘彈窗；closeModal 關閉所有彈窗
-      const MODAL_ELEMENTS = [modalShortcuts, modalActionCode];
+      const modalCustomPresets = document.getElementById('modal-custom-presets');
+      const modalCmdPalette = document.getElementById('modal-command-palette');
+      const MODAL_ELEMENTS = [modalShortcuts, modalActionCode, modalCustomPresets, modalCmdPalette];
       function openModal(modalEl) {
         MODAL_ELEMENTS.forEach(m => { if (m && m !== modalEl) m.classList.add('hidden'); });
         if (modalEl) modalEl.classList.remove('hidden');
@@ -6203,8 +7608,9 @@
       const savedAcList = document.getElementById('saved-ac-list');
       const savedAcCount = document.getElementById('saved-ac-count');
 
-      const SAVED_KEY_NEW = 'psb50_saved_action_codes';
-      const SAVED_KEY_OLD = 'psb46_saved_action_codes';
+      const SAVED_KEY_NEW = 'psb70_saved_action_codes';
+      // 舊版收藏庫遷移來源（唯讀一個版本週期；寫入一律進 SAVED_KEY_NEW）
+      const SAVED_KEY_MIGRATE = ['psb50_saved_action_codes', 'psb46_saved_action_codes'];
 
       // 校驗收藏條目形狀並依 code 去重（容錯 localStorage 被改寫成非陣列的狀況）
       function normalizeSavedList(raw) {
@@ -6227,10 +7633,12 @@
       let savedActionCodes = [];
       try {
         const rawNew = localStorage.getItem(SAVED_KEY_NEW);
-        const rawOld = localStorage.getItem(SAVED_KEY_OLD);
         let merged = [];
         if (rawNew) merged = merged.concat(normalizeSavedList(JSON.parse(rawNew)));
-        if (rawOld) merged = merged.concat(normalizeSavedList(JSON.parse(rawOld)));
+        for (const migKey of SAVED_KEY_MIGRATE) {
+          const rawOld = localStorage.getItem(migKey);
+          if (rawOld) merged = merged.concat(normalizeSavedList(JSON.parse(rawOld)));
+        }
         savedActionCodes = normalizeSavedList(merged);
       } catch (e) {
         savedActionCodes = [];
@@ -6246,7 +7654,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 50,
+          v: 70,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -6301,9 +7709,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB50-${encoded}`;
+          return `PSB70-${encoded}`;
         } catch (e) {
-          return 'PSB50-DEFAULT';
+          return 'PSB70-DEFAULT';
         }
       }
 
@@ -6347,6 +7755,7 @@
         updateToggleStyle('btn-toggle-orbit-anchors', 'state-orbit-anchors', st.orbitAnchors);
         updateToggleStyle('btn-toggle-beat', 'state-beat', st.beatPulse);
         updateToggleStyle('btn-toggle-autofade', 'state-autofade', st.autoFadeHud);
+        syncWave3Toggles();
         updateEngineControls();
 
         document.getElementById('brush-label-text').textContent = dict.brushLabels[st.brushOverride] || dict.brushDefault;
@@ -6374,6 +7783,9 @@
         switchMode(st.activeMode);
         if (outputActionCode) outputActionCode.value = generateCurrentActionCode();
       }
+
+      // P1 修復：外層作用域的 undo/redo 需呼叫本 initApp 內部的 UI 同步器，掛 window hook 跨閉包
+      window.__syncAppUI = syncAllUIControlsAfterActionCode;
 
       function executeActionCodeString(rawInput) {
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -6600,9 +8012,10 @@
           return true;
         }
 
-        // Otherwise decode PSB46- / PSB50- state code（兩前綴皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB46- / PSB50- / PSB65- / PSB70-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        if (upperClean.startsWith('PSB46-') || upperClean.startsWith('PSB50-')) {
+        const ACCEPTED_PREFIXES = ['PSB46-', 'PSB50-', 'PSB65-', 'PSB70-'];
+        if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
             while (b64.length % 4 !== 0) b64 += '=';
@@ -6659,7 +8072,7 @@
                 };
               });
             }
-            // v5.0 第二波新欄位：列舉過白名單，數值上下限夾取，未知值回退預設
+            // v7.0 引擎層欄位：列舉過白名單，數值上下限夾取，未知值回退預設
             if (data.mt && WHITELIST.materials.includes(data.mt)) st.material = data.mt;
             if (data.gd && WHITELIST.gravityDirs.includes(data.gd)) st.gravityDir = data.gd;
             if (data.ls !== undefined) st.particleLifespan = Math.min(30, Math.max(0, Number(data.ls) || 0));
@@ -6675,7 +8088,11 @@
               st.baseHueOverride = null;
             }
             syncAllUIControlsAfterActionCode();
-            showToast(dict.toastAcApplied(codeVersion === 50 ? 'PSB50 State' : 'PSB46 State'));
+            const versionLabel = codeVersion === 70 ? 'PSB70 State'
+              : codeVersion === 65 ? 'PSB65 State'
+              : codeVersion === 50 ? 'PSB50 State'
+              : 'PSB46 State';
+            showToast(dict.toastAcApplied(versionLabel));
             return true;
           } catch (e) {
             showToast(dict.toastAcInvalid, true);
@@ -6850,6 +8267,7 @@
       setupAccordion('btn-acc-sliders', 'body-acc-sliders', 'icon-acc-sliders');
       setupAccordion('btn-acc-advanced', 'body-acc-advanced', 'icon-acc-advanced');
       setupAccordion('btn-acc-engine', 'body-acc-engine', 'icon-acc-engine');
+      setupAccordion('btn-acc-appearance', 'body-acc-appearance', 'icon-acc-appearance');
 
       // --- Collapsible Bottom Navigation Dock & Dynamic Island ---
       const mainDockWrapper = document.getElementById('main-dock-wrapper');
@@ -6964,11 +8382,11 @@
         }
       });
 
-      // --- v5.0 引擎調校控制項 ---
+      // --- v7.0 引擎調校控制項 ---
       const GRAVITY_ORDER = ['none', 'up', 'down', 'left', 'right'];
       const MATERIAL_ORDER = ['none', 'viscous', 'bouncy', 'ember'];
       const QUALITY_ORDER = ['high', 'mid', 'low'];
-      const CONFIG_KEY = 'psb50_config';
+      const CONFIG_KEY = 'psb70_config';
 
       function currentDict() {
         return I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -7096,7 +8514,10 @@
           trailReticle: st.trailReticle, wallBounce: st.wallBounce,
           constellationWeb: st.constellationWeb, hoverInfluence: st.hoverInfluence,
           additiveGlow: st.additiveGlow, orbitAnchors: st.orbitAnchors,
-          beatPulse: st.beatPulse, timeSpeed: st.timeSpeed
+          beatPulse: st.beatPulse, timeSpeed: st.timeSpeed,
+          particleGlyph: st.particleGlyph, crtOverlay: st.crtOverlay,
+          dofScale: st.dofScale, anaglyph: st.anaglyph,
+          chromatic: st.chromatic, quiver: st.quiver
         };
         try { localStorage.setItem(CONFIG_KEY, JSON.stringify(snap)); } catch (e) {}
       }
@@ -7138,6 +8559,13 @@
         st.additiveGlow = Boolean(snap.additiveGlow);
         st.orbitAnchors = Boolean(snap.orbitAnchors);
         st.beatPulse = Boolean(snap.beatPulse);
+        // v7.0 Wave3：造型與視覺開關（列舉過白名單，布林校驗；不進動作碼 payload）
+        if (WHITELIST.glyphs.includes(snap.particleGlyph)) st.particleGlyph = snap.particleGlyph;
+        st.crtOverlay = Boolean(snap.crtOverlay);
+        st.dofScale = Boolean(snap.dofScale);
+        st.anaglyph = Boolean(snap.anaglyph);
+        st.chromatic = Boolean(snap.chromatic);
+        st.quiver = Boolean(snap.quiver);
       }
 
       document.getElementById('btn-toggle-persist').addEventListener('click', () => {
@@ -7324,6 +8752,276 @@
         playProceduralSound('change');
       });
 
+      // ==================== v7.0 Wave3 事件綁定（F1–F7） ====================
+      const crtOverlayEl = document.getElementById('crt-overlay');
+      function syncCrtOverlay() {
+        if (crtOverlayEl) crtOverlayEl.classList.toggle('crt-on', Boolean(window.appState.crtOverlay));
+      }
+      function syncGlyphButtonsUI() {
+        const active = window.appState.particleGlyph;
+        const activeCls = 'glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-blue-600/30 border border-blue-400/50 text-white transition-all';
+        const idleCls = 'glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all';
+        document.querySelectorAll('.glyph-btn[data-glyph]').forEach(btn => {
+          btn.className = btn.getAttribute('data-glyph') === active ? activeCls : idleCls;
+        });
+        const uploadBtn = document.getElementById('btn-glyph-upload');
+        if (uploadBtn) uploadBtn.className = active === 'custom'
+          ? activeCls
+          : 'glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-dashed border-white/20 text-white/75 transition-all';
+      }
+      function syncWave3Toggles() {
+        const st = window.appState;
+        updateToggleStyle('btn-toggle-crt', 'state-crt', st.crtOverlay);
+        updateToggleStyle('btn-toggle-dof', 'state-dof', st.dofScale);
+        updateToggleStyle('btn-toggle-anaglyph', 'state-anaglyph', st.anaglyph);
+        updateToggleStyle('btn-toggle-chromatic', 'state-chromatic', st.chromatic);
+        updateToggleStyle('btn-toggle-quiver', 'state-quiver', st.quiver);
+        syncCrtOverlay();
+        syncGlyphButtonsUI();
+      }
+
+      // F1：造型選擇
+      document.querySelectorAll('.glyph-btn[data-glyph]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const g = btn.getAttribute('data-glyph');
+          if (!WHITELIST.glyphs.includes(g)) return;
+          captureUndoSnapshot();
+          window.appState.particleGlyph = g;
+          if (g !== 'custom') window.appState.customCutoutSprite = null;
+          syncGlyphButtonsUI();
+          persistConfigSnapshot();
+          playProceduralSound('change');
+        });
+      });
+
+      // F1：自訂去背圖片上傳（MIME / 大小 / onerror / value 重置；失敗回預設圓點）
+      const glyphUploadInput = document.getElementById('hidden-glyph-upload');
+      document.getElementById('btn-glyph-upload').addEventListener('click', () => {
+        if (glyphUploadInput) glyphUploadInput.click();
+      });
+      if (glyphUploadInput) glyphUploadInput.addEventListener('change', () => {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const file = glyphUploadInput.files && glyphUploadInput.files[0];
+        glyphUploadInput.value = ''; // 同一檔案可再次觸發 change
+        if (!file) return;
+        if (file.type && file.type.indexOf('image/') !== 0) { showToast(dict.toastGlyphUploadFail, true); return; }
+        if (file.size > GLYPH_FILE_LIMIT) { showToast(dict.toastGlyphSize, true); return; }
+        const reader = new FileReader();
+        reader.onerror = () => showToast(dict.toastGlyphUploadFail, true);
+        reader.onload = () => {
+          const img = new Image();
+          img.onerror = () => showToast(dict.toastGlyphUploadFail, true);
+          img.onload = () => {
+            captureUndoSnapshot();
+            processGlyphCutout(img);
+            syncGlyphButtonsUI();
+            persistConfigSnapshot();
+            playProceduralSound('change');
+          };
+          img.src = String(reader.result || '');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // F3 / F4：視覺開關（預設全關）
+      document.getElementById('btn-toggle-crt').addEventListener('click', () => {
+        captureUndoSnapshot();
+        window.appState.crtOverlay = !window.appState.crtOverlay;
+        updateToggleStyle('btn-toggle-crt', 'state-crt', window.appState.crtOverlay);
+        syncCrtOverlay();
+        persistConfigSnapshot();
+        playProceduralSound('change');
+      });
+      document.getElementById('btn-toggle-dof').addEventListener('click', () => {
+        captureUndoSnapshot();
+        window.appState.dofScale = !window.appState.dofScale;
+        updateToggleStyle('btn-toggle-dof', 'state-dof', window.appState.dofScale);
+        persistConfigSnapshot();
+        playProceduralSound('change');
+      });
+      document.getElementById('btn-toggle-anaglyph').addEventListener('click', () => {
+        captureUndoSnapshot();
+        window.appState.anaglyph = !window.appState.anaglyph;
+        updateToggleStyle('btn-toggle-anaglyph', 'state-anaglyph', window.appState.anaglyph);
+        persistConfigSnapshot();
+        playProceduralSound('change');
+      });
+      document.getElementById('btn-toggle-chromatic').addEventListener('click', () => {
+        captureUndoSnapshot();
+        window.appState.chromatic = !window.appState.chromatic;
+        updateToggleStyle('btn-toggle-chromatic', 'state-chromatic', window.appState.chromatic);
+        persistConfigSnapshot();
+        playProceduralSound('change');
+      });
+      document.getElementById('btn-toggle-quiver').addEventListener('click', () => {
+        captureUndoSnapshot();
+        window.appState.quiver = !window.appState.quiver;
+        updateToggleStyle('btn-toggle-quiver', 'state-quiver', window.appState.quiver);
+        persistConfigSnapshot();
+        playProceduralSound('change');
+      });
+
+      // F2：CSV 匯出
+      document.getElementById('btn-export-csv').addEventListener('click', exportParticlesCSV);
+
+      // F7：還原 / 重做按鈕
+      document.getElementById('btn-undo').addEventListener('click', undoAction);
+      document.getElementById('btn-redo').addEventListener('click', redoAction);
+
+      // F5：自訂預設庫
+      const customPresetsList = document.getElementById('custom-presets-list');
+      const customPresetName = document.getElementById('custom-preset-name');
+      function renderCustomPresetList() {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const list = loadCustomPresets();
+        customPresetsList.textContent = '';
+        if (!list.length) {
+          const empty = document.createElement('div');
+          empty.className = 'text-[11px] text-white/45 px-1 py-2';
+          empty.textContent = dict.customPresetEmpty;
+          customPresetsList.appendChild(empty);
+          return;
+        }
+        list.forEach((item, idx) => {
+          const row = document.createElement('div');
+          row.className = 'flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-xl px-2.5 py-1.5';
+          const name = document.createElement('span');
+          name.className = 'flex-1 text-xs text-white/85 truncate';
+          name.textContent = String(item.name);
+          const applyBtn = document.createElement('button');
+          applyBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-semibold bg-purple-600/30 border border-purple-400/40 text-purple-200 transition-all';
+          applyBtn.textContent = dict.customPresetApplied;
+          applyBtn.addEventListener('click', () => {
+            captureUndoSnapshot();
+            applyStateSnapshotData(item.data || {});
+            syncAllUIControlsAfterActionCode();
+            syncParticleSettings();
+            showToast(dict.customPresetApplied);
+          });
+          const delBtn = document.createElement('button');
+          delBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-semibold bg-white/5 border border-white/10 text-white/60 hover:bg-red-500/20 hover:text-red-200 transition-all';
+          delBtn.textContent = 'X';
+          delBtn.addEventListener('click', () => {
+            const cur = loadCustomPresets();
+            cur.splice(idx, 1);
+            saveCustomPresets(cur);
+            renderCustomPresetList();
+            showToast(dict.customPresetDeleted);
+          });
+          row.appendChild(name);
+          row.appendChild(applyBtn);
+          row.appendChild(delBtn);
+          customPresetsList.appendChild(row);
+        });
+      }
+      document.getElementById('btn-open-custom-presets').addEventListener('click', () => {
+        renderCustomPresetList();
+        openModal(modalCustomPresets);
+      });
+      document.getElementById('btn-close-custom-presets').addEventListener('click', closeModal);
+      modalCustomPresets.addEventListener('click', (e) => {
+        if (e.target === modalCustomPresets) closeModal();
+      });
+      document.getElementById('btn-save-custom-preset').addEventListener('click', () => {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const name = (customPresetName.value || '').trim();
+        if (!name) { showToast(dict.customPresetNameEmpty, true); return; }
+        const list = loadCustomPresets();
+        if (list.some(p => String(p.name).toLowerCase() === name.toLowerCase())) {
+          showToast(dict.customPresetExists, true); return;
+        }
+        list.push({ name, data: buildStateSnapshot() });
+        if (list.length > CUSTOM_PRESETS_CAP) list.shift();
+        saveCustomPresets(list);
+        customPresetName.value = '';
+        renderCustomPresetList();
+        showToast(dict.customPresetSaved);
+      });
+
+      // F6：指令面板 lite
+      const cmdSearchInput = document.getElementById('cmd-search-input');
+      const cmdPaletteResults = document.getElementById('cmd-palette-results');
+      const CMD_MAX_RESULTS = 24;
+      function shapeDictKey(shape) {
+        return 'shape' + shape.charAt(0).toUpperCase() + shape.slice(1);
+      }
+      function selectShapeFromPalette(shape) {
+        if (!WHITELIST.shapes.includes(shape)) return;
+        window.appState.activeShape = shape;
+        const btn = document.getElementById('shape-' + shape);
+        if (btn && btn.getAttribute('data-shape-cat') === 'models' && !window.appState.shape3D) {
+          window.appState.shape3D = true;
+        }
+        syncShapeButtonsUI();
+        updateParticleTargetsForShape(shape);
+        switchMode('shapes');
+      }
+      function buildCommandItems() {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const items = [];
+        WHITELIST.modes.forEach(m => {
+          const label = typeof dict.modeTitle === 'function' ? dict.modeTitle(m) : m;
+          items.push({ type: 'mode', label, id: m, run: () => switchMode(m) });
+        });
+        WHITELIST.shapes.forEach(s => {
+          items.push({ type: 'shape', label: dict[shapeDictKey(s)] || s, id: s, run: () => selectShapeFromPalette(s) });
+        });
+        // 內建場景：從場景按鈕讀取 key 與目前語系標籤（textContent，無 HTML 拼接）
+        document.querySelectorAll('.scene-preset-btn[data-scene]').forEach(btn => {
+          const sc = btn.getAttribute('data-scene');
+          if (sc) items.push({ type: 'scene', label: btn.textContent.trim() || sc, id: sc, run: () => applyScenePreset(sc) });
+        });
+        ['presetNebula', 'presetLava', 'presetNeon', 'presetLorenz', 'presetGolden', 'presetJwst'].forEach(p => {
+          items.push({ type: 'preset', label: dict[p] || p, id: p, run: () => applyCuratedPreset(p) });
+        });
+        return items;
+      }
+      function renderCommandPalette(query) {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const q = (query || '').trim().toLowerCase();
+        const items = buildCommandItems();
+        cmdPaletteResults.textContent = '';
+        const matched = items
+          .filter(it => !q || it.label.toLowerCase().includes(q) || it.id.toLowerCase().includes(q))
+          .slice(0, CMD_MAX_RESULTS);
+        if (!matched.length) {
+          const empty = document.createElement('div');
+          empty.className = 'text-[11px] text-white/45 px-1 py-2';
+          empty.textContent = dict.cmdEmpty;
+          cmdPaletteResults.appendChild(empty);
+          return;
+        }
+        matched.forEach(it => {
+          const btn = document.createElement('button');
+          btn.className = 'cmd-result-btn';
+          const left = document.createElement('span');
+          left.className = 'flex-1 min-w-0 text-xs text-white/85 truncate';
+          left.textContent = it.label;
+          const tag = document.createElement('span');
+          tag.className = 'ml-auto shrink-0 text-[10px] text-white/40 font-mono whitespace-nowrap';
+          tag.textContent = it.type;
+          btn.appendChild(left);
+          btn.appendChild(tag);
+          btn.addEventListener('click', () => {
+            captureUndoSnapshot();
+            it.run();
+            syncAllUIControlsAfterActionCode();
+            closeModal();
+            showToast(dict.cmdApplied);
+          });
+          cmdPaletteResults.appendChild(btn);
+        });
+      }
+      function openCommandPalette() {
+        renderCommandPalette('');
+        openModal(modalCmdPalette);
+        setTimeout(() => { try { cmdSearchInput.focus(); } catch (e) {} }, 30);
+      }
+      cmdSearchInput.addEventListener('input', () => renderCommandPalette(cmdSearchInput.value));
+      modalCmdPalette.addEventListener('click', (e) => {
+        if (e.target === modalCmdPalette) closeModal();
+      });
+
       const paletteBtns = document.querySelectorAll('.palette-btn');
       function selectPalette(pal) {
         window.appState.palette = pal;
@@ -7340,12 +9038,24 @@
 
       paletteBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+          captureUndoSnapshot();
           selectPalette(btn.getAttribute('data-palette'));
           playProceduralSound('change');
         });
       });
 
       // Curated 1-Click Scene Presets (Bug-fixed to also sync shape buttons UI)
+      function syncShape3DLabel() {
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const b3d = document.getElementById('btn-shape-3d');
+        if (b3d) {
+          b3d.textContent = window.appState.shape3D ? dict.shape3DOn : dict.shape3DOff;
+          b3d.className = window.appState.shape3D
+            ? 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-purple-600/40 border border-purple-400/40 text-purple-200 transition-all'
+            : 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
+        }
+      }
+
       function applyScenePreset(scene) {
         const st = window.appState;
         const w = viewW || window.innerWidth || 800;
@@ -7482,12 +9192,182 @@
             { x: w * 0.65, y: h * 0.5, type: 'orbit', phase: Math.PI, orbitDist: Math.min(w, h) * 0.22, orbitAngle: Math.PI, lastTap: 0 }
           ];
           switchMode('galaxy');
+        } else if (scene === 'sceneLorenz') {
+          // 洛倫茲蝶舞：合成波 + 洛倫茲吸引子，長拖尾、霓虹輝光
+          selectPalette('synthwave');
+          st.attractForce = 0.80;
+          st.trailPersistence = 0.92;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.particleCount = 3000;
+          syncParticleSettings();
+          switchMode('lorenz');
+        } else if (scene === 'scenePendulum') {
+          // 擺浪陣列：賽博 + 單擺陣波，中等擾動
+          selectPalette('cyber');
+          st.attractForce = 0.50;
+          st.trailPersistence = 0.85;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.particleCount = 2600;
+          syncParticleSettings();
+          switchMode('pendulumWave');
+        } else if (scene === 'sceneGalton') {
+          // 高爾頓鐘形：黑金 + 高爾頓釘板，邊界反彈、短拖尾
+          selectPalette('gold');
+          st.attractForce = 0.90;
+          st.trailPersistence = 0.78;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.wallBounce = true;
+          st.particleCount = 2800;
+          syncParticleSettings();
+          switchMode('galtonBoard');
+        } else if (scene === 'scenePrism') {
+          // 稜鏡七彩光：光譜 + 極光流場，雙向鏡像
+          selectPalette('spectrum');
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.85;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 2;
+          st.particleCount = 2800;
+          syncParticleSettings();
+          switchMode('flowfield');
+        } else if (scene === 'sceneDyson') {
+          // 戴森球恆星：黑金 + 戴森球殼 3D
+          selectPalette('gold');
+          st.activeShape = 'dysonSphere';
+          st.shape3D = true;
+          st.attractForce = 0.60;
+          st.trailPersistence = 0.86;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
+          syncShapeButtonsUI();
+          st.particleCount = 3400;
+          syncParticleSettings();
+          switchMode('shapes');
+        } else if (scene === 'sceneJwst') {
+          // 韋伯太空鏡：黑金 + 蜂巢鏡 3D
+          selectPalette('gold');
+          st.activeShape = 'jwstMirror';
+          st.shape3D = true;
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
+          syncShapeButtonsUI();
+          st.particleCount = 3400;
+          syncParticleSettings();
+          switchMode('shapes');
+        } else if (scene === 'sceneOrrery') {
+          // 太陽系星儀：黑金 + 星儀 3D
+          selectPalette('gold');
+          st.activeShape = 'orrery';
+          st.shape3D = true;
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
+          syncShapeButtonsUI();
+          st.particleCount = 2800;
+          syncParticleSettings();
+          switchMode('shapes');
+        } else if (scene === 'sceneInkland') {
+          // 水墨山水卷：水墨銀灰 + 山水 3D，低輝光
+          selectPalette('monochrome');
+          st.activeShape = 'inkLandscape';
+          st.shape3D = true;
+          st.attractForce = 0.50;
+          st.trailPersistence = 0.85;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
+          syncShapeButtonsUI();
+          st.particleCount = 3400;
+          syncParticleSettings();
+          switchMode('shapes');
         }
+        syncShape3DLabel();
+      }
+
+      // --- 精選一鍵預設：同狀態組合機制，不進白名單 / 動作碼 / 快照 ---
+      function applyCuratedPreset(name) {
+        const st = window.appState;
+        const setCount = (n) => {
+          st.particleCount = Math.max(1000, Math.min(18000, n));
+          syncParticleSettings();
+        };
+        if (name === 'presetNebula') {
+          selectPalette('nebula');
+          st.attractForce = 0.60;
+          st.trailPersistence = 0.88;
+          st.additiveGlow = true;
+          st.constellationWeb = true;
+          st.webDist = 58;
+          setCount(3400);
+          switchMode('galaxy');
+        } else if (name === 'presetLava') {
+          selectPalette('lava');
+          st.attractForce = 1.20;
+          st.trailPersistence = 0.82;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          setCount(2600);
+          switchMode('convection');
+        } else if (name === 'presetNeon') {
+          selectPalette('synthwave');
+          st.attractForce = 0.70;
+          st.trailPersistence = 0.91;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 2;
+          setCount(3000);
+          switchMode('kaleidoscope');
+        } else if (name === 'presetLorenz') {
+          selectPalette('synthwave');
+          st.attractForce = 0.80;
+          st.trailPersistence = 0.92;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          setCount(3000);
+          switchMode('lorenz');
+        } else if (name === 'presetGolden') {
+          selectPalette('gold');
+          st.attractForce = 0.50;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          setCount(2800);
+          switchMode('phyllotaxis');
+        } else if (name === 'presetJwst') {
+          selectPalette('gold');
+          st.activeShape = 'jwstMirror';
+          st.shape3D = true;
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
+          syncShapeButtonsUI();
+          setCount(3400);
+          switchMode('shapes');
+        }
+        syncShape3DLabel();
       }
 
       document.querySelectorAll('.scene-preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          applyScenePreset(btn.getAttribute('data-scene'));
+          captureUndoSnapshot();
+          const presetName = btn.getAttribute('data-preset');
+          if (presetName) {
+            applyCuratedPreset(presetName);
+          } else {
+            applyScenePreset(btn.getAttribute('data-scene'));
+          }
           syncSlidersUI();
           updateToggleStyle('btn-toggle-glow', 'state-glow', window.appState.additiveGlow);
           updateToggleStyle('btn-toggle-web', 'state-web', window.appState.constellationWeb);
@@ -7550,7 +9430,11 @@
         window.appState.cursorTrail = [];
         window.appState.rulerStart = null;
         window.appState.pinchPrevDist = null;
+        window.appState.customCutoutSprite = null;
+        window.appState.undoStack = [];
+        window.appState.redoStack = [];
         currentTrace.length = 0;
+        invalidateTarget2DCache();
       }
 
       document.getElementById('btn-reset-defaults').addEventListener('click', () => {
@@ -7569,6 +9453,7 @@
         updateToggleStyle('btn-toggle-orbit-anchors', 'state-orbit-anchors', false);
         updateToggleStyle('btn-toggle-beat', 'state-beat', false);
         updateToggleStyle('btn-toggle-autofade', 'state-autofade', true);
+        syncWave3Toggles();
         updateAnchorUI();
         syncParticleSettings();
         updateCanvasStatusLabel();
@@ -7757,12 +9642,34 @@
         if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           return;
         }
-        const modalOpen = !modalActionCode.classList.contains('hidden') || !modalShortcuts.classList.contains('hidden');
+        const modalOpen = !modalActionCode.classList.contains('hidden') || !modalShortcuts.classList.contains('hidden') ||
+          (modalCustomPresets && !modalCustomPresets.classList.contains('hidden')) ||
+          (modalCmdPalette && !modalCmdPalette.classList.contains('hidden'));
         if (e.key === 'Escape') {
           if (modalOpen) {
             if (!modalActionCode.classList.contains('hidden')) toggleActionCodeModal(false);
-            else toggleShortcutsModal(false);
+            else if (!modalShortcuts.classList.contains('hidden')) toggleShortcutsModal(false);
+            else closeModal();
             e.preventDefault();
+          }
+          return;
+        }
+        // F6/F7：組合鍵（Ctrl+K 指令面板；Ctrl+Z 還原；Ctrl+Y / Ctrl+Shift+Z 重做）
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === 'k' || e.key === 'K') {
+            e.preventDefault();
+            openCommandPalette();
+            return;
+          }
+          if (e.key === 'z' || e.key === 'Z') {
+            e.preventDefault();
+            if (e.shiftKey) redoAction(); else undoAction();
+            return;
+          }
+          if (e.key === 'y' || e.key === 'Y') {
+            e.preventDefault();
+            redoAction();
+            return;
           }
           return;
         }
@@ -8338,6 +10245,9 @@
           const rotXCos = Math.cos(pointerTiltX);
           const rotXSin = Math.sin(pointerTiltX);
 
+          // v7.0 相機角算出後先統一投影一次，寫入 2D 目標快取；粒子 update 唯讀快取
+          rebuildTarget2DCache(rotYCos, rotYSin, rotXCos, rotXSin);
+
           // Update 360° angle badge & draw 3D Orientation Compass Gizmo when in shapes mode
           if (window.appState.activeMode === 'shapes' && window.appState.shape3D) {
             const yawDeg = Math.round(((rotYAngle * 180 / Math.PI) % 360 + 360) % 360);
@@ -8393,7 +10303,7 @@
           const len = particles.length;
           for (let i = 0; i < len; i++) {
             const p = particles[i];
-            p.update(activePoints, centerPoint, rotYCos, rotYSin, rotXCos, rotXSin, dtScale);
+            p.update(activePoints, centerPoint, rotYCos, rotYSin, rotXCos, rotXSin, dtScale, i);
             if (!colorGroups[p.color]) {
               colorGroups[p.color] = [];
             }
@@ -8403,6 +10313,10 @@
           if (window.appState.constellationWeb) {
             drawConstellationWeb();
           }
+
+          // F1：目前造型與去背圖快取（每幀讀一次，避免迴圈內重取狀態）
+          const activeGlyph = window.appState.particleGlyph;
+          const glyphSprite = window.appState.customCutoutSprite;
 
           // Batch Render Particles: 3-Pass Z-Depth Occlusion in 3D Mode (Back -> Mid -> Front + Specular Highlights)
           if (is3DShapeMode) {
@@ -8416,8 +10330,8 @@
               for (let i = 0; i < groupLen; i++) {
                 const p = group[i];
                 if (p.zDepth <= 28) continue;
-                const sz = (p.renderSize || p.size) * 0.92;
-                ctx.fillRect(p.x - sz * 0.5, p.y - sz * 0.5, sz, sz);
+                const sz = particleRenderSize(p) * 0.92;
+                drawParticleGlyph(activeGlyph, p.x, p.y, sz * 0.5, glyphSprite);
               }
             }
             // Pass 2: Mid Volume Layer (-28 <= zDepth <= 28)
@@ -8429,8 +10343,8 @@
               for (let i = 0; i < groupLen; i++) {
                 const p = group[i];
                 if (p.zDepth < -28 || p.zDepth > 28) continue;
-                const sz = (p.renderSize || p.size) * (window.appState.additiveGlow ? Math.min(1.3, window.appState.bloomStrength) : 1.0);
-                ctx.fillRect(p.x - sz * 0.5, p.y - sz * 0.5, sz, sz);
+                const sz = particleRenderSize(p) * (window.appState.additiveGlow ? Math.min(1.3, window.appState.bloomStrength) : 1.0);
+                drawParticleGlyph(activeGlyph, p.x, p.y, sz * 0.5, glyphSprite);
               }
             }
             // Pass 3: Near Foreground Layer (zDepth < -28) + White-Hot Specular Core Highlights
@@ -8445,8 +10359,8 @@
               for (let i = 0; i < groupLen; i++) {
                 const p = group[i];
                 if (p.zDepth >= -28) continue;
-                const sz = (p.renderSize || p.size) * (window.appState.additiveGlow ? window.appState.bloomStrength : 1.0);
-                ctx.fillRect(p.x - sz * 0.5, p.y - sz * 0.5, sz, sz);
+                const sz = particleRenderSize(p) * (window.appState.additiveGlow ? window.appState.bloomStrength : 1.0);
+                drawParticleGlyph(activeGlyph, p.x, p.y, sz * 0.5, glyphSprite);
               }
             }
             // Specular highlight pass for closest 3D surface vertices
@@ -8469,7 +10383,7 @@
               ctx.fillStyle = color;
               for (let i = 0; i < groupLen; i += renderStep) {
                 const p = group[i];
-                const sz = (p.renderSize || p.size) * (window.appState.additiveGlow ? window.appState.bloomStrength * glowMul : 1.0);
+                const sz = particleRenderSize(p) * (window.appState.additiveGlow ? window.appState.bloomStrength * glowMul : 1.0);
                 if (p.speed > 3.2) {
                   const stretchX = Math.min(sz * 2.4, Math.abs(p.vx) * 0.65);
                   const stretchY = Math.min(sz * 2.4, Math.abs(p.vy) * 0.65);
@@ -8480,12 +10394,15 @@
                     sz + stretchY
                   );
                 } else {
-                  ctx.fillRect(p.x - sz * 0.5, p.y - sz * 0.5, sz, sz);
+                  drawParticleGlyph(activeGlyph, p.x, p.y, sz * 0.5, glyphSprite);
                 }
               }
             }
           }
         }
+
+        // F4：視覺效果後處理（紅藍立體 / 色差透鏡 / 速度向量；預設全關）
+        drawVisualEffectPass();
 
         if (viewW === 0 || viewH === 0) handleResize();
         animationFrameId = requestAnimationFrame(tick);
