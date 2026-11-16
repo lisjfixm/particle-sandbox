@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v7.1 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v7.2 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -99,18 +99,57 @@
         min-width: 40px;
         min-height: 40px;
       }
+      /* v7.2：分類 pill 與返回鈕觸控目標 ≥40px */
+      .mode-cat-btn, .shape-cat-btn {
+        min-height: 40px;
+      }
     }
 
-    /* 行動裝置 Dock：模式按鈕單列橫滑，不壓縮成網格 */
+    /* v7.2：長清單垂直捲動（觸控慣性捲動） */
+    .v72-scroll-y {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .v72-scroll-y::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 行動裝置 Dock：模式按鈕換列排列、容器內垂直捲動，不壓成單列橫滑 */
+    #main-dock-nav {
+      flex-wrap: wrap;
+    }
     #main-dock-nav .mode-btn {
-      flex-shrink: 0;
-      min-width: 64px;
+      flex-shrink: 1;
+      min-width: 0;
+      min-height: 40px;
     }
     @media (min-width: 640px) {
       #main-dock-nav .mode-btn {
         flex-shrink: 1;
         min-width: 0;
       }
+    }
+
+    /* v7.2：造型模型家族分組小標題 */
+    .shape-family-header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.35rem 0.25rem 0.15rem;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(251, 191, 36, 0.85);
+      text-transform: uppercase;
+    }
+    .shape-family-header .shape-family-count {
+      font-family: ui-monospace, monospace;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 500;
     }
 
     .ui-layer {
@@ -534,7 +573,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB71-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB72-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -547,7 +586,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB46- / PSB50- / PSB65- / PSB70- / PSB71- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -742,7 +781,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.1</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.2</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -1182,7 +1221,7 @@
         </div>
 
         <!-- Shapes Sub-panel (20 Mathematical Geometries + Collapsible 3D Controls) -->
-        <div id="sub-panel-shapes" class="hidden w-full max-w-2xl glass-panel rounded-2xl p-3 flex flex-col gap-2 transition-all interactive-el">
+        <div id="sub-panel-shapes" class="hidden w-full max-w-2xl glass-panel rounded-2xl p-3 flex flex-col gap-2 transition-all interactive-el max-h-[64vh] v72-scroll-y">
           <div class="flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center gap-2">
               <span class="text-[11px] text-white/70 uppercase tracking-wider font-semibold" data-i18n="selectShape">選擇幾何與數學圖形</span>
@@ -1209,7 +1248,14 @@
             <button data-shape-cat-btn="spiral" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatSpiral">自然螺旋 (5)</button>
             <button data-shape-cat-btn="topology" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatTopology">高維拓撲 (9)</button>
           </div>
-          <div id="shapes-grid-container" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5">
+          <!-- v7.2 造型兩層子選單：第二層標題列（返回 / 分類標題 / 計數） -->
+          <div id="shape-submenu-header" class="hidden w-full flex items-center gap-2 px-1">
+            <button id="btn-shape-back" class="interactive-el flex items-center gap-1 min-h-[40px] px-2.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all" data-i18n="backToCategories">← 返回分類</button>
+            <span id="shape-submenu-title" class="text-[11px] font-semibold text-amber-200 truncate"></span>
+            <span id="shape-submenu-count" class="ml-auto font-mono text-[10px] text-white/45"></span>
+          </div>
+          <div id="shape-menu-hint" class="w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="shapeMenuHint">請選擇上方分類檢視圖形</div>
+          <div id="shapes-grid-container" class="hidden grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 max-h-[44vh] v72-scroll-y pb-1">
             <button id="shape-circle" data-shape-cat="basic" class="shape-btn bg-blue-600 border-blue-500 border text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCircle">圓形</button>
             <button id="shape-square" data-shape-cat="basic" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSquare">正方形</button>
             <button id="shape-star" data-shape-cat="basic" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeStar">星形</button>
@@ -1230,6 +1276,7 @@
             <button id="shape-mobius" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeMobius">莫比烏斯</button>
             <button id="shape-catenoid" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCatenoid">懸鏈曲面</button>
             <button id="shape-trefoil" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTrefoil">三葉結</button>
+            <div class="shape-family-header hidden" data-shape-family="legacy"><span data-i18n="shapeFamilyLegacy">既有模型</span><span class="shape-family-count"></span></div>
             <button id="shape-saturn" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSaturn">土星環</button>
             <button id="shape-spaceship" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSpaceship">星際戰艦</button>
             <button id="shape-dragon" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeDragon">機械神龍</button>
@@ -1254,6 +1301,7 @@
             <button id="shape-toriiGate" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeToriiGate">鳥居</button>
             <button id="shape-stellarator" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeStellarator">仿星器線圈</button>
             <button id="shape-calabiYau" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCalabiYau">卡拉比-丘流形</button>
+            <div class="shape-family-header hidden" data-shape-family="polyhedron"><span data-i18n="shapeFamilyPolyhedron">多面體</span><span class="shape-family-count"></span></div>
             <button id="shape-pyramid" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapePyramid">金字塔</button>
             <button id="shape-diamond" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeDiamond">鑽石殼</button>
             <button id="shape-octahedron" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeOctahedron">正八面體</button>
@@ -1263,8 +1311,10 @@
             <button id="shape-origamiCrane" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeOrigamiCrane">摺紙仙鶴</button>
             <button id="shape-sierpinskiTet" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSierpinskiTet">謝爾賓斯基四面體</button>
             <button id="shape-stellaOctangula" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeStellaOctangula">星形八面體</button>
+            <div class="shape-family-header hidden" data-shape-family="goldenSphere"><span data-i18n="shapeFamilyGoldenSphere">黃金球體</span><span class="shape-family-count"></span></div>
             <button id="shape-galaxy3d" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeGalaxy3d">三維星系</button>
             <button id="shape-gombocMono" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeGombocMono">單穩體</button>
+            <div class="shape-family-header hidden" data-shape-family="ringSet"><span data-i18n="shapeFamilyRingSet">環帶組</span><span class="shape-family-count"></span></div>
             <button id="shape-crown" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCrown">王冠環</button>
             <button id="shape-helm" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeHelm">舵輪</button>
             <button id="shape-compass3d" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCompass3d">三維星盤</button>
@@ -1276,18 +1326,22 @@
             <button id="shape-lotusMandala" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeLotusMandala">蓮瓣曼陀羅</button>
             <button id="shape-particleCollider" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeParticleCollider">粒子對撞環</button>
             <button id="shape-celestialArmillary" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCelestialArmillary">渾天儀</button>
+            <div class="shape-family-header hidden" data-shape-family="helixPair"><span data-i18n="shapeFamilyHelixPair">螺旋成對</span><span class="shape-family-count"></span></div>
             <button id="shape-tornado" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTornado">龍捲螺旋</button>
             <button id="shape-doubleMobius" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeDoubleMobius">雙莫比烏斯帶</button>
+            <div class="shape-family-header hidden" data-shape-family="knotWire"><span data-i18n="shapeFamilyKnotWire">線框結</span><span class="shape-family-count"></span></div>
             <button id="shape-sword" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSword">寶劍骨架</button>
             <button id="shape-violin" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeViolin">提琴骨架</button>
             <button id="shape-celticKnot" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCelticKnot">凱爾特結</button>
             <button id="shape-penroseTri" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapePenroseTri">不可能三角</button>
+            <div class="shape-family-header hidden" data-shape-family="hollowShell"><span data-i18n="shapeFamilyHollowShell">中空殼體</span><span class="shape-family-count"></span></div>
             <button id="shape-shield" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeShield">紋章盾牌</button>
             <button id="shape-bell" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeBell">鐘形旋殼</button>
             <button id="shape-lantern" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeLantern">長圓燈籠</button>
             <button id="shape-bathysphere" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeBathysphere">深海潛水鐘</button>
             <button id="shape-sphericalTokamak" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSphericalTokamak">球體托卡馬克</button>
             <button id="shape-radioTelescope" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeRadioTelescope">射電望遠鏡碟</button>
+            <div class="shape-family-header hidden" data-shape-family="paramSurface"><span data-i18n="shapeFamilyParamSurface">參數曲面</span><span class="shape-family-count"></span></div>
             <button id="shape-wavegrid" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeWavegrid">波浪網格面</button>
             <button id="shape-cylinder" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCylinder">實心柱面</button>
             <button id="shape-cone" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCone">雙錐旋成體</button>
@@ -1300,6 +1354,7 @@
             <button id="shape-schwarzP" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSchwarzP">施瓦茨 P 曲面</button>
             <button id="shape-oloidRoller" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeOloidRoller">奧洛伊德滾子</button>
             <button id="shape-sydneyOpera" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSydneyOpera">雪梨歌劇院帆頂</button>
+            <div class="shape-family-header hidden" data-shape-family="spiralCluster"><span data-i18n="shapeFamilySpiralCluster">螺旋簇</span><span class="shape-family-count"></span></div>
             <button id="shape-lotus" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeLotus">蓮花簇</button>
             <button id="shape-shell" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeShell">鸚鵡螺殼</button>
             <button id="shape-mushroom" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeMushroom">傘蕈簇</button>
@@ -1309,6 +1364,7 @@
             <button id="shape-nautilusMatrix" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeNautilusMatrix">鸚鵡螺盤層</button>
             <button id="shape-cherryBlossomTree" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCherryBlossomTree">櫻花樹</button>
             <button id="shape-origamiLotus" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeOrigamiLotus">摺紙蓮瓣</button>
+            <div class="shape-family-header hidden" data-shape-family="latticeGrid"><span data-i18n="shapeFamilyLatticeGrid">桁架格網</span><span class="shape-family-count"></span></div>
             <button id="shape-pagoda" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapePagoda">多層寶塔</button>
             <button id="shape-parthenon" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeParthenon">帕特農柱廊</button>
             <button id="shape-issStation" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeIssStation">太空站桁架</button>
@@ -1317,6 +1373,7 @@
             <button id="shape-eiffelLattice" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeEiffelLattice">艾菲爾桁架塔</button>
             <button id="shape-pagodaFive" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapePagodaFive">五重塔</button>
             <button id="shape-toriiThousand" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeToriiThousand">千本鳥居</button>
+            <div class="shape-family-header hidden" data-shape-family="torusKnot"><span data-i18n="shapeFamilyTorusKnot">環面扭結</span><span class="shape-family-count"></span></div>
             <button id="shape-torusknot" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTorusknot">環面結</button>
             <button id="shape-hopfLink" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeHopfLink">霍普夫連環</button>
             <button id="shape-alexanderHorned" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeAlexanderHorned">亞歷山大角球</button>
@@ -1464,7 +1521,15 @@
             </div>
           </div>
 
-          <nav id="main-dock-nav" class="w-full glass-panel rounded-3xl p-1.5 flex sm:grid sm:grid-cols-8 xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-1 interactive-el transition-all overflow-x-auto no-scrollbar">
+          <!-- v7.2 模式兩層子選單：第二層標題列（返回 / 分類標題 / 計數） -->
+          <div id="mode-submenu-header" class="hidden w-full flex items-center gap-2 px-1">
+            <button id="btn-mode-back" class="interactive-el flex items-center gap-1 min-h-[40px] px-2.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all" data-i18n="backToCategories">← 返回分類</button>
+            <span id="mode-submenu-title" class="text-[11px] font-semibold text-blue-200 truncate"></span>
+            <span id="mode-submenu-count" class="ml-auto font-mono text-[10px] text-white/45"></span>
+          </div>
+          <div id="mode-menu-hint" class="w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="modeMenuHint">請選擇上方分類檢視模式</div>
+
+          <nav id="main-dock-nav" class="hidden w-full glass-panel rounded-3xl p-1.5 flex sm:grid sm:grid-cols-8 xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-1 interactive-el transition-all max-h-[50vh] v72-scroll-y pb-1">
             <button id="mode-pull" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-blue-400 bg-blue-500/15 border border-blue-500/30 transition-all">
               <svg class="icon-svg-md"><use href="#icon-magnet"/></svg>
               <span class="text-[10px] font-bold tracking-wider" data-i18n="modePull">吸引</span>
@@ -1938,7 +2003,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.1</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.2</span>
         </div>
       </div>
     </div>
@@ -1969,6 +2034,8 @@
       subPanelMinimized: false,
       activeModeCategory: 'all', // 'all', 'force', 'nature', 'audio', 'media'
       activeShapeCategory: 'all', // 'all', 'basic', 'spiral', 'topology', 'models'
+      modeSubmenuOpen: false, // v7.2：模式兩層子選單第二層是否攤開
+      shapeSubmenuOpen: false, // v7.2：造型兩層子選單第二層是否攤開
       brushRadius: 245,
       brushOverride: 'default', // 'default', 'pull', 'push', 'vortex', 'rainbow', 'fountain'
       mirrorSymmetry: 1, // 1 (OFF), 2, 4, 6
@@ -3211,6 +3278,8 @@
       subPanelMinimized: false,
       activeModeCategory: 'all',
       activeShapeCategory: 'all',
+      modeSubmenuOpen: false,
+      shapeSubmenuOpen: false,
       brushRadius: 245,
       brushOverride: 'default',
       mirrorSymmetry: 1,
@@ -3646,7 +3715,7 @@
         acCopyBtn: '複製',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB46- / PSB50- / PSB65- / PSB70- / PSB71- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3662,7 +3731,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB46- / PSB50- / PSB65- / PSB70- / PSB71- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -3914,7 +3983,21 @@
         toastUndoEmpty: '沒有可還原的步驟', toastRedoEmpty: '沒有可重做的步驟',
         keyCmdPalette: '開啟指令面板 (Ctrl+K)',
         statusPaused: '已暫停',
-        statusSlowmo: '慢動作 0.25x'
+        statusSlowmo: '慢動作 0.25x',
+        backToCategories: '← 返回分類',
+        modeMenuHint: '請選擇上方分類檢視模式',
+        shapeMenuHint: '請選擇上方分類檢視圖形',
+        shapeFamilyLegacy: '既有模型',
+        shapeFamilyPolyhedron: '多面體',
+        shapeFamilyGoldenSphere: '黃金球體',
+        shapeFamilyRingSet: '環帶組',
+        shapeFamilyHelixPair: '螺旋成對',
+        shapeFamilyKnotWire: '線框結',
+        shapeFamilyHollowShell: '中空殼體',
+        shapeFamilyParamSurface: '參數曲面',
+        shapeFamilySpiralCluster: '螺旋簇',
+        shapeFamilyLatticeGrid: '桁架格網',
+        shapeFamilyTorusKnot: '環面扭結'
       },
       'zh-Hans': {
         label: '简',
@@ -4283,7 +4366,7 @@
         acCopyBtn: '复制',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB46- / PSB50- / PSB65- / PSB70- / PSB71- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4299,7 +4382,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB46- / PSB50- / PSB65- / PSB70- / PSB71- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4551,7 +4634,21 @@
         toastUndoEmpty: '没有可还原的步骤', toastRedoEmpty: '没有可重做的步骤',
         keyCmdPalette: '开启指令面板 (Ctrl+K)',
         statusPaused: '已暂停',
-        statusSlowmo: '慢动作 0.25x'
+        statusSlowmo: '慢动作 0.25x',
+        backToCategories: '← 返回分类',
+        modeMenuHint: '请选择上方分类查看模式',
+        shapeMenuHint: '请选择上方分类查看图形',
+        shapeFamilyLegacy: '既有模型',
+        shapeFamilyPolyhedron: '多面体',
+        shapeFamilyGoldenSphere: '黄金球体',
+        shapeFamilyRingSet: '环带组',
+        shapeFamilyHelixPair: '螺旋成对',
+        shapeFamilyKnotWire: '线框结',
+        shapeFamilyHollowShell: '中空壳体',
+        shapeFamilyParamSurface: '参数曲面',
+        shapeFamilySpiralCluster: '螺旋簇',
+        shapeFamilyLatticeGrid: '桁架格网',
+        shapeFamilyTorusKnot: '环面扭结'
       },
       'en': {
         label: 'EN',
@@ -4920,7 +5017,7 @@
         acCopyBtn: 'Copy',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB46- / PSB50- / PSB65- / PSB70- / PSB71- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -4936,7 +5033,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB46- / PSB50- / PSB65- / PSB70- / PSB71- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5188,7 +5285,21 @@
         toastUndoEmpty: 'Nothing to undo', toastRedoEmpty: 'Nothing to redo',
         keyCmdPalette: 'Open command palette (Ctrl+K)',
         statusPaused: 'Paused',
-        statusSlowmo: 'Slow Motion 0.25x'
+        statusSlowmo: 'Slow Motion 0.25x',
+        backToCategories: '← Back to Categories',
+        modeMenuHint: 'Pick a category above to browse modes',
+        shapeMenuHint: 'Pick a category above to browse shapes',
+        shapeFamilyLegacy: 'Legacy Models',
+        shapeFamilyPolyhedron: 'Polyhedron',
+        shapeFamilyGoldenSphere: 'Golden Sphere',
+        shapeFamilyRingSet: 'Ring Set',
+        shapeFamilyHelixPair: 'Helix Pair',
+        shapeFamilyKnotWire: 'Knot Wire',
+        shapeFamilyHollowShell: 'Hollow Shell',
+        shapeFamilyParamSurface: 'Parametric Surface',
+        shapeFamilySpiralCluster: 'Spiral Cluster',
+        shapeFamilyLatticeGrid: 'Lattice Grid',
+        shapeFamilyTorusKnot: 'Torus Knot'
       },
       'ja': {
         label: '日',
@@ -5557,7 +5668,7 @@
         acCopyBtn: 'コピー',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB46- / PSB50- / PSB65- / PSB70- / PSB71- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5573,7 +5684,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB46- / PSB50- / PSB65- / PSB70- / PSB71- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -5825,7 +5936,21 @@
         toastUndoEmpty: '戻す操作がありません', toastRedoEmpty: 'やり直す操作がありません',
         keyCmdPalette: 'コマンドパレットを開く (Ctrl+K)',
         statusPaused: '一時停止中',
-        statusSlowmo: 'スローモーション 0.25x'
+        statusSlowmo: 'スローモーション 0.25x',
+        backToCategories: '← カテゴリーへ戻る',
+        modeMenuHint: '上のカテゴリーを選択してモードを表示',
+        shapeMenuHint: '上のカテゴリーを選択して図形を表示',
+        shapeFamilyLegacy: 'レガシーモデル',
+        shapeFamilyPolyhedron: '多面体',
+        shapeFamilyGoldenSphere: '黄金球',
+        shapeFamilyRingSet: 'リングセット',
+        shapeFamilyHelixPair: 'ヘリックス',
+        shapeFamilyKnotWire: '結び目ワイヤー',
+        shapeFamilyHollowShell: '中空シェル',
+        shapeFamilyParamSurface: 'パラメトリック曲面',
+        shapeFamilySpiralCluster: '螺旋クラスター',
+        shapeFamilyLatticeGrid: 'ラティス格子',
+        shapeFamilyTorusKnot: 'トーラス結び目'
       }
     };
 
@@ -6513,7 +6638,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v7.1-${Date.now()}.csv`;
+      a.download = `particle-data-v7.2-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -9670,7 +9795,9 @@
     }
 
     function syncShapeButtonsUI() {
-      const activeCat = window.appState.activeShapeCategory || 'all';
+      const st = window.appState;
+      const activeCat = st.activeShapeCategory || 'all';
+      const open = !!st.shapeSubmenuOpen;
       const shapeCatBtns = document.querySelectorAll('.shape-cat-btn');
       shapeCatBtns.forEach(btn => {
         const cat = btn.getAttribute('data-shape-cat-btn');
@@ -9681,37 +9808,69 @@
         }
       });
 
+      const header = document.getElementById('shape-submenu-header');
+      const hint = document.getElementById('shape-menu-hint');
       const shapesGrid = document.getElementById('shapes-grid-container');
+
+      // v7.2 兩層狀態機：未攤開時隱藏網格與標題列，顯示空狀態提示
+      if (header) header.classList.toggle('hidden', !open);
+      if (hint) hint.classList.toggle('hidden', open);
+      if (shapesGrid) shapesGrid.classList.toggle('hidden', !open);
+
       if (shapesGrid) {
-        if (activeCat === 'all') {
-          shapesGrid.className = 'grid grid-cols-4 sm:grid-cols-7 md:grid-cols-10 gap-1.5 max-h-36 overflow-y-auto no-scrollbar';
-        } else if (activeCat === 'models') {
-          shapesGrid.className = 'grid grid-cols-4 sm:grid-cols-8 gap-1.5';
-        } else if (activeCat === 'basic') {
-          shapesGrid.className = 'grid grid-cols-3 sm:grid-cols-6 gap-1.5';
-        } else if (activeCat === 'spiral') {
-          shapesGrid.className = 'grid grid-cols-3 sm:grid-cols-5 gap-1.5';
-        } else {
-          shapesGrid.className = 'grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-1.5';
-        }
+        const layout = activeCat === 'all' ? 'grid grid-cols-4 sm:grid-cols-7 md:grid-cols-10 gap-1.5'
+          : activeCat === 'models' ? 'grid grid-cols-4 sm:grid-cols-8 gap-1.5'
+          : activeCat === 'basic' ? 'grid grid-cols-3 sm:grid-cols-6 gap-1.5'
+          : activeCat === 'spiral' ? 'grid grid-cols-3 sm:grid-cols-5 gap-1.5'
+          : 'grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-1.5';
+        shapesGrid.className = layout + ' max-h-[44vh] v72-scroll-y pb-1' + (open ? '' : ' hidden');
       }
 
+      // 家族歸屬：註冊表內取 family，其餘舊模型歸 legacy
+      const famOf = (key) => (SHAPE_GENERATOR_REGISTRY[key] && SHAPE_GENERATOR_REGISTRY[key].family) || 'legacy';
+      const famCount = {};
+      let visibleCount = 0;
       const shapeButtons = document.querySelectorAll('.shape-btn');
       shapeButtons.forEach(b => {
         const sKey = b.id.replace('shape-', '');
         const sCat = b.getAttribute('data-shape-cat');
-        const isVisible = (activeCat === 'all' || sCat === activeCat);
+        const isVisible = open && (activeCat === 'all' || sCat === activeCat);
+        if (isVisible) {
+          visibleCount++;
+          const fam = famOf(sKey);
+          famCount[fam] = (famCount[fam] || 0) + 1;
+        }
         const hiddenClass = isVisible ? '' : ' hidden';
-        if (sKey === window.appState.activeShape) {
+        if (sKey === st.activeShape) {
           b.className = 'shape-btn bg-blue-600 border-blue-500 border text-white py-1.5 rounded-lg text-xs font-medium transition-all' + hiddenClass;
         } else {
           b.className = 'shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all' + hiddenClass;
         }
       });
+
+      // 模型家族分組標題：僅 models 分類攤開時顯示，其餘隱藏；不做第三層導覽
+      const showFamilies = open && activeCat === 'models';
+      document.querySelectorAll('.shape-family-header').forEach(h => {
+        const fam = h.getAttribute('data-shape-family');
+        const n = famCount[fam] || 0;
+        h.classList.toggle('hidden', !(showFamilies && n > 0));
+        const cnt = h.querySelector('.shape-family-count');
+        if (cnt) cnt.textContent = `(${n})`;
+      });
+
+      // 子菜單標題列：分類標題取作用中 pill 文字，計數為目前可見項目數
+      if (header) {
+        const titleEl = document.getElementById('shape-submenu-title');
+        const countEl = document.getElementById('shape-submenu-count');
+        const activePill = document.querySelector(`.shape-cat-btn[data-shape-cat-btn="${activeCat}"]`);
+        if (titleEl) titleEl.textContent = activePill ? activePill.textContent : '';
+        if (countEl) countEl.textContent = `(${visibleCount})`;
+      }
+
       const btnShapeOutline = document.getElementById('btn-shape-outline');
       const btnShapeFill = document.getElementById('btn-shape-fill');
       if (btnShapeOutline && btnShapeFill) {
-        if (window.appState.shapeFilled) {
+        if (st.shapeFilled) {
           btnShapeFill.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all';
           btnShapeOutline.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
         } else {
@@ -9789,6 +9948,13 @@
       }
       if (typeof window.renderSavedActionCodes === 'function') {
         window.renderSavedActionCodes();
+      }
+      // v7.2：語言切換後刷新造型子菜單標題/計數/家族標題；模式標題同步作用中 pill 文字
+      if (typeof syncShapeButtonsUI === 'function') syncShapeButtonsUI();
+      const mTitle = document.getElementById('mode-submenu-title');
+      if (mTitle) {
+        const mPill = document.querySelector(`.mode-cat-btn[data-mode-cat-btn="${window.appState.activeModeCategory || 'all'}"]`);
+        if (mPill) mTitle.textContent = mPill.textContent;
       }
       updateAnchorUI();
       if (typeof updateEngineControls === 'function') updateEngineControls();
@@ -10051,7 +10217,9 @@
       const modeCatButtons = document.querySelectorAll('.mode-cat-btn');
 
       function syncModeCategoryUI() {
-        const activeCat = window.appState.activeModeCategory || 'all';
+        const st = window.appState;
+        const activeCat = st.activeModeCategory || 'all';
+        const open = !!st.modeSubmenuOpen;
         modeCatButtons.forEach(btn => {
           const cat = btn.getAttribute('data-mode-cat-btn');
           if (cat === activeCat) {
@@ -10061,35 +10229,49 @@
           }
         });
 
+        const header = document.getElementById('mode-submenu-header');
+        const hint = document.getElementById('mode-menu-hint');
+        if (header) header.classList.toggle('hidden', !open);
+        if (hint) hint.classList.toggle('hidden', open);
+        if (mainDockNav) mainDockNav.classList.toggle('hidden', !open);
+
         if (mainDockNav) {
-          if (activeCat === 'all') {
-            mainDockNav.className = 'w-full glass-panel rounded-3xl p-1.5 grid grid-cols-4 sm:grid-cols-8 xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-1 interactive-el transition-all';
-          } else if (activeCat === 'force') {
-            mainDockNav.className = 'w-full max-w-xl glass-panel rounded-3xl p-1.5 grid grid-cols-5 gap-1.5 interactive-el transition-all';
-          } else if (activeCat === 'audio') {
-            mainDockNav.className = 'w-full max-w-md glass-panel rounded-3xl p-1.5 grid grid-cols-3 gap-1.5 interactive-el transition-all';
-          } else {
-            mainDockNav.className = 'w-full max-w-lg glass-panel rounded-3xl p-1.5 grid grid-cols-4 gap-1.5 interactive-el transition-all';
-          }
+          const layout = activeCat === 'all' ? 'w-full glass-panel rounded-3xl p-1.5 grid grid-cols-4 sm:grid-cols-8 xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-1 interactive-el transition-all'
+            : activeCat === 'force' ? 'w-full max-w-xl glass-panel rounded-3xl p-1.5 grid grid-cols-5 gap-1.5 interactive-el transition-all'
+            : activeCat === 'audio' ? 'w-full max-w-md glass-panel rounded-3xl p-1.5 grid grid-cols-3 gap-1.5 interactive-el transition-all'
+            : 'w-full max-w-lg glass-panel rounded-3xl p-1.5 grid grid-cols-4 gap-1.5 interactive-el transition-all';
+          mainDockNav.className = layout + ' max-h-[50vh] v72-scroll-y pb-1 flex-wrap' + (open ? '' : ' hidden');
         }
 
+        let visibleCount = 0;
         modeButtons.forEach(btn => {
           const mKey = btn.id.replace('mode-', '');
           const mCat = btn.getAttribute('data-mode-cat');
-          const isVisible = (activeCat === 'all' || mCat === activeCat);
+          const isVisible = open && (activeCat === 'all' || mCat === activeCat);
+          if (isVisible) visibleCount++;
           const hiddenClass = isVisible ? '' : ' hidden';
-          if (mKey === window.appState.activeMode) {
+          if (mKey === st.activeMode) {
             btn.className = 'mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-blue-400 bg-blue-500/15 border border-blue-500/30 transition-all' + hiddenClass;
           } else {
             btn.className = 'mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all' + hiddenClass;
           }
         });
+
+        // 子菜單標題列：分類標題取作用中 pill 文字，計數為目前可見項目數
+        if (header) {
+          const titleEl = document.getElementById('mode-submenu-title');
+          const countEl = document.getElementById('mode-submenu-count');
+          const activePill = document.querySelector(`.mode-cat-btn[data-mode-cat-btn="${activeCat}"]`);
+          if (titleEl) titleEl.textContent = activePill ? activePill.textContent : '';
+          if (countEl) countEl.textContent = `(${visibleCount})`;
+        }
       }
 
       modeCatButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           const cat = btn.getAttribute('data-mode-cat-btn');
           window.appState.activeModeCategory = cat;
+          window.appState.modeSubmenuOpen = true;
           syncModeCategoryUI();
           playProceduralSound('tap');
         });
@@ -10098,9 +10280,26 @@
       document.querySelectorAll('.shape-cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           window.appState.activeShapeCategory = btn.getAttribute('data-shape-cat-btn');
+          window.appState.shapeSubmenuOpen = true;
           syncShapeButtonsUI();
           playProceduralSound('tap');
         });
+      });
+
+      // v7.2 子菜單返回鈕：回到第一層空狀態，分類重設為 all
+      const btnModeBack = document.getElementById('btn-mode-back');
+      if (btnModeBack) btnModeBack.addEventListener('click', () => {
+        window.appState.modeSubmenuOpen = false;
+        window.appState.activeModeCategory = 'all';
+        syncModeCategoryUI();
+        playProceduralSound('tap');
+      });
+      const btnShapeBack = document.getElementById('btn-shape-back');
+      if (btnShapeBack) btnShapeBack.addEventListener('click', () => {
+        window.appState.shapeSubmenuOpen = false;
+        window.appState.activeShapeCategory = 'all';
+        syncShapeButtonsUI();
+        playProceduralSound('tap');
       });
 
       ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford',
@@ -10491,7 +10690,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 71,
+          v: 72,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -10546,9 +10745,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB71-${encoded}`;
+          return `PSB72-${encoded}`;
         } catch (e) {
-          return 'PSB71-DEFAULT';
+          return 'PSB72-DEFAULT';
         }
       }
 
@@ -10582,6 +10781,9 @@
       function syncAllUIControlsAfterActionCode() {
         const st = window.appState;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        // v7.2：預設集 / 秘技 / 解碼等外部路徑回到第一層空狀態，不保留子選單攤開
+        st.modeSubmenuOpen = false;
+        st.shapeSubmenuOpen = false;
         selectPalette(st.palette);
         syncSlidersUI();
         updateToggleStyle('btn-toggle-glow', 'state-glow', st.additiveGlow);
@@ -10849,9 +11051,9 @@
           return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB46- / PSB50- / PSB65- / PSB70- / PSB71-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -10924,8 +11126,14 @@
             } else {
               st.baseHueOverride = null;
             }
+            // v7.2：解碼後回到第一層空狀態，分類重設 all 並關閖子選單
+            st.activeModeCategory = 'all';
+            st.activeShapeCategory = 'all';
+            st.modeSubmenuOpen = false;
+            st.shapeSubmenuOpen = false;
             syncAllUIControlsAfterActionCode();
-            const versionLabel = codeVersion === 71 ? 'PSB71 State'
+            const versionLabel = codeVersion === 72 ? 'PSB72 State'
+              : codeVersion === 71 ? 'PSB71 State'
               : codeVersion === 70 ? 'PSB70 State'
               : codeVersion === 65 ? 'PSB65 State'
               : codeVersion === 50 ? 'PSB50 State'
@@ -12300,6 +12508,8 @@
         document.getElementById('btn-slowmo').className = 'glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center';
         window.appState.activeModeCategory = 'all';
         window.appState.activeShapeCategory = 'all';
+        window.appState.modeSubmenuOpen = false;
+        window.appState.shapeSubmenuOpen = false;
         syncModeCategoryUI();
         syncShapeButtonsUI();
         updateEngineControls();
@@ -12564,6 +12774,7 @@
         } else if (['1', '2', '3', '4', '5'].includes(e.key)) {
           const catMap = { '1': 'all', '2': 'force', '3': 'nature', '4': 'audio', '5': 'media' };
           window.appState.activeModeCategory = catMap[e.key];
+          window.appState.modeSubmenuOpen = true;
           if (window.appState.dockCollapsed) setDockCollapsed(false);
           syncModeCategoryUI();
           playProceduralSound('tap');
