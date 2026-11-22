@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v7.2 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v7.3 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -573,7 +573,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB72-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB73-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -586,7 +586,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -781,7 +781,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.2</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.3</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -1225,25 +1225,15 @@
           <div class="flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center gap-2">
               <span class="text-[11px] text-white/70 uppercase tracking-wider font-semibold" data-i18n="selectShape">選擇幾何與數學圖形</span>
-              <span id="cam-angle-badge" class="font-mono text-[10px] text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">360° Y:23° P:14°</span>
             </div>
             <div class="flex flex-wrap items-center gap-1 bg-white/5 p-0.5 rounded-lg border border-white/10">
-              <button id="btn-shape-orbit-drag" class="px-2 py-1 rounded-md text-[11px] font-medium bg-cyan-600/40 border border-cyan-400/40 text-cyan-200 transition-all" title="開啟後可在畫布上任意拖曳進行 360° 全景旋轉檢視，滾輪縮放大小" data-i18n="shapeOrbitOn">360° 視角：開</button>
-              <button id="btn-reset-camera" class="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/75 hover:text-white transition-all" title="重設 360° 視角與縮放" data-i18n="resetCamBtn">歸位</button>
-              <button id="btn-shape-outline" class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all" data-i18n="shapeOutline">輪廓線</button>
-              <button id="btn-shape-fill" class="px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="shapeFilled">實心填充</button>
-              <button id="btn-shape-3d" class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-purple-600/40 border border-purple-400/40 text-purple-200 transition-all" data-i18n="shape3D">3D 旋轉：開</button>
-              <button id="btn-shape-wireframe" class="px-2 py-1 rounded-md text-[11px] font-medium bg-emerald-600/40 border border-emerald-400/40 text-emerald-200 transition-all" title="顯示 3D 立體結構線框與透視底座" data-i18n="shapeWireOn">3D 骨架：開</button>
-              <button id="btn-fold-shape-advanced" class="px-2 py-1 rounded-md text-[11px] bg-white/5 hover:bg-white/15 text-white/80 border border-white/10 flex items-center gap-1 transition-all">
-                <svg id="icon-fold-shape" class="icon-svg-sm"><use href="#icon-chevron-down"/></svg>
-                <span data-i18n="shapeAdvBtn">微調</span>
-              </button>
+              <button id="btn-shape-outline" class="shape-outline-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all" data-i18n="shapeOutline">輪廓線</button>
+              <button id="btn-shape-fill" class="shape-fill-btn px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="shapeFilled">實心填充</button>
             </div>
           </div>
-          <!-- Shape Category Tabs (Includes New 3D Sculptural Models Category) -->
+          <!-- v7.3：形狀分類 Tabs（僅 20 個 2D/拓撲造型；91 個 3D 模型已移至 models3d 面板） -->
           <div id="shape-category-bar" class="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5">
             <button id="shape-cat-all" data-shape-cat-btn="all" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600/30 border border-blue-400/50 text-blue-200 transition-all whitespace-nowrap" data-i18n="shapeCatAll">全部</button>
-            <button data-shape-cat-btn="models" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 transition-all whitespace-nowrap" data-i18n="shapeCatModels">3D 模型 (91)</button>
             <button data-shape-cat-btn="basic" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatBasic">基礎幾何 (6)</button>
             <button data-shape-cat-btn="spiral" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatSpiral">自然螺旋 (5)</button>
             <button data-shape-cat-btn="topology" class="shape-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/75 hover:text-white transition-all whitespace-nowrap" data-i18n="shapeCatTopology">高維拓撲 (9)</button>
@@ -1276,6 +1266,31 @@
             <button id="shape-mobius" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeMobius">莫比烏斯</button>
             <button id="shape-catenoid" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCatenoid">懸鏈曲面</button>
             <button id="shape-trefoil" data-shape-cat="topology" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeTrefoil">三葉結</button>
+          </div>
+        </div>
+
+        <!-- 3D Models Sub-panel (91 Sculptural Models) -->
+        <div id="sub-panel-models3d" class="hidden w-full max-w-2xl glass-panel rounded-2xl p-3 flex flex-col gap-2 transition-all interactive-el max-h-[64vh] v72-scroll-y">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-white/70 uppercase tracking-wider font-semibold" data-i18n="models3dTitle">3D 模型藝廊</span>
+              <span id="models-count-badge" class="font-mono text-[10px] text-amber-200/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">(91)</span>
+              <span id="cam-angle-badge" class="font-mono text-[10px] text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">360° Y:23° P:14°</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-1 bg-white/5 p-0.5 rounded-lg border border-white/10">
+              <button id="btn-shape-orbit-drag" class="px-2 py-1 rounded-md text-[11px] font-medium bg-cyan-600/40 border border-cyan-400/40 text-cyan-200 transition-all" title="開啟後可在畫布上任意拖曳進行 360° 全景旋轉檢視，滾輪縮放大小" data-i18n="shapeOrbitOn">360° 視角：開</button>
+              <button id="btn-reset-camera" class="px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/75 hover:text-white transition-all" title="重設 360° 視角與縮放" data-i18n="resetCamBtn">歸位</button>
+              <button id="btn-models-outline" class="shape-outline-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all" data-i18n="shapeOutline">輪廓線</button>
+              <button id="btn-models-fill" class="shape-fill-btn px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="shapeFilled">實心填充</button>
+              <button id="btn-shape-3d" class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-purple-600/40 border border-purple-400/40 text-purple-200 transition-all" data-i18n="shape3D">3D 旋轉：開</button>
+              <button id="btn-shape-wireframe" class="px-2 py-1 rounded-md text-[11px] font-medium bg-emerald-600/40 border border-emerald-400/40 text-emerald-200 transition-all" title="顯示 3D 立體結構線框與透視底座" data-i18n="shapeWireOn">3D 骨架：開</button>
+              <button id="btn-fold-shape-advanced" class="px-2 py-1 rounded-md text-[11px] bg-white/5 hover:bg-white/15 text-white/80 border border-white/10 flex items-center gap-1 transition-all">
+                <svg id="icon-fold-shape" class="icon-svg-sm"><use href="#icon-chevron-down"/></svg>
+                <span data-i18n="shapeAdvBtn">微調</span>
+              </button>
+            </div>
+          </div>
+          <div id="models-grid-container" class="hidden grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 max-h-[44vh] v72-scroll-y pb-1">
             <div class="shape-family-header hidden" data-shape-family="legacy"><span data-i18n="shapeFamilyLegacy">既有模型</span><span class="shape-family-count"></span></div>
             <button id="shape-saturn" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSaturn">土星環</button>
             <button id="shape-spaceship" data-shape-cat="models" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-amber-200 py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSpaceship">星際戰艦</button>
@@ -1501,11 +1516,11 @@
           <div class="w-full flex flex-wrap items-center justify-between gap-1.5 px-1">
             <!-- Mode Category Filter Pills -->
             <div id="dock-category-bar" class="interactive-el glass-panel rounded-full p-1 flex items-center gap-1 overflow-x-auto no-scrollbar max-w-full">
-              <button data-mode-cat-btn="all" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600 text-white transition-all whitespace-nowrap" data-i18n="catAll">全部 (116)</button>
+              <button data-mode-cat-btn="all" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-600 text-white transition-all whitespace-nowrap" data-i18n="catAll">全部 (117)</button>
               <button data-mode-cat-btn="force" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catForce">力場物理 (38)</button>
               <button data-mode-cat-btn="nature" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catNature">自然流體 (46)</button>
               <button data-mode-cat-btn="audio" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catAudio">聲光慶典 (14)</button>
-              <button data-mode-cat-btn="media" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catMedia">幾何媒體 (18)</button>
+              <button data-mode-cat-btn="media" class="mode-cat-btn px-2.5 py-0.5 rounded-full text-[11px] font-medium text-white/75 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap" data-i18n="catMedia">幾何媒體 (19)</button>
             </div>
 
             <!-- Right Sub-panel & Dock Collapse Controls -->
@@ -1569,6 +1584,10 @@
             <button id="mode-shapes" data-mode-cat="media" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
               <svg class="icon-svg-md"><use href="#icon-shapes"/></svg>
               <span class="text-[10px] font-bold tracking-wider" data-i18n="modeShapes">形狀</span>
+            </button>
+            <button id="mode-models3d" data-mode-cat="media" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
+              <svg class="icon-svg-md"><use href="#icon-crystal"/></svg>
+              <span class="text-[10px] font-bold tracking-wider" data-i18n="modeModels3d">3D 模型</span>
             </button>
             <button id="mode-text" data-mode-cat="media" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-white/70 hover:text-white border border-transparent transition-all">
               <svg class="icon-svg-md"><use href="#icon-type"/></svg>
@@ -2003,7 +2022,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.2</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.3</span>
         </div>
       </div>
     </div>
@@ -2113,7 +2132,7 @@
 
     // --- v7.0 列舉白名單（動作碼解碼校驗用；後續波次新增項目直接擴充對應陣列即可）---
     const WHITELIST = {
-      modes: ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford',
+      modes: ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'models3d', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford',
         // --- v7.1 Wave 1：force 27（9 branch / 18 family）---
         'explode', 'orbit', 'maglevPro', 'springOsc', 'solarSim', 'superfluid', 'tokamak', 'gravitySlingshot', 'maxwellDemon',
         'magnet', 'kepler', 'spring', 'centrifuge', 'ferrofluid', 'plasma', 'entangle', 'glacier', 'acousticLev', 'doubleWave', 'fermiGas', 'coulombCrystal', 'penningTrap', 'magneticReconn', 'kerrBlackhole', 'diracMonopole', 'yukawaMeson', 'eulerDisk',
@@ -2143,6 +2162,25 @@
       qualityTiers: ['high', 'mid', 'low'],
       glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom']
     };
+
+    // v7.3：造型目標模式集合（2D 形狀 + 獨立 3D 模型藝廊共用同一套成形/快取/指標分支）
+    const isShapeTargetMode = (m) => m === 'shapes' || m === 'models3d';
+    // 20 個非模型舊造型；WHITELIST.shapes 其餘 91 個為 3D 模型
+    const NON_MODEL_SHAPES = new Set(['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil']);
+    const isModelShape = (key) => WHITELIST.shapes.includes(key) && !NON_MODEL_SHAPES.has(key);
+    const DEFAULT_MODEL_SHAPE = 'saturn';
+    const DEFAULT_SHAPE = 'circle';
+    // 依目前造型把模式路由到正確面板：模型 → models3d；2D 造型 → shapes
+    // 僅在目前已屬造型目標模式時校正；外部顯式選定的非造型模式（秘技/場景/預設）不被殘留造型覆蓋
+    function routeShapeMode() {
+      const st = window.appState;
+      if (!isShapeTargetMode(st.activeMode)) return;
+      if (isModelShape(st.activeShape)) {
+        st.activeMode = 'models3d';
+      } else if (st.activeMode === 'models3d') {
+        st.activeMode = 'shapes';
+      }
+    }
 
     // --- v7.1 Wave 1：模式物理家族註冊表（PORT-FAMILY 共用；參數逐模式固定，行為可區分）---
     const MODE_FAMILY_REGISTRY = {
@@ -3362,6 +3400,7 @@
           synth: '音律波紋',
           fireworks: '煙花慶典',
           shapes: '形狀',
+          models3d: '3D 模型',
           text: '文字',
           image: '媒體',
           galaxy: '星系碰撞',
@@ -3715,7 +3754,7 @@
         acCopyBtn: '複製',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3731,7 +3770,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -3758,11 +3797,11 @@
         quality_low: '低',
         webDist: '星網最大連線半徑',
         timeSpeed: '時空物理流速',
-        catAll: '全部 (116)',
+        catAll: '全部 (117)',
         catForce: '力場物理 (38)',
         catNature: '自然流體 (46)',
         catAudio: '聲光慶典 (14)',
-        catMedia: '幾何媒體 (18)',
+        catMedia: '幾何媒體 (19)',
         shapeCatAll: '全部',
         shapeCatBasic: '基礎幾何 (6)',
         shapeCatSpiral: '自然螺旋 (5)',
@@ -3937,6 +3976,8 @@
         modeSynth: '音律',
         modeFireworks: '煙花',
         modeShapes: '形狀',
+        modeModels3d: '3D 模型',
+        models3dTitle: '3D 模型藝廊',
         modeText: '文字',
         modeImage: '媒體',
         addAnchor: '引力錨點',
@@ -4013,6 +4054,7 @@
           synth: '音律波纹',
           fireworks: '烟花庆典',
           shapes: '形状',
+          models3d: '3D 模型',
           text: '文字',
           image: '媒体',
           galaxy: '星系碰撞',
@@ -4366,7 +4408,7 @@
         acCopyBtn: '复制',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4382,7 +4424,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4409,11 +4451,11 @@
         quality_low: '低',
         webDist: '星网最大连线半径',
         timeSpeed: '时空物理流速',
-        catAll: '全部 (116)',
+        catAll: '全部 (117)',
         catForce: '力场物理 (38)',
         catNature: '自然流体 (46)',
         catAudio: '声光庆典 (14)',
-        catMedia: '几何媒体 (18)',
+        catMedia: '几何媒体 (19)',
         shapeCatAll: '全部',
         shapeCatBasic: '基础几何 (6)',
         shapeCatSpiral: '自然螺旋 (5)',
@@ -4588,6 +4630,8 @@
         modeSynth: '音律',
         modeFireworks: '烟花',
         modeShapes: '形状',
+        modeModels3d: '3D 模型',
+        models3dTitle: '3D 模型艺廊',
         modeText: '文字',
         modeImage: '媒体',
         addAnchor: '引力锚点',
@@ -4664,6 +4708,7 @@
           synth: 'Synth Pad',
           fireworks: 'Fireworks',
           shapes: 'Shapes',
+          models3d: '3D Models',
           text: 'Text',
           image: 'Media',
           galaxy: 'Galactic Collision',
@@ -5017,7 +5062,7 @@
         acCopyBtn: 'Copy',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5033,7 +5078,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5060,11 +5105,11 @@
         quality_low: 'Low',
         webDist: 'Star Web Distance',
         timeSpeed: 'Simulation Speed',
-        catAll: 'All (116)',
+        catAll: 'All (117)',
         catForce: 'Force (38)',
         catNature: 'Nature (46)',
         catAudio: 'Audio & FX (14)',
-        catMedia: 'Geo & Media (18)',
+        catMedia: 'Geo & Media (19)',
         shapeCatAll: 'All',
         shapeCatBasic: 'Basic (6)',
         shapeCatSpiral: 'Spiral (5)',
@@ -5239,6 +5284,8 @@
         modeSynth: 'Synth',
         modeFireworks: 'Fireworks',
         modeShapes: 'Shapes',
+        modeModels3d: '3D Models',
+        models3dTitle: '3D Model Gallery',
         modeText: 'Text',
         modeImage: 'Media',
         addAnchor: 'Add Anchor',
@@ -5315,6 +5362,7 @@
           synth: 'シンセ音波',
           fireworks: '花火の宴',
           shapes: '図形幾何',
+          models3d: '3Dモデル',
           text: '文字マトリクス',
           image: 'メディア投影',
           galaxy: '銀河衝突',
@@ -5668,7 +5716,7 @@
         acCopyBtn: 'コピー',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5684,7 +5732,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -5711,11 +5759,11 @@
         quality_low: '低',
         webDist: '星網最大リンク半径',
         timeSpeed: '時空物理速度',
-        catAll: 'すべて (116)',
+        catAll: 'すべて (117)',
         catForce: '力場物理 (38)',
         catNature: '自然流体 (46)',
         catAudio: '音響・花火 (14)',
-        catMedia: '幾何・投影 (18)',
+        catMedia: '幾何・投影 (19)',
         shapeCatAll: 'すべて',
         shapeCatBasic: '基本幾何 (6)',
         shapeCatSpiral: '螺旋・軌道 (5)',
@@ -5890,6 +5938,8 @@
         modeSynth: '音律',
         modeFireworks: '花火',
         modeShapes: '形状',
+        modeModels3d: '3Dモデル',
+        models3dTitle: '3Dモデルギャラリー',
         modeText: '文字',
         modeImage: 'メディア',
         addAnchor: '重力アンカー',
@@ -6638,7 +6688,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v7.2-${Date.now()}.csv`;
+      a.download = `particle-data-v7.3-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -6875,7 +6925,7 @@
         const anchors = window.appState.anchors;
         const rScale = Math.max(0.25, (window.appState.brushRadius || 245) / 245);
         // v7.0 目標凝聚模式：錨點等持續性外來干擾豁免，不與吸附力對打（以模式判斷，不開新開關）
-        const isAttractMode = (mode === 'shapes' || mode === 'text' || mode === 'image');
+        const isAttractMode = (isShapeTargetMode(mode) || mode === 'text' || mode === 'image');
         // v7.1 Wave 1：家族力學共用作用域上下文（唯讀傳入，家族函式不回寫作用域變數）
         const famCtx = { force, chaos, colorChaos, rScale, timeTick, viewW, viewH, centerPoint, pIdx, dtScale, particles };
 
@@ -6924,7 +6974,7 @@
 
         // 3. Mode-specific simulation
         if (isAttractMode && this.targetX !== null) {
-          const is3DActive = (mode === 'shapes' && window.appState.shape3D);
+          const is3DActive = (isShapeTargetMode(mode) && window.appState.shape3D);
           // v7.0 唯讀每幀 2D 目標快取；快取缺條目時退回直接座標，不崩潰
           const t2 = (pIdx !== undefined && target2DCache[pIdx]) || null;
           let tx;
@@ -6935,7 +6985,7 @@
             this.zDepth = t2.z;
             this.depthNorm = t2.depthNorm;
           } else {
-            const sScale = (mode === 'shapes') ? (window.appState.shapeScale || 1.0) : 1.0;
+            const sScale = isShapeTargetMode(mode) ? (window.appState.shapeScale || 1.0) : 1.0;
             tx = this.targetX * sScale;
             ty = this.targetY * sScale;
             this.zDepth = 0;
@@ -6959,7 +7009,7 @@
             }
           }
 
-          const formationCenter = (brush === 'default' && !(mode === 'shapes' && window.appState.orbitDragMode))
+          const formationCenter = (brush === 'default' && !(isShapeTargetMode(mode) && window.appState.orbitDragMode))
             ? centerPoint
             : (window.appState.formationPos || { x: viewW * 0.5, y: viewH * 0.5 });
 
@@ -7004,7 +7054,7 @@
             this.vy += (Math.random() - 0.5) * jitterAmt * chaos;
           }
 
-          if ((mode === 'shapes' || mode === 'text') && this.shapeHue !== null) {
+          if ((isShapeTargetMode(mode) || mode === 'text') && this.shapeHue !== null) {
             this.targetHue = (this.shapeHue + timeTick * 0.25 * colorChaos) % 360;
           }
         } else if (mode === 'cymatics') {
@@ -7848,7 +7898,7 @@
 
         const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
         this.speed = speed;
-        const maxSpd = (mode === 'shapes' && window.appState.shape3D)
+        const maxSpd = (isShapeTargetMode(mode) && window.appState.shape3D)
           ? window.appState.maxSpeed * 4.2
           : (this.fireworkSpark > 0 ? window.appState.maxSpeed * 1.45 : window.appState.maxSpeed);
         if (speed > maxSpd) {
@@ -8066,7 +8116,7 @@
       const badge = document.getElementById('particle-count-badge');
       if (badge) badge.textContent = dict.particleBadge(particles.length);
 
-      if (window.appState.activeMode === 'shapes') {
+      if (isShapeTargetMode(window.appState.activeMode)) {
         updateParticleTargetsForShape(window.appState.activeShape);
       } else if (window.appState.activeMode === 'text') {
         updateParticleTargetsForText(window.appState.customText);
@@ -8095,11 +8145,11 @@
     function rebuildTarget2DCache(rotYCos, rotYSin, rotXCos, rotXSin) {
       const st = window.appState;
       const mode = st.activeMode;
-      const isAttract = (mode === 'shapes' || mode === 'text' || mode === 'image');
+      const isAttract = (isShapeTargetMode(mode) || mode === 'text' || mode === 'image');
       target2DCache.length = 0;
       if (!isAttract) { target2DDirty = false; return; }
-      const sScale = (mode === 'shapes') ? (st.shapeScale || 1.0) : 1.0;
-      const is3DActive = (mode === 'shapes' && st.shape3D);
+      const sScale = isShapeTargetMode(mode) ? (st.shapeScale || 1.0) : 1.0;
+      const is3DActive = (isShapeTargetMode(mode) && st.shape3D);
       const maxZSpan = Math.max(100, Math.min(viewW, viewH) * 0.31 * sScale);
       const n = particles.length;
       for (let i = 0; i < n; i++) {
@@ -9791,13 +9841,16 @@
     function syncShapeCatAllLabel() {
       const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
       const btn = document.getElementById('shape-cat-all');
-      if (btn) btn.textContent = `${dict.shapeCatAll} (${document.querySelectorAll('.shape-btn').length})`;
+      if (btn) btn.textContent = `${dict.shapeCatAll} (${document.querySelectorAll('#shapes-grid-container .shape-btn').length})`;
+      const modelsBadge = document.getElementById('models-count-badge');
+      if (modelsBadge) modelsBadge.textContent = `(${document.querySelectorAll('#models-grid-container .shape-btn').length})`;
     }
 
     function syncShapeButtonsUI() {
       const st = window.appState;
       const activeCat = st.activeShapeCategory || 'all';
       const open = !!st.shapeSubmenuOpen;
+      const inModels = st.activeMode === 'models3d';
       const shapeCatBtns = document.querySelectorAll('.shape-cat-btn');
       shapeCatBtns.forEach(btn => {
         const cat = btn.getAttribute('data-shape-cat-btn');
@@ -9811,34 +9864,41 @@
       const header = document.getElementById('shape-submenu-header');
       const hint = document.getElementById('shape-menu-hint');
       const shapesGrid = document.getElementById('shapes-grid-container');
+      const modelsGrid = document.getElementById('models-grid-container');
 
-      // v7.2 兩層狀態機：未攤開時隱藏網格與標題列，顯示空狀態提示
+      // v7.2 兩層狀態機：形狀網格未攤開時隱藏；模型網格隨 models3d 面板顯示
       if (header) header.classList.toggle('hidden', !open);
       if (hint) hint.classList.toggle('hidden', open);
       if (shapesGrid) shapesGrid.classList.toggle('hidden', !open);
+      if (modelsGrid) modelsGrid.classList.toggle('hidden', !inModels);
 
       if (shapesGrid) {
         const layout = activeCat === 'all' ? 'grid grid-cols-4 sm:grid-cols-7 md:grid-cols-10 gap-1.5'
-          : activeCat === 'models' ? 'grid grid-cols-4 sm:grid-cols-8 gap-1.5'
           : activeCat === 'basic' ? 'grid grid-cols-3 sm:grid-cols-6 gap-1.5'
           : activeCat === 'spiral' ? 'grid grid-cols-3 sm:grid-cols-5 gap-1.5'
           : 'grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-1.5';
         shapesGrid.className = layout + ' max-h-[44vh] v72-scroll-y pb-1' + (open ? '' : ' hidden');
       }
+      if (modelsGrid) {
+        modelsGrid.className = 'grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 max-h-[44vh] v72-scroll-y pb-1' + (inModels ? '' : ' hidden');
+      }
 
       // 家族歸屬：註冊表內取 family，其餘舊模型歸 legacy
       const famOf = (key) => (SHAPE_GENERATOR_REGISTRY[key] && SHAPE_GENERATOR_REGISTRY[key].family) || 'legacy';
       const famCount = {};
-      let visibleCount = 0;
+      let shapeVisibleCount = 0;
       const shapeButtons = document.querySelectorAll('.shape-btn');
       shapeButtons.forEach(b => {
         const sKey = b.id.replace('shape-', '');
         const sCat = b.getAttribute('data-shape-cat');
-        const isVisible = open && (activeCat === 'all' || sCat === activeCat);
+        const inModelGrid = !!b.closest('#models-grid-container');
+        const isVisible = inModelGrid
+          ? inModels
+          : (open && (activeCat === 'all' || sCat === activeCat));
         if (isVisible) {
-          visibleCount++;
           const fam = famOf(sKey);
           famCount[fam] = (famCount[fam] || 0) + 1;
+          if (!inModelGrid) shapeVisibleCount++;
         }
         const hiddenClass = isVisible ? '' : ' hidden';
         if (sKey === st.activeShape) {
@@ -9848,36 +9908,29 @@
         }
       });
 
-      // 模型家族分組標題：僅 models 分類攤開時顯示，其餘隱藏；不做第三層導覽
-      const showFamilies = open && activeCat === 'models';
+      // 模型家族分組標題：模型藝廊顯示時，有可見成員的家族才顯示
       document.querySelectorAll('.shape-family-header').forEach(h => {
         const fam = h.getAttribute('data-shape-family');
         const n = famCount[fam] || 0;
-        h.classList.toggle('hidden', !(showFamilies && n > 0));
+        h.classList.toggle('hidden', !(inModels && n > 0));
         const cnt = h.querySelector('.shape-family-count');
         if (cnt) cnt.textContent = `(${n})`;
       });
 
-      // 子菜單標題列：分類標題取作用中 pill 文字，計數為目前可見項目數
+      // 子菜單標題列：分類標題取作用中 pill 文字，計數為形狀網格目前可見項目數
       if (header) {
         const titleEl = document.getElementById('shape-submenu-title');
         const countEl = document.getElementById('shape-submenu-count');
         const activePill = document.querySelector(`.shape-cat-btn[data-shape-cat-btn="${activeCat}"]`);
         if (titleEl) titleEl.textContent = activePill ? activePill.textContent : '';
-        if (countEl) countEl.textContent = `(${visibleCount})`;
+        if (countEl) countEl.textContent = `(${shapeVisibleCount})`;
       }
 
-      const btnShapeOutline = document.getElementById('btn-shape-outline');
-      const btnShapeFill = document.getElementById('btn-shape-fill');
-      if (btnShapeOutline && btnShapeFill) {
-        if (st.shapeFilled) {
-          btnShapeFill.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all';
-          btnShapeOutline.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
-        } else {
-          btnShapeOutline.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all';
-          btnShapeFill.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
-        }
-      }
+      // 輪廓/填充：形狀面板與模型藝廊各有一對按鈕，同步樣式
+      const outlineActive = 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-blue-600 text-white transition-all';
+      const outlineIdle = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
+      document.querySelectorAll('.shape-outline-btn').forEach(b => { b.className = (st.shapeFilled ? outlineIdle : outlineActive); });
+      document.querySelectorAll('.shape-fill-btn').forEach(b => { b.className = (st.shapeFilled ? outlineActive : outlineIdle); });
       syncShapeCatAllLabel();
     }
 
@@ -10081,6 +10134,7 @@
 
       const modeButtons = document.querySelectorAll('.mode-btn');
       const subPanelShapes = document.getElementById('sub-panel-shapes');
+      const subPanelModels3d = document.getElementById('sub-panel-models3d');
       const subPanelText = document.getElementById('sub-panel-text');
       const subPanelImage = document.getElementById('sub-panel-image');
       const subPanelFireworks = document.getElementById('sub-panel-fireworks');
@@ -10093,10 +10147,11 @@
       const imgPreview = document.getElementById('img-preview');
       const videoPreview = document.getElementById('video-preview');
 
-      const MODES_WITH_SUBPANEL = new Set(['shapes', 'text', 'image', 'fireworks', 'cymatics']);
+      const MODES_WITH_SUBPANEL = new Set(['shapes', 'models3d', 'text', 'image', 'fireworks', 'cymatics']);
 
       function hideAllSubPanels() {
         subPanelShapes.classList.add('hidden');
+        subPanelModels3d.classList.add('hidden');
         subPanelText.classList.add('hidden');
         subPanelImage.classList.add('hidden');
         subPanelFireworks.classList.add('hidden');
@@ -10127,6 +10182,7 @@
         }
 
         if (mode === 'shapes') subPanelShapes.classList.remove('hidden');
+        else if (mode === 'models3d') subPanelModels3d.classList.remove('hidden');
         else if (mode === 'text') subPanelText.classList.remove('hidden');
         else if (mode === 'image') subPanelImage.classList.remove('hidden');
         else if (mode === 'fireworks') subPanelFireworks.classList.remove('hidden');
@@ -10158,12 +10214,23 @@
 
         subPanelSettings.classList.add('hidden');
 
+        // v7.3：2D 形狀面板走平面分支；3D 模型藝廊走立體分支；造型與面板歸屬對齊
+        if (newMode === 'models3d' && !isModelShape(window.appState.activeShape)) {
+          window.appState.activeShape = DEFAULT_MODEL_SHAPE;
+          window.appState.activeShapeCategory = 'models';
+        } else if (newMode === 'shapes' && isModelShape(window.appState.activeShape)) {
+          window.appState.activeShape = DEFAULT_SHAPE;
+          window.appState.activeShapeCategory = 'all';
+        }
+        if (newMode === 'shapes') window.appState.shape3D = false;
+        else if (newMode === 'models3d') window.appState.shape3D = true;
+
         for (let i = 0; i < particles.length; i++) {
           particles[i].vx += (Math.random() - 0.5) * 2.8;
           particles[i].vy += (Math.random() - 0.5) * 2.8;
           particles[i].fireworkSpark = 0;
           particles[i].settled = false;
-          if (newMode !== 'shapes' && newMode !== 'text' && newMode !== 'image') {
+          if (!isShapeTargetMode(newMode) && newMode !== 'text' && newMode !== 'image') {
             particles[i].targetX = null;
             particles[i].targetY = null;
             particles[i].targetColor = null;
@@ -10186,7 +10253,7 @@
 
         showModeSubPanel(newMode);
 
-        if (newMode === 'shapes') {
+        if (isShapeTargetMode(newMode)) {
           syncShapeButtonsUI();
           updateParticleTargetsForShape(window.appState.activeShape);
         } else if (newMode === 'text') {
@@ -10302,10 +10369,7 @@
         playProceduralSound('tap');
       });
 
-      ['pull', 'push', 'whirlpool', 'blackhole', 'flowfield', 'boids', 'cymatics', 'synth', 'fireworks', 'shapes', 'text', 'image', 'galaxy', 'antigravity', 'kaleidoscope', 'matrixrain', 'crystal', 'current', 'auroraBand', 'lorenz', 'rossler', 'pendulumWave', 'galtonBoard', 'phyllotaxis', 'brownian', 'convection', 'reactionDiffusion', 'fireflies', 'newtonsCradle', 'threeBody', 'clifford',
-        'explode', 'orbit', 'maglevPro', 'springOsc', 'solarSim', 'superfluid', 'tokamak', 'gravitySlingshot', 'maxwellDemon',
-        'magnet', 'kepler', 'spring', 'centrifuge', 'ferrofluid', 'plasma', 'entangle', 'glacier', 'acousticLev', 'doubleWave', 'fermiGas', 'coulombCrystal', 'penningTrap', 'magneticReconn', 'kerrBlackhole', 'diracMonopole', 'yukawaMeson', 'eulerDisk',
-        'wave', 'rain', 'snow', 'smoke', 'sand', 'meteor', 'prismOptics', 'lotusPond', 'rayleighTaylor', 'kelvinHelmholtz', 'benardCells', 'dandelionWind', 'ballLightning', 'supercellTornado', 'glacierCalving', 'geyserEruption', 'tidalBore', 'biolumBay', 'sandDunes', 'dna', 'vine', 'chemicals', 'pandemic', 'antColony', 'coral', 'bubbles', 'slimeMold', 'chainReaction', 'immuneDefense', 'hallEffect', 'atpSynthase', 'synapseFire', 'quorumSensing', 'myceliumNetwork', 'actionPotential', 'laser', 'cymatics3d', 'stringArt', 'mhdGenerator', 'pulsarBeam', 'moireFringes', 'harmonicLissajous', 'euclideanCircles', 'cymaticWater', 'qr', 'radar', 'svgPath', 'pixelDestruct', 'cosmicLensing', 'lagrangePoints', 'rocheLimit', 'fourierEpicycles', 'typhoonEye', 'hopfFibration', 'penroseTiling', 'hyperbolicPoincare', 'voronoiShatter', 'riemannZeta'].forEach(m => {
+      WHITELIST.modes.forEach(m => {
         const el = document.getElementById(`mode-${m}`);
         if (el) el.addEventListener('click', () => { captureUndoSnapshot(); switchMode(m); });
       });
@@ -10384,38 +10448,39 @@
           captureUndoSnapshot();
           const targetShape = btn.id.replace('shape-', '');
           window.appState.activeShape = targetShape;
-          if (btn.getAttribute('data-shape-cat') === 'models' && !window.appState.shape3D) {
-            window.appState.shape3D = true;
-            const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-            const b3d = document.getElementById('btn-shape-3d');
-            if (b3d) {
-              b3d.textContent = dict.shape3DOn;
-              b3d.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-purple-600/40 border border-purple-400/40 text-purple-200 transition-all';
-            }
+          const isModel = btn.getAttribute('data-shape-cat') === 'models';
+          window.appState.shape3D = isModel;
+          routeShapeMode();
+          const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+          const b3d = document.getElementById('btn-shape-3d');
+          if (b3d) {
+            b3d.textContent = window.appState.shape3D ? dict.shape3DOn : dict.shape3DOff;
+            b3d.className = window.appState.shape3D
+              ? 'px-2.5 py-1 rounded-md text-[11px] font-medium bg-purple-600/40 border border-purple-400/40 text-purple-200 transition-all'
+              : 'px-2.5 py-1 rounded-md text-[11px] font-medium text-white/70 hover:text-white transition-all';
           }
           playProceduralSound('change');
+          syncModeCategoryUI();
           syncShapeButtonsUI();
           updateParticleTargetsForShape(targetShape);
         });
       });
 
-      const btnShapeOutline = document.getElementById('btn-shape-outline');
-      const btnShapeFill = document.getElementById('btn-shape-fill');
       const btnShape3D = document.getElementById('btn-shape-3d');
 
-      btnShapeOutline.addEventListener('click', () => {
+      document.querySelectorAll('.shape-outline-btn').forEach(btn => btn.addEventListener('click', () => {
         window.appState.shapeFilled = false;
         syncShapeButtonsUI();
         updateParticleTargetsForShape(window.appState.activeShape);
         playProceduralSound('change');
-      });
+      }));
 
-      btnShapeFill.addEventListener('click', () => {
+      document.querySelectorAll('.shape-fill-btn').forEach(btn => btn.addEventListener('click', () => {
         window.appState.shapeFilled = true;
         syncShapeButtonsUI();
         updateParticleTargetsForShape(window.appState.activeShape);
         playProceduralSound('change');
-      });
+      }));
 
       const btnShapeOrbitDrag = document.getElementById('btn-shape-orbit-drag');
       const btnResetCamera = document.getElementById('btn-reset-camera');
@@ -10690,7 +10755,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 72,
+          v: 73,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -10745,9 +10810,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB72-${encoded}`;
+          return `PSB73-${encoded}`;
         } catch (e) {
-          return 'PSB72-DEFAULT';
+          return 'PSB73-DEFAULT';
         }
       }
 
@@ -10819,6 +10884,7 @@
         syncShapeButtonsUI();
         updateAnchorUI();
         syncParticleSettings();
+        routeShapeMode();
         switchMode(st.activeMode);
         if (outputActionCode) outputActionCode.value = generateCurrentActionCode();
       }
@@ -11051,9 +11117,9 @@
           return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -11132,7 +11198,8 @@
             st.modeSubmenuOpen = false;
             st.shapeSubmenuOpen = false;
             syncAllUIControlsAfterActionCode();
-            const versionLabel = codeVersion === 72 ? 'PSB72 State'
+            const versionLabel = codeVersion === 73 ? 'PSB73 State'
+              : codeVersion === 72 ? 'PSB72 State'
               : codeVersion === 71 ? 'PSB71 State'
               : codeVersion === 70 ? 'PSB70 State'
               : codeVersion === 65 ? 'PSB65 State'
@@ -11995,12 +12062,13 @@
         if (!WHITELIST.shapes.includes(shape)) return;
         window.appState.activeShape = shape;
         const btn = document.getElementById('shape-' + shape);
-        if (btn && btn.getAttribute('data-shape-cat') === 'models' && !window.appState.shape3D) {
-          window.appState.shape3D = true;
-        }
+        const isModel = (btn && btn.getAttribute('data-shape-cat') === 'models') || isModelShape(shape);
+        window.appState.shape3D = isModel;
+        window.appState.activeMode = isModel ? 'models3d' : 'shapes';
+        routeShapeMode();
         syncShapeButtonsUI();
         updateParticleTargetsForShape(shape);
-        switchMode('shapes');
+        switchMode(window.appState.activeMode);
       }
       function buildCommandItems() {
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -12078,7 +12146,7 @@
             b.className = 'palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all';
           }
         });
-        if (window.appState.activeMode === 'shapes') updateParticleTargetsForShape(window.appState.activeShape);
+        if (isShapeTargetMode(window.appState.activeMode)) updateParticleTargetsForShape(window.appState.activeShape);
         if (window.appState.activeMode === 'text') updateParticleTargetsForText(window.appState.customText);
       }
 
@@ -12293,7 +12361,7 @@
           syncShapeButtonsUI();
           st.particleCount = 3400;
           syncParticleSettings();
-          switchMode('shapes');
+          switchMode('models3d');
         } else if (scene === 'sceneJwst') {
           // 韋伯太空鏡：黑金 + 蜂巢鏡 3D
           selectPalette('gold');
@@ -12307,7 +12375,7 @@
           syncShapeButtonsUI();
           st.particleCount = 3400;
           syncParticleSettings();
-          switchMode('shapes');
+          switchMode('models3d');
         } else if (scene === 'sceneOrrery') {
           // 太陽系星儀：黑金 + 星儀 3D
           selectPalette('gold');
@@ -12321,7 +12389,7 @@
           syncShapeButtonsUI();
           st.particleCount = 2800;
           syncParticleSettings();
-          switchMode('shapes');
+          switchMode('models3d');
         } else if (scene === 'sceneInkland') {
           // 水墨山水卷：水墨銀灰 + 山水 3D，低輝光
           selectPalette('monochrome');
@@ -12335,7 +12403,7 @@
           syncShapeButtonsUI();
           st.particleCount = 3400;
           syncParticleSettings();
-          switchMode('shapes');
+          switchMode('models3d');
         }
         syncShape3DLabel();
       }
@@ -12400,7 +12468,7 @@
           if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'models';
           syncShapeButtonsUI();
           setCount(3400);
-          switchMode('shapes');
+          switchMode('models3d');
         }
         syncShape3DLabel();
       }
@@ -12434,7 +12502,7 @@
 
         if (chosenMode === 'shapes') {
           window.appState.activeShape = shapes[Math.floor(Math.random() * shapes.length)];
-          window.appState.shape3D = true;
+          window.appState.shape3D = false;
           if (window.appState.activeShapeCategory !== 'all') {
             const targetBtn = document.getElementById(`shape-${window.appState.activeShape}`);
             if (targetBtn) window.appState.activeShapeCategory = targetBtn.getAttribute('data-shape-cat') || 'all';
@@ -12938,12 +13006,12 @@
           }
 
           // Full 360° Orbit Drag in shapes mode when shape3D & orbitDragMode are active（單指拖曳才生效）
-          if (window.appState.pointers.size === 1 && window.appState.activeMode === 'shapes' && window.appState.shape3D && window.appState.orbitDragMode && window.appState.brushOverride === 'default') {
+          if (window.appState.pointers.size === 1 && isShapeTargetMode(window.appState.activeMode) && window.appState.shape3D && window.appState.orbitDragMode && window.appState.brushOverride === 'default') {
             window.appState.camVelYaw = dx * 0.0085;
             window.appState.camVelPitch = dy * 0.0085;
             window.appState.camYaw += window.appState.camVelYaw;
             window.appState.camPitch += window.appState.camVelPitch;
-          } else if (window.appState.activeMode === 'shapes' && !window.appState.orbitDragMode) {
+          } else if (isShapeTargetMode(window.appState.activeMode) && !window.appState.orbitDragMode) {
             window.appState.formationPos = { x: pt.x, y: pt.y };
           }
 
@@ -13003,7 +13071,7 @@
 
       // Mouse wheel 360° 3D scale zoom in shapes mode
       canvas.addEventListener('wheel', (e) => {
-        if (window.appState.activeMode === 'shapes') {
+        if (isShapeTargetMode(window.appState.activeMode)) {
           e.preventDefault();
           const delta = e.deltaY < 0 ? 0.08 : -0.08;
           const nextScale = Math.min(2.4, Math.max(0.4, (window.appState.shapeScale || 1.0) + delta));
@@ -13076,7 +13144,7 @@
 
           // Fade background (use crisper refresh in 3D shape mode so 360° rotation never smears into a 2D blur)
           ctx.globalCompositeOperation = 'source-over';
-          const is3DShapeMode = (window.appState.activeMode === 'shapes' && window.appState.shape3D);
+          const is3DShapeMode = (isShapeTargetMode(window.appState.activeMode) && window.appState.shape3D);
           const rawFade = (1 - window.appState.trailPersistence) * (dtScale < 0.5 ? 0.55 : 1);
           const fadeAlpha = is3DShapeMode
             ? Math.max(0.32, Math.min(0.68, rawFade * 1.65))
@@ -13298,7 +13366,7 @@
           rebuildTarget2DCache(rotYCos, rotYSin, rotXCos, rotXSin);
 
           // Update 360° angle badge & draw 3D Orientation Compass Gizmo when in shapes mode
-          if (window.appState.activeMode === 'shapes' && window.appState.shape3D) {
+          if (isShapeTargetMode(window.appState.activeMode) && window.appState.shape3D) {
             const yawDeg = Math.round(((rotYAngle * 180 / Math.PI) % 360 + 360) % 360);
             const pitchDeg = Math.round((((pointerTiltX * 180 / Math.PI) + 180) % 360 + 360) % 360 - 180);
             const camBadge = document.getElementById('cam-angle-badge');
