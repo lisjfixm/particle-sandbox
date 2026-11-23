@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v8.1 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v8.2 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -543,7 +543,7 @@
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">K</span> <span data-i18n="keyActionCode">開啟行動碼系統（匯出/匯入/秘技指令）</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+K</span> <span data-i18n="keyCmdPalette">開啟指令面板 (Ctrl+K)</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">? / /</span> <span data-i18n="keyHelp">開啟操作指南 (? / /)</span></div>
-              <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+Z / Ctrl+Y</span> <span data-i18n="undoBtn">還原 (Ctrl+Z)</span> / <span data-i18n="redoBtn">重做 (Ctrl+Y)</span></div>
+              <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+Z / Ctrl+Y / Ctrl+Shift+Z</span> <span data-i18n="undoBtn">還原 (Ctrl+Z)</span> / <span data-i18n="redoBtn">重做 (Ctrl+Y / Ctrl+Shift+Z)</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">1 - 5</span> <span data-i18n="keyCat">快速切換 5 大模式分類 (全部/力場/流體/聲光/幾何)</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">E</span> <span data-i18n="keyRespawn">重生粒子</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">F</span> <span data-i18n="keyBounce">邊界反彈切換</span></div>
@@ -578,7 +578,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB81-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB82-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -591,7 +591,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -600,7 +600,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <div class="flex justify-between items-center">
               <span class="font-semibold text-amber-300" data-i18n="acPresetTitle">內建傳奇秘技行動碼（點擊立即觸發）</span>
-              <span class="text-[10px] text-white/45 font-mono">15 CODES</span>
+              <span class="text-[10px] text-white/45 font-mono">17 CODES</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
               <button data-ac-preset="SUPERNOVA" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-400/50 transition-all flex flex-col">
@@ -662,6 +662,14 @@
               <button data-ac-preset="STILLMIND" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-slate-500/20 border border-white/10 hover:border-slate-400/50 transition-all flex flex-col">
                 <span class="font-mono text-[11px] font-bold text-slate-300">#STILLMIND</span>
                 <span class="text-[10px] text-white/75 truncate" data-i18n="acDescStillmind">靜心留白</span>
+              </button>
+              <button data-ac-preset="GLACIERDRIFT" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-400/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-sky-300">#GLACIERDRIFT</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescGlacierdrift">冰河緩流</span>
+              </button>
+              <button data-ac-preset="VOLTPULSE" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-fuchsia-500/20 border border-white/10 hover:border-fuchsia-400/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-fuchsia-300">#VOLTPULSE</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescVoltpulse">電流脈衝</span>
               </button>
             </div>
           </div>
@@ -758,22 +766,22 @@
           <button id="btn-pause" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="暫停 / 繼續 (空白鍵)">
             <svg id="pause-icon-svg" class="icon-svg-sm"><use href="#icon-pause"/></svg>
           </button>
-          <button id="btn-snapshot" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="儲存畫面截圖">
+          <button id="btn-snapshot" data-i18n-aria="ariaSnapshot" aria-label="儲存畫面截圖" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="儲存畫面截圖">
             <svg class="icon-svg-sm"><use href="#icon-camera"/></svg>
           </button>
-          <button id="btn-toggle-bgm" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="環境與互動五聲音階音效">
+          <button id="btn-toggle-bgm" data-i18n-aria="ariaBgm" aria-label="環境與互動五聲音階音效" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="環境與互動五聲音階音效">
             <svg id="bgm-icon-svg" class="icon-svg-sm"><use href="#icon-volume-on"/></svg>
           </button>
-          <button id="btn-shortcuts-help" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="操作指南與快捷鍵 (? 鍵)">
+          <button id="btn-shortcuts-help" data-i18n-aria="keyHelp" aria-label="操作指南與快捷鍵 (? 鍵)" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="操作指南與快捷鍵 (? 鍵)">
             <svg class="icon-svg-sm"><use href="#icon-help"/></svg>
           </button>
-          <button id="btn-zen-mode" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="沉浸全螢幕 (快捷鍵 H)">
+          <button id="btn-zen-mode" data-i18n-aria="ariaZen" aria-label="沉浸全螢幕 (快捷鍵 H)" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="沉浸全螢幕 (快捷鍵 H)">
             <svg class="icon-svg-sm"><use href="#icon-eye-off"/></svg>
           </button>
           <button id="btn-toggle-lang" class="glass-panel rounded-full px-2.5 py-1.5 text-white/90 hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center text-xs font-bold">
             <span id="lang-indicator">繁</span>
           </button>
-          <button id="btn-toggle-settings" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="沙盒設定面板">
+          <button id="btn-toggle-settings" data-i18n-aria="ariaSettings" aria-label="沙盒設定面板" class="glass-panel rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" title="沙盒設定面板">
             <svg class="icon-svg-sm"><use href="#icon-sliders"/></svg>
           </button>
         </div>
@@ -786,7 +794,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.1</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.2</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -826,6 +834,10 @@
                 <button data-scene="sceneJwst" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-slate-500/25 hover:border-slate-300 transition-all" data-i18n="sceneJwst">韋伯太空鏡</button>
                 <button data-scene="sceneOrrery" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-600/25 hover:border-orange-300 transition-all" data-i18n="sceneOrrery">太陽系星儀</button>
                 <button data-scene="sceneInkland" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-white/15 hover:border-white/40 transition-all" data-i18n="sceneInkland">水墨山水卷</button>
+                <button data-scene="polarDusk" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-sky-600/25 hover:border-sky-300 transition-all" data-i18n="scenePolarDusk">極地暮光</button>
+                <button data-scene="tidalTwin" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-cyan-600/25 hover:border-cyan-400 transition-all" data-i18n="sceneTidalTwin">潮汐雙星</button>
+                <button data-scene="neonAlley" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-purple-600/25 hover:border-purple-300 transition-all" data-i18n="sceneNeonAlley">雨巷霓虹</button>
+                <button data-scene="checkerSilhouette" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-white/15 hover:border-white/40 transition-all" data-i18n="sceneCheckerSilhouette">棋盤剪影</button>
               </div>
               <div class="mt-1.5">
                 <div class="text-[10px] font-semibold text-amber-300/80 mb-1" data-i18n="curatedPresets">精選一鍵預設</div>
@@ -918,6 +930,11 @@
                 <button data-palette="bloodmoon" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palBloodmoon">血月蝕日</button>
                 <button data-palette="amber" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palAmber">琥珀化石</button>
                 <button data-palette="monochrome" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palMonochrome">水墨銀灰</button>
+                <button data-palette="duskMist" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palDuskMist">暮光紫霧</button>
+                <button data-palette="mintFrost" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palMintFrost">薄荷雪霧</button>
+                <button data-palette="voltGreen" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palVoltGreen">電子螢光綠</button>
+                <button data-palette="copperRose" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palCopperRose">古銅玫瑰</button>
+                <button data-palette="auroraCyan" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palAuroraCyan">極光青</button>
               </div>
             </div>
           </div>
@@ -1221,7 +1238,7 @@
               <span data-i18n="cymDampingTitle">節線沉降速度 (板面阻尼)</span>
               <span id="label-cym-damping" class="font-mono text-cyan-300">1.0x</span>
             </div>
-            <input type="range" id="slider-cym-damping" min="0.2" max="2.0" step="0.1" value="1.0">
+            <input type="range" id="slider-cym-damping" min="0.1" max="3.0" step="0.1" value="1.0">
           </div>
         </div>
 
@@ -1405,7 +1422,7 @@
                 <span data-i18n="shapeSpeedTitle">3D 旋轉速率</span>
                 <span id="label-shape-speed" class="font-mono text-purple-300">1.0x</span>
               </div>
-              <input type="range" id="slider-shape-speed" min="0.0" max="3.0" step="0.1" value="1.0">
+              <input type="range" id="slider-shape-speed" min="0.1" max="3.0" step="0.1" value="1.0">
             </div>
             <div class="flex flex-col gap-1">
               <div class="flex justify-between text-xs text-white/80">
@@ -1454,7 +1471,7 @@
               <span data-i18n="textAmpTitle">波浪旗幟波動振幅</span>
               <span id="label-text-amp" class="font-mono text-blue-300">14px</span>
             </div>
-            <input type="range" id="slider-text-amp" min="2" max="35" step="1" value="14">
+            <input type="range" id="slider-text-amp" min="0" max="40" step="1" value="14">
           </div>
         </div>
 
@@ -1495,6 +1512,8 @@
               <button data-art="mask" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artMask">面具</button>
               <button data-art="wave" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artWave">海浪紋</button>
               <button data-art="rune" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artRune">符印</button>
+              <button data-art="ripple" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artRipple">同心波紋</button>
+              <button data-art="constellation" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artConstellation">星座連線</button>
             </div>
           </div>
           <div id="panel-img-advanced" class="hidden border-t border-white/10 pt-2 flex flex-col gap-1.5">
@@ -1502,7 +1521,7 @@
               <span data-i18n="imgThresholdTitle">粒子像素明度取樣門檻</span>
               <span id="label-img-threshold" class="font-mono text-cyan-300">45</span>
             </div>
-            <input type="range" id="slider-img-threshold" min="15" max="95" step="5" value="45">
+            <input type="range" id="slider-img-threshold" min="0" max="100" step="5" value="45">
           </div>
         </div>
 
@@ -2027,7 +2046,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.1</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.2</span>
         </div>
       </div>
     </div>
@@ -2144,7 +2163,7 @@
         // --- v7.1 Wave 2：nature/audio/media 58 ---
         'wave', 'rain', 'snow', 'smoke', 'sand', 'meteor', 'prismOptics', 'lotusPond', 'rayleighTaylor', 'kelvinHelmholtz', 'benardCells', 'dandelionWind', 'ballLightning', 'supercellTornado', 'glacierCalving', 'geyserEruption', 'tidalBore', 'biolumBay', 'sandDunes', 'dna', 'vine', 'chemicals', 'pandemic', 'antColony', 'coral', 'bubbles', 'slimeMold', 'chainReaction', 'immuneDefense', 'hallEffect', 'atpSynthase', 'synapseFire', 'quorumSensing', 'myceliumNetwork', 'actionPotential', 'laser', 'cymatics3d', 'stringArt', 'mhdGenerator', 'pulsarBeam', 'moireFringes', 'harmonicLissajous', 'euclideanCircles', 'cymaticWater', 'qr', 'radar', 'svgPath', 'pixelDestruct', 'cosmicLensing', 'lagrangePoints', 'rocheLimit', 'fourierEpicycles', 'typhoonEye', 'hopfFibration', 'penroseTiling', 'hyperbolicPoincare', 'voronoiShatter', 'riemannZeta'],
       brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler'],
-      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome'],
+      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome', 'duskMist', 'mintFrost', 'voltGreen', 'copperRose', 'auroraCyan'],
       shapes: ['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil', 'saturn', 'spaceship', 'dragon', 'crystal', 'castle', 'hourglass', 'jellyfish', 'phoenix', 'neuronNet', 'tourbillon', 'globeRelief', 'orrery', 'coral3d', 'trex', 'inkLandscape', 'dysonSphere', 'jwstMirror', 'quantumFridge', 'toroidalCoil', 'heart3d', 'tesseract', 'toriiGate', 'stellarator', 'calabiYau',
         // --- v7.1 Wave 3A：34 個新 3D 模型（6 家族）---
         'pyramid', 'diamond', 'octahedron', 'icosahedron', 'dodecahedron', 'buckminster', 'origamiCrane', 'sierpinskiTet', 'stellaOctangula',
@@ -2168,7 +2187,7 @@
       glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom']
     };
     // 內建圖片藝術預設白名單（custom 為使用者上傳圖片，不進快照/動作碼列舉校驗）
-    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune'];
+    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune', 'ripple', 'constellation'];
 
     // v7.3：造型目標模式集合（2D 形狀 + 獨立 3D 模型藝廊共用同一套成形/快取/指標分支）
     const isShapeTargetMode = (m) => m === 'shapes' || m === 'models3d';
@@ -3571,6 +3590,11 @@
         palBloodmoon: '血月蝕日',
         palAmber: '琥珀化石',
         palMonochrome: '水墨銀灰',
+        palDuskMist: '暮光紫霧',
+        palMintFrost: '薄荷雪霧',
+        palVoltGreen: '電子螢光綠',
+        palCopperRose: '古銅玫瑰',
+        palAuroraCyan: '極光青',
         particleCount: '粒子數量',
         particleSize: '粒子基礎大小',
         forceStrength: '引力與物理強度',
@@ -3717,6 +3741,10 @@
         sceneJwst: '韋伯太空鏡',
         sceneOrrery: '太陽系星儀',
         sceneInkland: '水墨山水卷',
+        scenePolarDusk: '極地暮光',
+        sceneTidalTwin: '潮汐雙星',
+        sceneNeonAlley: '雨巷霓虹',
+        sceneCheckerSilhouette: '棋盤剪影',
         presetNebula: '創世星雲',
         presetLava: '地心熔岩',
         presetNeon: '霓虹萬花',
@@ -3729,6 +3757,8 @@
         artMask: '面具',
         artWave: '海浪紋',
         artRune: '符印',
+        artRipple: '同心波紋',
+        artConstellation: '星座連線',
         acDescCrystallize: '晶簇冰封陣',
         acDescEmberfall: '餘燼流星雨',
         acDescNeongarden: '霓虹花園',
@@ -3736,6 +3766,8 @@
         acDescSteamworks: '蒸汽機械城',
         acDescVolttrace: '雷電導軌',
         acDescStillmind: '靜心留白',
+        acDescGlacierdrift: '冰河緩流',
+        acDescVoltpulse: '電流脈衝',
         keyRespawn: '重生粒子',
         keyBounce: '邊界反彈切換',
         keyWeb: '星網連線切換',
@@ -3774,9 +3806,10 @@
         acCurrentHint: '包含模式、物理、色彩、圖形與錨點座標',
         acCopyBtn: '複製',
         ariaClose: '關閉', ariaDelete: '刪除',
+        ariaSnapshot: '儲存畫面截圖', ariaBgm: '環境與互動五聲音階音效', ariaZen: '沉浸全螢幕', ariaSettings: '沙盒設定面板',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3792,7 +3825,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -4039,7 +4072,7 @@
         customPresetSaved: '已儲存自訂預設', customPresetApplied: '已載入自訂預設',
         customPresetDeleted: '已刪除該組自訂預設', customPresetExists: '同名預設已存在，未重複加入',
         customPresetNameEmpty: '請輸入預設名稱',
-        undoBtn: '還原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
+        undoBtn: '還原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y / Ctrl+Shift+Z)',
         cmdPlaceholder: '搜尋模式、造型、色盤、筆刷、材料、字形或預設…', cmdEmpty: '找不到符合的指令', cmdApplied: '已執行指令',
         acSavedCount: (n) => `${n} 已收藏`,
         cmdCatMode: '模式', cmdCatShape: '造型', cmdCatScene: '場景', cmdCatPreset: '精選',
@@ -4234,6 +4267,11 @@
         palBloodmoon: '血月蚀日',
         palAmber: '琥珀化石',
         palMonochrome: '水墨银灰',
+        palDuskMist: '暮光紫雾',
+        palMintFrost: '薄荷雪雾',
+        palVoltGreen: '电子荧光绿',
+        palCopperRose: '古铜玫瑰',
+        palAuroraCyan: '极光青',
         particleCount: '粒子数量',
         particleSize: '粒子基础大小',
         forceStrength: '引力与物理强度',
@@ -4380,6 +4418,10 @@
         sceneJwst: '韦伯太空镜',
         sceneOrrery: '太阳系星仪',
         sceneInkland: '水墨山水卷',
+        scenePolarDusk: '极地暮光',
+        sceneTidalTwin: '潮汐双星',
+        sceneNeonAlley: '雨巷霓虹',
+        sceneCheckerSilhouette: '棋盘剪影',
         presetNebula: '创世星云',
         presetLava: '地心熔岩',
         presetNeon: '霓虹万花',
@@ -4392,6 +4434,8 @@
         artMask: '面具',
         artWave: '海浪纹',
         artRune: '符印',
+        artRipple: '同心波纹',
+        artConstellation: '星座连线',
         acDescCrystallize: '晶簇冰封阵',
         acDescEmberfall: '余烬流星雨',
         acDescNeongarden: '霓虹花园',
@@ -4399,6 +4443,8 @@
         acDescSteamworks: '蒸汽机械城',
         acDescVolttrace: '雷电导轨',
         acDescStillmind: '静心留白',
+        acDescGlacierdrift: '冰河缓流',
+        acDescVoltpulse: '电流脉冲',
         keyRespawn: '重生粒子',
         keyBounce: '边界反弹切换',
         keyWeb: '星网连线切换',
@@ -4437,9 +4483,10 @@
         acCurrentHint: '包含模式、物理、色彩、图形与锚点坐标',
         acCopyBtn: '复制',
         ariaClose: '关闭', ariaDelete: '删除',
+        ariaSnapshot: '保存画面截图', ariaBgm: '环境与互动五声音阶音效', ariaZen: '沉浸全屏', ariaSettings: '沙盒设置面板',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4455,7 +4502,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4702,7 +4749,7 @@
         customPresetSaved: '已保存自定义预设', customPresetApplied: '已载入自定义预设',
         customPresetDeleted: '已删除该组自定义预设', customPresetExists: '同名预设已存在，未重复加入',
         customPresetNameEmpty: '请输入预设名称',
-        undoBtn: '还原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
+        undoBtn: '还原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y / Ctrl+Shift+Z)',
         cmdPlaceholder: '搜索模式、造型、色盘、笔刷、材料、字形或预设…', cmdEmpty: '找不到符合的指令', cmdApplied: '已执行指令',
         acSavedCount: (n) => `${n} 已收藏`,
         cmdCatMode: '模式', cmdCatShape: '造型', cmdCatScene: '场景', cmdCatPreset: '精选',
@@ -4897,6 +4944,11 @@
         palBloodmoon: 'Blood Moon',
         palAmber: 'Amber',
         palMonochrome: 'Monochrome',
+        palDuskMist: 'Dusk Mist',
+        palMintFrost: 'Mint Frost',
+        palVoltGreen: 'Volt Green',
+        palCopperRose: 'Copper Rose',
+        palAuroraCyan: 'Aurora Cyan',
         particleCount: 'Particle Count',
         particleSize: 'Base Particle Size',
         forceStrength: 'Force Intensity',
@@ -5043,6 +5095,10 @@
         sceneJwst: 'JWST Mirror',
         sceneOrrery: 'Orrery System',
         sceneInkland: 'Ink Landscape',
+        scenePolarDusk: 'Polar Dusk',
+        sceneTidalTwin: 'Tidal Twin',
+        sceneNeonAlley: 'Neon Alley',
+        sceneCheckerSilhouette: 'Checker Silhouette',
         presetNebula: 'Genesis Nebula',
         presetLava: 'Deep Lava',
         presetNeon: 'Neon Kaleido',
@@ -5055,6 +5111,8 @@
         artMask: 'Mask',
         artWave: 'Wave',
         artRune: 'Rune',
+        artRipple: 'Concentric Ripple',
+        artConstellation: 'Constellation',
         acDescCrystallize: 'Crystallize Frost Array',
         acDescEmberfall: 'Ember Meteor Shower',
         acDescNeongarden: 'Neon Garden',
@@ -5062,6 +5120,8 @@
         acDescSteamworks: 'Steamworks City',
         acDescVolttrace: 'Volt Rail',
         acDescStillmind: 'Still Mind',
+        acDescGlacierdrift: 'Glacier Drift',
+        acDescVoltpulse: 'Volt Pulse',
         keyRespawn: 'Respawn particles',
         keyBounce: 'Toggle wall bounce',
         keyWeb: 'Toggle constellation web',
@@ -5100,9 +5160,10 @@
         acCurrentHint: 'Encodes mode, physics, palette, shape & anchors',
         acCopyBtn: 'Copy',
         ariaClose: 'Close', ariaDelete: 'Delete',
+        ariaSnapshot: 'Save canvas snapshot', ariaBgm: 'Ambient & interaction pentatonic sound', ariaZen: 'Immersive fullscreen', ariaSettings: 'Sandbox settings panel',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5118,7 +5179,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5365,7 +5426,7 @@
         customPresetSaved: 'Custom preset saved', customPresetApplied: 'Custom preset loaded',
         customPresetDeleted: 'Preset deleted', customPresetExists: 'A preset with this name already exists',
         customPresetNameEmpty: 'Please enter a preset name',
-        undoBtn: 'Undo (Ctrl+Z)', redoBtn: 'Redo (Ctrl+Y)',
+        undoBtn: 'Undo (Ctrl+Z)', redoBtn: 'Redo (Ctrl+Y / Ctrl+Shift+Z)',
         cmdPlaceholder: 'Search modes, shapes, palettes, brushes, materials, glyphs or presets…', cmdEmpty: 'No matching command', cmdApplied: 'Command executed',
         acSavedCount: (n) => `${n} saved`,
         cmdCatMode: 'Mode', cmdCatShape: 'Shape', cmdCatScene: 'Scene', cmdCatPreset: 'Preset',
@@ -5560,6 +5621,11 @@
         palBloodmoon: 'ブラッドムーン',
         palAmber: 'アンバー',
         palMonochrome: 'モノクローム',
+        palDuskMist: 'ダスクミスト',
+        palMintFrost: 'ミントフロスト',
+        palVoltGreen: 'ボルトグリーン',
+        palCopperRose: 'カッパーローズ',
+        palAuroraCyan: 'オーロラシアン',
         particleCount: '粒子数',
         particleSize: '粒子基本サイズ',
         forceStrength: '引力・物理強度',
@@ -5706,6 +5772,10 @@
         sceneJwst: 'JWST宇宙鏡',
         sceneOrrery: '惑星儀',
         sceneInkland: '水墨山水巻',
+        scenePolarDusk: '極地黄昏',
+        sceneTidalTwin: '潮汐の双星',
+        sceneNeonAlley: 'ネオン路地',
+        sceneCheckerSilhouette: 'チェック剪影',
         presetNebula: '創世星雲',
         presetLava: 'マグマ',
         presetNeon: 'ネオン万花',
@@ -5718,6 +5788,8 @@
         artMask: '仮面',
         artWave: '波紋',
         artRune: 'ルーン',
+        artRipple: '同心リング',
+        artConstellation: '星座連結',
         acDescCrystallize: '結晶氷結陣',
         acDescEmberfall: '残り火流星群',
         acDescNeongarden: 'ネオンガーデン',
@@ -5725,6 +5797,8 @@
         acDescSteamworks: '蒸気機械都市',
         acDescVolttrace: '雷導線',
         acDescStillmind: '静かなる留白',
+        acDescGlacierdrift: '氷河ドリフト',
+        acDescVoltpulse: 'ボルトパルス',
         keyRespawn: '粒子再生成',
         keyBounce: '壁バウンス切替',
         keyWeb: '星網接続切替',
@@ -5763,9 +5837,10 @@
         acCurrentHint: 'モード・物理・色彩・図形・アンカー座標を保持',
         acCopyBtn: 'コピー',
         ariaClose: '閉じる', ariaDelete: '削除',
+        ariaSnapshot: 'キャンバスをスナップショット保存', ariaBgm: '環境・インタラクション五声音階サウンド', ariaZen: '没入フルスクリーン', ariaSettings: 'サンドボックス設定パネル',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5781,7 +5856,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -6028,7 +6103,7 @@
         customPresetSaved: 'カスタムプリセットを保存しました', customPresetApplied: 'カスタムプリセットを読み込みました',
         customPresetDeleted: 'プリセットを削除しました', customPresetExists: '同名のプリセットが既に存在します',
         customPresetNameEmpty: 'プリセット名を入力してください',
-        undoBtn: '元に戻す (Ctrl+Z)', redoBtn: 'やり直し (Ctrl+Y)',
+        undoBtn: '元に戻す (Ctrl+Z)', redoBtn: 'やり直し (Ctrl+Y / Ctrl+Shift+Z)',
         cmdPlaceholder: 'モード・形状・カラー・ブラシ・マテリアル・グリフ・プリセットを検索…', cmdEmpty: '一致するコマンドがありません', cmdApplied: 'コマンドを実行しました',
         acSavedCount: (n) => `${n} 件保存`,
         cmdCatMode: 'モード', cmdCatShape: '形状', cmdCatScene: 'シーン', cmdCatPreset: 'プリセット',
@@ -6160,6 +6235,19 @@
         ambientGain = null;
       }
       ambientInitialized = false;
+    }
+
+    // B1/B2：依目前音效開關同步環境 drone；收尾時把主增益平滑 ramp 回目前音量，避免瞬間咔聲
+    function syncAudioState() {
+      const st = window.appState;
+      if (st.soundEnabled) {
+        ensureAudioContext();
+      } else {
+        stopAmbientDrone();
+      }
+      if (masterGain && audioCtx) {
+        try { masterGain.gain.setTargetAtTime(st.masterVolume, audioCtx.currentTime, 0.05); } catch (e) {}
+      }
     }
 
     // F18：暫停連動把環境 drone 增益漸降到近零；繼續且音效開啟時再漸回 0.02（不斷開節點）
@@ -6303,7 +6391,8 @@
       dusk: 280, forest: 130, champagne: 35, bronze: 25, pastel: 320,
       sunset: 12, emerald: 120, royal: 270, ice: 195, synthwave: 315,
       gold: 42, lava: 5, mint: 160, nebula: 250, bloodmoon: 355,
-      amber: 30, monochrome: 210
+      amber: 30, monochrome: 210,
+      duskMist: 265, mintFrost: 175, voltGreen: 95, copperRose: 12, auroraCyan: 185
     };
     function getPaletteMainHue() {
       return PALETTE_MAIN_HUE[window.appState.palette] ?? 210;
@@ -6401,6 +6490,21 @@
         return `hsl(${Math.round(band3(30, 42, 18) / 5) * 5}, ${Math.min(100, 68 + satBoost)}%, ${lightness}%)`;
       } else if (palette === 'monochrome') {
         return `hsl(${Math.round(band3(210, 215, 220) / 5) * 5}, ${Math.min(100, 18 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'duskMist') {
+        // 暮光紫霧：紫→玫紅→深藍，薄霧低飽和
+        return `hsl(${Math.round(band3(265, 290, 235) / 5) * 5}, ${Math.min(100, 62 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'mintFrost') {
+        // 薄荷雪霧：青→冰藍→苔綠，高亮度
+        return `hsl(${Math.round(band3(175, 190, 155) / 5) * 5}, ${Math.min(100, 68 + satBoost)}%, ${Math.min(93, lightness + 5)}%)`;
+      } else if (palette === 'voltGreen') {
+        // 電子螢光綠：螢光綠→檸黃→青
+        return `hsl(${Math.round(band3(95, 120, 70) / 5) * 5}, ${Math.min(100, 90 + satBoost)}%, ${lightness}%)`;
+      } else if (palette === 'copperRose') {
+        // 古銅玫瑰：古銅→玫瑰→暖棕
+        return `hsl(${Math.round(band3(12, 30, 340) / 5) * 5}, ${Math.min(100, 66 + satBoost)}%, ${Math.max(18, lightness - 3)}%)`;
+      } else if (palette === 'auroraCyan') {
+        // 極光青：青→極光綠→冰藍
+        return `hsl(${Math.round(band3(185, 160, 210) / 5) * 5}, ${Math.min(100, 80 + satBoost)}%, ${lightness}%)`;
       } else {
         const roundedH = Math.round(norm / 6) * 6;
         return `hsl(${roundedH}, ${Math.min(100, 88 + satBoost)}%, ${lightness}%)`;
@@ -6468,6 +6572,8 @@
     const anchorDragMap = new Map();
     let particles = [];
     let timeTick = 0;
+    // R4：上一幀真實時間戳，回可見頁面時重置，避免一幀補跑造成節奏漂移
+    let lastFrameNow = null;
     // v7.0 3D 吸附：每幀 2D 目標快取（執行期陣列，不進 DEFAULT_STATE / 動作碼 / 配置快照）
     // 條目：{ x, y, z, depthNorm }；x/y 為相對成形中心的投影偏移，z 為深度，depthNorm 為歸一化深度
     let target2DCache = [];
@@ -6639,12 +6745,22 @@
           if (isCornerBg || isNearWhite) d[i + 3] = 0;
         }
         octx.putImageData(imgData, 0, 0);
+        releaseCutoutSprite();
         window.appState.customCutoutSprite = off;
         window.appState.particleGlyph = 'custom';
       } catch (e) {
-        window.appState.customCutoutSprite = null;
+        releaseCutoutSprite();
         window.appState.particleGlyph = 'circle';
       }
+    }
+
+    // R2：釋放舊去背 sprite——先把 canvas 寬高歸零協助回收再清空參考
+    function releaseCutoutSprite() {
+      const old = window.appState.customCutoutSprite;
+      if (old) {
+        try { old.width = 0; old.height = 0; } catch (e) {}
+      }
+      window.appState.customCutoutSprite = null;
     }
 
     // F17：custom 字形但去背 sprite 不存在（快照/動作碼還原後常見）時，降回圓點並提示一次
@@ -6676,6 +6792,12 @@
 
     // F7：Undo / Redo lite（堆疊上限 25；快照不含粒子位置，還原後自然收斂）
     const UNDO_CAP = 25;
+    // E4：布林型別收窄——僅接受 boolean 或 0/1/'0'/'1'，其餘回落預設
+    function asBool(v, fb) {
+      if (v === true || v === 1 || v === '1') return true;
+      if (v === false || v === 0 || v === '0') return false;
+      return fb;
+    }
     function buildStateSnapshot() {
       const st = window.appState;
       const w = viewW || 1, h = viewH || 1;
@@ -6700,6 +6822,7 @@
         beatBpm: st.beatBpm, bgShade: st.bgShade, baseHueOverride: st.baseHueOverride,
         crtOverlay: st.crtOverlay, dofScale: st.dofScale, anaglyph: st.anaglyph,
         chromatic: st.chromatic, quiver: st.quiver, activeArtPreset: st.activeArtPreset,
+        masterVolume: st.masterVolume, timeSpeed: st.timeSpeed, webDist: st.webDist,
         anchors: st.anchors.map(a => [
           Number((a.x / w).toFixed(3)), Number((a.y / h).toFixed(3)), a.type
         ])
@@ -6731,29 +6854,32 @@
       st.colorChaos = num(data.colorChaos, 0, 3.0, st.colorChaos);
       st.bloomStrength = num(data.bloomStrength, 0.2, 2.5, st.bloomStrength);
       if (WHITELIST.mirrorSteps.includes(Number(data.mirrorSymmetry))) st.mirrorSymmetry = Number(data.mirrorSymmetry);
-      st.orbitAnchors = Boolean(data.orbitAnchors);
-      st.beatPulse = Boolean(data.beatPulse);
-      st.additiveGlow = Boolean(data.additiveGlow);
-      st.constellationWeb = Boolean(data.constellationWeb);
-      st.wallBounce = Boolean(data.wallBounce);
-      st.hoverInfluence = Boolean(data.hoverInfluence);
-      st.trailReticle = Boolean(data.trailReticle);
+      st.orbitAnchors = asBool(data.orbitAnchors, st.orbitAnchors);
+      st.beatPulse = asBool(data.beatPulse, st.beatPulse);
+      st.additiveGlow = asBool(data.additiveGlow, st.additiveGlow);
+      st.constellationWeb = asBool(data.constellationWeb, st.constellationWeb);
+      st.wallBounce = asBool(data.wallBounce, st.wallBounce);
+      st.hoverInfluence = asBool(data.hoverInfluence, st.hoverInfluence);
+      st.trailReticle = asBool(data.trailReticle, st.trailReticle);
       // §2.3 擴充欄位還原：逐欄校驗，未知/非有限值保留現況
       st.timeScale = num(data.timeScale, 0.1, 1.0, st.timeScale);
+      st.masterVolume = num(data.masterVolume, 0, 1, st.masterVolume);
+      st.timeSpeed = num(data.timeSpeed, 0.1, 2.0, st.timeSpeed);
+      st.webDist = num(data.webDist, 20, 110, st.webDist);
       st.shapeSpeed = num(data.shapeSpeed, 0.1, 3.0, st.shapeSpeed);
       st.shapeScale = num(data.shapeScale, 0.3, 2.5, st.shapeScale);
       st.textAmp = num(data.textAmp, 0, 40, st.textAmp);
       st.cymDamping = num(data.cymDamping, 0.1, 3.0, st.cymDamping);
       st.fwRate = num(data.fwRate, 1, 120, st.fwRate);
       st.imgThreshold = num(data.imgThreshold, 0, 100, st.imgThreshold);
-      st.shapeFilled = Boolean(data.shapeFilled);
-      st.shape3D = Boolean(data.shape3D);
-      st.shapeWireframe = Boolean(data.shapeWireframe);
-      st.orbitDragMode = Boolean(data.orbitDragMode);
-      st.fireworkAuto = Boolean(data.fireworkAuto);
-      st.autoFadeHud = Boolean(data.autoFadeHud);
-      st.zenMode = Boolean(data.zenMode);
-      st.soundEnabled = Boolean(data.soundEnabled);
+      st.shapeFilled = asBool(data.shapeFilled, st.shapeFilled);
+      st.shape3D = asBool(data.shape3D, st.shape3D);
+      st.shapeWireframe = asBool(data.shapeWireframe, st.shapeWireframe);
+      st.orbitDragMode = asBool(data.orbitDragMode, st.orbitDragMode);
+      st.fireworkAuto = asBool(data.fireworkAuto, st.fireworkAuto);
+      st.autoFadeHud = asBool(data.autoFadeHud, st.autoFadeHud);
+      st.zenMode = asBool(data.zenMode, st.zenMode);
+      st.soundEnabled = asBool(data.soundEnabled, st.soundEnabled);
       if (WHITELIST.textEffects.includes(data.textEffect)) st.textEffect = data.textEffect;
       if (typeof data.customText === 'string') st.customText = data.customText.slice(0, 16);
       st.cymaticsN = Math.round(num(data.cymaticsN, 1, 9, st.cymaticsN));
@@ -6770,11 +6896,11 @@
       } else {
         st.baseHueOverride = null;
       }
-      st.crtOverlay = Boolean(data.crtOverlay);
-      st.dofScale = Boolean(data.dofScale);
-      st.anaglyph = Boolean(data.anaglyph);
-      st.chromatic = Boolean(data.chromatic);
-      st.quiver = Boolean(data.quiver);
+      st.crtOverlay = asBool(data.crtOverlay, st.crtOverlay);
+      st.dofScale = asBool(data.dofScale, st.dofScale);
+      st.anaglyph = asBool(data.anaglyph, st.anaglyph);
+      st.chromatic = asBool(data.chromatic, st.chromatic);
+      st.quiver = asBool(data.quiver, st.quiver);
       if (data.activeArtPreset && ART_PRESETS.includes(data.activeArtPreset)) st.activeArtPreset = data.activeArtPreset;
       if (Array.isArray(data.anchors)) {
         // A5：座標先夾 [0,1] 再乘視窗尺寸，共用 buildAnchorFromRaw
@@ -6783,6 +6909,7 @@
           .map(item => buildAnchorFromRaw(item[0], item[1], item[2], w, h));
       }
       ensureCustomGlyphFallback();
+      syncAudioState();
     }
     function undoAction() {
       const st = window.appState;
@@ -6817,6 +6944,7 @@
         if (!Array.isArray(list)) return [];
         return list
           .filter(item => item && typeof item === 'object' && typeof item.name === 'string' && item.name.trim())
+          .map(item => ({ ...item, name: item.name.slice(0, 16) }))
           .slice(0, CUSTOM_PRESETS_CAP);
       } catch (e) { return []; }
     }
@@ -6843,7 +6971,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v8.1-${Date.now()}.csv`;
+      a.download = `particle-data-v8.2-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -9844,6 +9972,47 @@
         offscreenCtx.beginPath();
         offscreenCtx.arc(cx, cy, 6, 0, Math.PI * 2);
         offscreenCtx.fill();
+      } else if (presetName === 'ripple') {
+        // 同心波紋：由中心向外同心環，青藍層疊
+        const ringColors = ['#e0f2fe', '#7dd3fc', '#38bdf8', '#0ea5e9', '#0369a1'];
+        for (let r = 8; r <= 44; r += 9) {
+          offscreenCtx.strokeStyle = ringColors[Math.min(4, Math.floor((r - 8) / 9))];
+          offscreenCtx.lineWidth = 2.5;
+          offscreenCtx.beginPath();
+          offscreenCtx.arc(cx, cy, r, 0, Math.PI * 2);
+          offscreenCtx.stroke();
+        }
+        offscreenCtx.fillStyle = '#f0f9ff';
+        offscreenCtx.beginPath();
+        offscreenCtx.arc(cx, cy, 5, 0, Math.PI * 2);
+        offscreenCtx.fill();
+      } else if (presetName === 'constellation') {
+        // 星座連線：固定散點 + 鄰近連線（确定性座標，不依賴隨機數）
+        const stars = [];
+        for (let i = 0; i < 14; i++) {
+          const a = i * 2.399963;
+          const rr = 12 + ((Math.sin(i * 12.9898) * 43758.5453) % 1 + 1) % 1 * 30;
+          stars.push({ x: cx + Math.cos(a) * rr, y: cy + Math.sin(a) * rr * 0.82 });
+        }
+        offscreenCtx.strokeStyle = 'rgba(191, 219, 254, 0.55)';
+        offscreenCtx.lineWidth = 1;
+        for (let i = 0; i < stars.length; i++) {
+          for (let j = i + 1; j < stars.length; j++) {
+            const d = Math.hypot(stars[i].x - stars[j].x, stars[i].y - stars[j].y);
+            if (d < 26) {
+              offscreenCtx.beginPath();
+              offscreenCtx.moveTo(stars[i].x, stars[i].y);
+              offscreenCtx.lineTo(stars[j].x, stars[j].y);
+              offscreenCtx.stroke();
+            }
+          }
+        }
+        offscreenCtx.fillStyle = '#ffffff';
+        stars.forEach((s, i) => {
+          offscreenCtx.beginPath();
+          offscreenCtx.arc(s.x, s.y, i % 3 === 0 ? 2.6 : 1.8, 0, Math.PI * 2);
+          offscreenCtx.fill();
+        });
       }
 
       const thumb = document.getElementById('mini-media-thumb');
@@ -10277,6 +10446,11 @@
         window.appState.pointers.clear();
         anchorDragMap.clear();
         window.appState.draggingAnchorIdx = -1;
+        // B4：一併釋放懸停/成形/尺規/捏合殘留暫態，避免 blur 或分頁隱藏後被沿用
+        window.appState.hoverPoint = null;
+        window.appState.formationPos = null;
+        window.appState.rulerStart = null;
+        window.appState.pinchPrevDist = null;
         mainUiLayer.classList.remove('interacting-fade');
       }
 
@@ -10290,6 +10464,7 @@
         } else if (window.appState.soundEnabled && audioCtx && audioCtx.state === 'suspended') {
           try { audioCtx.resume(); } catch (e) {}
         }
+        if (!document.hidden) lastFrameNow = null;
       });
 
       const modeButtons = document.querySelectorAll('.mode-btn');
@@ -10369,10 +10544,13 @@
         // B13：跨模式切換清掉殘留的成形目標點與懸停點，避免新模式沿用舊座標
         window.appState.formationPos = null;
         window.appState.hoverPoint = null;
-        // F16：離開 3D 模型模式時歸零相機慣性速度，避免下次進入先衝一下
+        // F16/R3：離開 3D 模型模式時歸零相機慣性速度，並把相機角與縮放回預設（不持久化）
         if (prevMode === 'models3d' && newMode !== 'models3d') {
           window.appState.camVelYaw = 0;
           window.appState.camVelPitch = 0;
+          window.appState.camYaw = 0.4;
+          window.appState.camPitch = 0.25;
+          window.appState.shapeScale = 1.0;
         }
         window.appState.subPanelMinimized = false;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -10736,6 +10914,8 @@
           }
           videoPreview.removeAttribute('src');
           videoPreview.load();
+          // R2：清掉圖片 dataURL，避免舊解碼資源與快取殘留
+          try { imgPreview.removeAttribute('src'); } catch (e) {}
           syncArtPresetButtonsUI();
           generateProceduralArtPreset(art);
           playProceduralSound('change');
@@ -10892,7 +11072,7 @@
           if (seen.has(item.code)) continue;
           seen.add(item.code);
           out.push({
-            label: typeof item.label === 'string' ? item.label : `#${out.length + 1}`,
+            label: typeof item.label === 'string' ? item.label.slice(0, 24) : `#${out.length + 1}`,
             code: item.code,
             time: Number(item.time) || Date.now()
           });
@@ -10905,11 +11085,22 @@
         const rawNew = localStorage.getItem(SAVED_KEY_NEW);
         let merged = [];
         if (rawNew) merged = merged.concat(normalizeSavedList(JSON.parse(rawNew)));
+        const migratedKeys = [];
         for (const migKey of SAVED_KEY_MIGRATE) {
           const rawOld = localStorage.getItem(migKey);
-          if (rawOld) merged = merged.concat(normalizeSavedList(JSON.parse(rawOld)));
+          if (rawOld) {
+            merged = merged.concat(normalizeSavedList(JSON.parse(rawOld)));
+            migratedKeys.push(migKey);
+          }
         }
         savedActionCodes = normalizeSavedList(merged);
+        // E3：成功合併寫入新鍵後清除舊遷移來源，避免下次重複遷移
+        if (savedActionCodes.length > 0) {
+          persistSavedActionCodes();
+          for (const migKey of migratedKeys) {
+            try { localStorage.removeItem(migKey); } catch (e) {}
+          }
+        }
       } catch (e) {
         savedActionCodes = [];
       }
@@ -10924,7 +11115,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 81,
+          v: 82,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -10997,9 +11188,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB81-${encoded}`;
+          return `PSB82-${encoded}`;
         } catch (e) {
-          return 'PSB81-DEFAULT';
+          return 'PSB82-DEFAULT';
         }
       }
 
@@ -11192,7 +11383,7 @@
         const h = viewH || window.innerHeight || 600;
 
         // F5：秘技成功分派前先進 Undo 堆疊（與場景/精選按鈕同一慣例；壞碼不快照）
-        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND']);
+        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND', 'GLACIERDRIFT', 'VOLTPULSE']);
         if (SECRET_CODES.has(upper)) captureUndoSnapshot();
 
         // Check Built-in Secret / Command Action Codes first
@@ -11408,11 +11599,37 @@
           updateCanvasStatusLabel();
           showToast(dict.toastAcApplied('#STILLMIND'));
           return true;
+        } else if (upper === 'GLACIERDRIFT') {
+          // 冰河緩流：結晶 + 冰晶，慢動作 0.5x、慢拖尾、鏡像 4、邊界反彈
+          st.activeMode = 'crystal';
+          st.palette = 'ice';
+          st.timeScale = 0.5;
+          st.trailPersistence = 0.88;
+          st.mirrorSymmetry = 4;
+          st.wallBounce = true;
+          st.attractForce = 0.50;
+          st.chaos = 0.8;
+          st.anchors = [];
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#GLACIERDRIFT'));
+          return true;
+        } else if (upper === 'VOLTPULSE') {
+          // 電流脈衝：電流 + 合成波，節拍開、中等擾動
+          st.activeMode = 'current';
+          st.palette = 'synthwave';
+          st.beatPulse = true;
+          st.chaos = 2.0;
+          st.brushOverride = 'rainbow';
+          st.trailPersistence = 0.82;
+          st.constellationWeb = false;
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#VOLTPULSE'));
+          return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB82-', 'PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -11421,10 +11638,10 @@
             const data = JSON.parse(jsonStr);
             if (!data || typeof data !== 'object') throw new Error('Invalid');
             // F8：舊碼缺 v 欄位時由前綴推定版本；data.v 存在且有限時覆蓋
-            const PREFIX_VERSION = { 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
+            const PREFIX_VERSION = { 'PSB82-': 82, 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
             let codeVersion = 46;
             for (const px of Object.keys(PREFIX_VERSION)) { if (upperClean.startsWith(px)) { codeVersion = PREFIX_VERSION[px]; break; } }
-            if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Number(data.v);
+            if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Math.round(Number(data.v));
             const num = (v, lo, hi, fb) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(lo, Number(v))) : fb;
             // F5：狀態碼成功解碼、分派前先進 Undo 堆疊
             captureUndoSnapshot();
@@ -11440,21 +11657,21 @@
             if (data.bl) st.bloomStrength = Math.min(2.5, Math.max(0.2, Number(data.bl) || 1.0));
             if (data.br) st.brushRadius = Math.min(500, Math.max(80, Number(data.br) || 245));
             if (data.bo && WHITELIST.brushes.includes(data.bo)) st.brushOverride = data.bo;
-            if (data.ms) st.mirrorSymmetry = WHITELIST.mirrorSteps.includes(Number(data.ms)) ? Number(data.ms) : 1;
-            if (data.oa !== undefined) st.orbitAnchors = Boolean(data.oa);
-            if (data.bp !== undefined) st.beatPulse = Boolean(data.bp);
-            if (data.gl !== undefined) st.additiveGlow = Boolean(data.gl);
-            if (data.wb !== undefined) st.constellationWeb = Boolean(data.wb);
-            if (data.bn !== undefined) st.wallBounce = Boolean(data.bn);
+            if (data.ms !== undefined) st.mirrorSymmetry = WHITELIST.mirrorSteps.includes(Number(data.ms)) ? Number(data.ms) : 1;
+            if (data.oa !== undefined) st.orbitAnchors = asBool(data.oa, st.orbitAnchors);
+            if (data.bp !== undefined) st.beatPulse = asBool(data.bp, st.beatPulse);
+            if (data.gl !== undefined) st.additiveGlow = asBool(data.gl, st.additiveGlow);
+            if (data.wb !== undefined) st.constellationWeb = asBool(data.wb, st.constellationWeb);
+            if (data.bn !== undefined) st.wallBounce = asBool(data.bn, st.wallBounce);
             // F1：timeScale 保留連續倍率，有限值夾 0.1–1.0，與編碼 toFixed(2) 對齊
             if (data.ts !== undefined) st.timeScale = Number.isFinite(Number(data.ts)) ? Math.min(1, Math.max(0.1, Number(data.ts))) : 1.0;
             if (data.sp) st.timeSpeed = Math.min(2.0, Math.max(0.1, Number(data.sp) || 1.0));
             if (data.wd) st.webDist = Math.min(110, Math.max(20, Number(data.wd) || 48));
             if (data.sh && WHITELIST.shapes.includes(data.sh)) st.activeShape = data.sh;
-            if (data.sf !== undefined) st.shapeFilled = Boolean(data.sf);
-            if (data.s3 !== undefined) st.shape3D = Boolean(data.s3);
-            if (data.sw !== undefined) st.shapeWireframe = Boolean(data.sw);
-            if (data.od !== undefined) st.orbitDragMode = Boolean(data.od);
+            if (data.sf !== undefined) st.shapeFilled = asBool(data.sf, st.shapeFilled);
+            if (data.s3 !== undefined) st.shape3D = asBool(data.s3, st.shape3D);
+            if (data.sw !== undefined) st.shapeWireframe = asBool(data.sw, st.shapeWireframe);
+            if (data.od !== undefined) st.orbitDragMode = asBool(data.od, st.orbitDragMode);
             // F2：數值欄位統一 finite 守衛與上下限夾取
             if (data.ss !== undefined) st.shapeSpeed = num(data.ss, 0.1, 3.0, st.shapeSpeed);
             if (data.sc !== undefined) st.shapeScale = num(data.sc, 0.3, 2.5, st.shapeScale);
@@ -11467,7 +11684,7 @@
             if (data.cn !== undefined || data.cm !== undefined) setCymaticsFreq(cn, cm, true);
             if (data.cd !== undefined) st.cymDamping = num(data.cd, 0.1, 3.0, st.cymDamping);
             if (data.fw && WHITELIST.shellTypes.includes(data.fw)) st.fireworkShellType = data.fw;
-            if (data.fa !== undefined) st.fireworkAuto = Boolean(data.fa);
+            if (data.fa !== undefined) st.fireworkAuto = asBool(data.fa, st.fireworkAuto);
             if (data.fr !== undefined) st.fwRate = num(data.fr, 1, 120, st.fwRate);
             if (data.it !== undefined) st.imgThreshold = num(data.it, 0, 100, st.imgThreshold);
             if (Array.isArray(data.an)) {
@@ -11483,21 +11700,21 @@
             if (data.qt && WHITELIST.qualityTiers.includes(data.qt)) st.qualityTier = data.qt;
             if (data.bb) st.beatBpm = Math.min(160, Math.max(60, Number(data.bb) || 78));
             if (data.bs !== undefined) st.bgShade = Math.min(100, Math.max(0, Number(data.bs) || 50));
-            if (data.tr2 !== undefined) st.trailReticle = Boolean(data.tr2);
-            if (data.ah !== undefined) st.autoFadeHud = Boolean(data.ah);
-            if (data.zm !== undefined) st.zenMode = Boolean(data.zm);
-            if (data.se !== undefined) st.soundEnabled = Boolean(data.se);
+            if (data.tr2 !== undefined) st.trailReticle = asBool(data.tr2, st.trailReticle);
+            if (data.ah !== undefined) st.autoFadeHud = asBool(data.ah, st.autoFadeHud);
+            if (data.zm !== undefined) st.zenMode = asBool(data.zm, st.zenMode);
+            if (data.se !== undefined) st.soundEnabled = asBool(data.se, st.soundEnabled);
             if (data.ap && ART_PRESETS.includes(data.ap)) st.activeArtPreset = data.ap;
             // A6：偏好欄位對齊解碼（glyph=custom 由 ensureCustomGlyphFallback 降階）
             if (data.gy && WHITELIST.glyphs.includes(data.gy)) st.particleGlyph = data.gy;
-            if (data.cr !== undefined) st.crtOverlay = Boolean(data.cr);
-            if (data.ds !== undefined) st.dofScale = Boolean(data.ds);
-            if (data.ag !== undefined) st.anaglyph = Boolean(data.ag);
-            if (data.xc !== undefined) st.chromatic = Boolean(data.xc);
-            if (data.qv !== undefined) st.quiver = Boolean(data.qv);
-            if (data.hi !== undefined) st.hoverInfluence = Boolean(data.hi);
+            if (data.cr !== undefined) st.crtOverlay = asBool(data.cr, st.crtOverlay);
+            if (data.ds !== undefined) st.dofScale = asBool(data.ds, st.dofScale);
+            if (data.ag !== undefined) st.anaglyph = asBool(data.ag, st.anaglyph);
+            if (data.xc !== undefined) st.chromatic = asBool(data.xc, st.chromatic);
+            if (data.qv !== undefined) st.quiver = asBool(data.qv, st.quiver);
+            if (data.hi !== undefined) st.hoverInfluence = asBool(data.hi, st.hoverInfluence);
             if (data.mv !== undefined) st.masterVolume = num(data.mv, 0, 1, st.masterVolume);
-            if (data.lg && SUPPORTED_LANGS.includes(data.lg)) currentLang = data.lg;
+            if (data.lg !== undefined && SUPPORTED_LANGS.includes(data.lg)) updateAppLanguage(data.lg);
             if (data.bh !== undefined && data.bh !== null) {
               const bh = Number(data.bh);
               st.baseHueOverride = Number.isFinite(bh) ? ((bh % 360) + 360) % 360 : null;
@@ -11511,8 +11728,12 @@
             st.shapeSubmenuOpen = false;
             syncAllUIControlsAfterActionCode();
             ensureCustomGlyphFallback();
+            syncAudioState();
+            // E2：解碼成功且持久化開啟時回寫本機快照
+            if (window.appState.persistConfig) persistConfigSnapshot();
             // A11：表外版本號不再靜默歸 PSB46，顯示實際編號（僅標籤，不影響解碼）
-            const versionLabel = codeVersion === 81 ? 'PSB81 State'
+            const versionLabel = codeVersion === 82 ? 'PSB82 State'
+              : codeVersion === 81 ? 'PSB81 State'
               : codeVersion === 80 ? 'PSB80 State'
               : codeVersion === 73 ? 'PSB73 State'
               : codeVersion === 72 ? 'PSB72 State'
@@ -12017,20 +12238,20 @@
         st.bgShade = num(snap.bgShade, 0, 100, st.bgShade);
         st.particleLifespan = num(snap.particleLifespan, 0, 30, st.particleLifespan);
         st.timeSpeed = num(snap.timeSpeed, 0.1, 2.0, st.timeSpeed);
-        st.trailReticle = Boolean(snap.trailReticle);
-        st.wallBounce = Boolean(snap.wallBounce);
-        st.constellationWeb = Boolean(snap.constellationWeb);
-        st.hoverInfluence = Boolean(snap.hoverInfluence);
-        st.additiveGlow = Boolean(snap.additiveGlow);
-        st.orbitAnchors = Boolean(snap.orbitAnchors);
-        st.beatPulse = Boolean(snap.beatPulse);
+        st.trailReticle = asBool(snap.trailReticle, st.trailReticle);
+        st.wallBounce = asBool(snap.wallBounce, st.wallBounce);
+        st.constellationWeb = asBool(snap.constellationWeb, st.constellationWeb);
+        st.hoverInfluence = asBool(snap.hoverInfluence, st.hoverInfluence);
+        st.additiveGlow = asBool(snap.additiveGlow, st.additiveGlow);
+        st.orbitAnchors = asBool(snap.orbitAnchors, st.orbitAnchors);
+        st.beatPulse = asBool(snap.beatPulse, st.beatPulse);
         // v7.0 Wave3：造型與視覺開關（列舉過白名單，布林校驗；不進動作碼 payload）
         if (WHITELIST.glyphs.includes(snap.particleGlyph)) st.particleGlyph = snap.particleGlyph;
-        st.crtOverlay = Boolean(snap.crtOverlay);
-        st.dofScale = Boolean(snap.dofScale);
-        st.anaglyph = Boolean(snap.anaglyph);
-        st.chromatic = Boolean(snap.chromatic);
-        st.quiver = Boolean(snap.quiver);
+        st.crtOverlay = asBool(snap.crtOverlay, st.crtOverlay);
+        st.dofScale = asBool(snap.dofScale, st.dofScale);
+        st.anaglyph = asBool(snap.anaglyph, st.anaglyph);
+        st.chromatic = asBool(snap.chromatic, st.chromatic);
+        st.quiver = asBool(snap.quiver, st.quiver);
         // §2.1 補齊欄位還原：數值 num() 夾取、布林 Boolean()、列舉過白名單
         if (snap.baseHueOverride !== undefined && snap.baseHueOverride !== null) {
           const bh = Number(snap.baseHueOverride);
@@ -12039,10 +12260,10 @@
           st.baseHueOverride = null;
         }
         st.timeScale = num(snap.timeScale, 0.1, 1.0, st.timeScale);
-        st.shapeFilled = Boolean(snap.shapeFilled);
-        st.shape3D = Boolean(snap.shape3D);
-        st.shapeWireframe = Boolean(snap.shapeWireframe);
-        st.orbitDragMode = Boolean(snap.orbitDragMode);
+        st.shapeFilled = asBool(snap.shapeFilled, st.shapeFilled);
+        st.shape3D = asBool(snap.shape3D, st.shape3D);
+        st.shapeWireframe = asBool(snap.shapeWireframe, st.shapeWireframe);
+        st.orbitDragMode = asBool(snap.orbitDragMode, st.orbitDragMode);
         st.shapeSpeed = num(snap.shapeSpeed, 0.1, 3.0, st.shapeSpeed);
         st.shapeScale = num(snap.shapeScale, 0.3, 2.5, st.shapeScale);
         if (WHITELIST.textEffects.includes(snap.textEffect)) st.textEffect = snap.textEffect;
@@ -12052,12 +12273,12 @@
         st.cymaticsM = Math.round(num(snap.cymaticsM, 1, 9, st.cymaticsM));
         st.cymDamping = num(snap.cymDamping, 0.1, 3.0, st.cymDamping);
         if (WHITELIST.shellTypes.includes(snap.fireworkShellType)) st.fireworkShellType = snap.fireworkShellType;
-        st.fireworkAuto = Boolean(snap.fireworkAuto);
+        st.fireworkAuto = asBool(snap.fireworkAuto, st.fireworkAuto);
         st.fwRate = num(snap.fwRate, 1, 120, st.fwRate);
         st.imgThreshold = num(snap.imgThreshold, 0, 100, st.imgThreshold);
-        st.autoFadeHud = Boolean(snap.autoFadeHud);
-        st.zenMode = Boolean(snap.zenMode);
-        st.soundEnabled = Boolean(snap.soundEnabled);
+        st.autoFadeHud = asBool(snap.autoFadeHud, st.autoFadeHud);
+        st.zenMode = asBool(snap.zenMode, st.zenMode);
+        st.soundEnabled = asBool(snap.soundEnabled, st.soundEnabled);
         if (snap.activeArtPreset && ART_PRESETS.includes(snap.activeArtPreset)) st.activeArtPreset = snap.activeArtPreset;
         if (SUPPORTED_LANGS.includes(snap.currentLang)) currentLang = snap.currentLang;
         const MODE_CATS = ['all', 'force', 'nature', 'audio', 'media'];
@@ -12072,6 +12293,7 @@
         }
         // F17：custom 字形但去背圖不存在時靜默降回圓點並提示
         ensureCustomGlyphFallback();
+        syncAudioState();
       }
 
       document.getElementById('btn-toggle-persist').addEventListener('click', () => {
@@ -12166,7 +12388,7 @@
         window.appState.masterVolume = val / 100;
         document.getElementById('label-vol-val').textContent = `${val}%`;
         if (masterGain && audioCtx) {
-          masterGain.gain.setValueAtTime(window.appState.masterVolume, audioCtx.currentTime);
+          try { masterGain.gain.setTargetAtTime(window.appState.masterVolume, audioCtx.currentTime, 0.05); } catch (e) {}
         }
       });
 
@@ -12293,7 +12515,7 @@
           if (!WHITELIST.glyphs.includes(g)) return;
           captureUndoSnapshot();
           window.appState.particleGlyph = g;
-          if (g !== 'custom') window.appState.customCutoutSprite = null;
+          if (g !== 'custom') releaseCutoutSprite();
           syncGlyphButtonsUI();
           persistConfigSnapshot();
           playProceduralSound('change');
@@ -12509,7 +12731,7 @@
               window.appState.particleGlyph = 'custom';
             } else {
               window.appState.particleGlyph = g;
-              window.appState.customCutoutSprite = null;
+              releaseCutoutSprite();
             }
             syncGlyphButtonsUI();
             return true;
@@ -12855,6 +13077,52 @@
           st.particleCount = 3400;
           syncParticleSettings();
           switchMode('models3d');
+        } else if (scene === 'polarDusk') {
+          // 極地暮光：冰晶色 + 流場，低擾動、長拖尾、邊界反彈
+          selectPalette('ice');
+          st.chaos = 0.6;
+          st.attractForce = 0.48;
+          st.trailPersistence = 0.90;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.wallBounce = true;
+          st.timeSpeed = 0.8;
+          switchMode('flowfield');
+        } else if (scene === 'tidalTwin') {
+          // 潮汐雙星：深海藍 + 星系雙錨點軌道，鏡像 2
+          selectPalette('ocean');
+          st.attractForce = 0.62;
+          st.trailPersistence = 0.86;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.orbitAnchors = true;
+          st.mirrorSymmetry = 2;
+          st.anchors = [
+            { x: w * 0.35, y: h * 0.5, type: 'orbit', phase: 0, orbitDist: Math.min(w, h) * 0.22, orbitAngle: 0, lastTap: 0 },
+            { x: w * 0.65, y: h * 0.5, type: 'orbit', phase: Math.PI, orbitDist: Math.min(w, h) * 0.22, orbitAngle: Math.PI, lastTap: 0 }
+          ];
+          switchMode('galaxy');
+        } else if (scene === 'neonAlley') {
+          // 雨巷霓虹：合成波 + 矩陣雨，星網開、慢時速
+          selectPalette('synthwave');
+          st.attractForce = 0.58;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = true;
+          st.webDist = 52;
+          st.timeSpeed = 0.7;
+          switchMode('matrixrain');
+        } else if (scene === 'checkerSilhouette') {
+          // 棋盤剪影：水墨灰 + 方形造型，弱光暈、高對比拖尾
+          selectPalette('mono');
+          st.activeShape = 'square';
+          if (st.activeShapeCategory !== 'all') st.activeShapeCategory = 'basic';
+          syncShapeButtonsUI();
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.80;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          switchMode('shapes');
         }
         syncShape3DLabel();
       }
@@ -12996,7 +13264,7 @@
         window.appState.cursorTrail = [];
         window.appState.rulerStart = null;
         window.appState.pinchPrevDist = null;
-        window.appState.customCutoutSprite = null;
+        releaseCutoutSprite();
         // A4：重置回收影片 Blob URL，避免重整/重置後舊影片資源洩漏
         if (window.appState.currentVideoBlobUrl) {
           try { URL.revokeObjectURL(window.appState.currentVideoBlobUrl); } catch (e) {}
@@ -13022,7 +13290,7 @@
         applyDefaultState();
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
         if (masterGain && audioCtx) {
-          masterGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+          try { masterGain.gain.setTargetAtTime(0.8, audioCtx.currentTime, 0.05); } catch (e) {}
         }
         selectPalette('spectrum');
         syncSlidersUI();
@@ -13491,7 +13759,7 @@
               });
             }
           }
-        } else if (e.pointerType === 'mouse' && window.appState.hoverInfluence) {
+        } else if (e.pointerType === 'mouse' && window.appState.hoverInfluence && e.buttons === 0) {
           if (window.appState.activeMode === 'synth' && window.appState.hoverPoint) {
             checkLaserHarpCrossings(window.appState.hoverPoint.x, pt.x, pt.y);
           }
@@ -13544,7 +13812,7 @@
         if (isShapeTargetMode(window.appState.activeMode)) {
           e.preventDefault();
           const delta = e.deltaY < 0 ? 0.08 : -0.08;
-          const nextScale = Math.min(2.4, Math.max(0.4, (window.appState.shapeScale || 1.0) + delta));
+          const nextScale = Math.min(2.5, Math.max(0.3, (window.appState.shapeScale || 1.0) + delta));
           window.appState.shapeScale = Number(nextScale.toFixed(2));
           const slScale = document.getElementById('slider-shape-scale');
           const lblScale = document.getElementById('label-shape-scale');
@@ -13561,6 +13829,10 @@
 
       function tick(now) {
         frameCount++;
+        if (lastFrameNow === null) lastFrameNow = now;
+        const rawDt = Math.min(50, Math.max(0, now - lastFrameNow));
+        lastFrameNow = now;
+        const dtFactor = rawDt / 16.67;
         if (now - lastFpsTime >= 500) {
           const fps = Math.min(120, Math.round((frameCount * 1000) / (now - lastFpsTime)));
           if (fpsBadge) fpsBadge.textContent = `${fps} FPS`;
@@ -13576,7 +13848,7 @@
         }
 
         if (!window.appState.isPaused) {
-          const dtScale = window.appState.timeScale * (window.appState.timeSpeed || 1.0);
+          const dtScale = window.appState.timeScale * (window.appState.timeSpeed || 1.0) * dtFactor;
           timeTick += dtScale;
 
           // 影片取頻跟隨畫質：低階每兩幀取樣一次
