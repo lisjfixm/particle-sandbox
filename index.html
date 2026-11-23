@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v7.3 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v8.0 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -573,7 +573,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB73-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB80-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -586,7 +586,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -781,7 +781,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v7.3</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.0</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -2022,7 +2022,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v7.3</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.0</span>
         </div>
       </div>
     </div>
@@ -2162,6 +2162,8 @@
       qualityTiers: ['high', 'mid', 'low'],
       glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom']
     };
+    // 內建圖片藝術預設白名單（custom 為使用者上傳圖片，不進快照/動作碼列舉校驗）
+    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune'];
 
     // v7.3：造型目標模式集合（2D 形狀 + 獨立 3D 模型藝廊共用同一套成形/快取/指標分支）
     const isShapeTargetMode = (m) => m === 'shapes' || m === 'models3d';
@@ -2183,6 +2185,9 @@
     }
 
     // --- v7.1 Wave 1：模式物理家族註冊表（PORT-FAMILY 共用；參數逐模式固定，行為可區分）---
+    // 保留未接線參數（registry 已列、家族函式尚未消費，暫不刪除留待後續）：
+    //   harmonics（waveField 諧波階數）、shellCount/fragmentSpeed（impactBlast 殼層/碎速）、
+    //   repelRadius（latticeBind 排除半徑）、coreR（spiralFlow 核心半徑）。
     const MODE_FAMILY_REGISTRY = {
       // orbitRing：環帶向心力 + 切向速度平衡
       kepler:          { family: 'orbitRing', params: { ringR: 130, ringStep: 56, ringCount: 2, tangSpeed: 0.34, radialSpring: 0.014, eccentricity: 0.45, driftDir: 1 } },
@@ -2329,15 +2334,25 @@
         if (pair && pair !== p) {
           const dx = pair.x - p.x, dy = pair.y - p.y;
           const d = Math.sqrt(dx * dx + dy * dy) || 1;
+          // F21：pairBond 接入鍵結斷裂容許度——鍵結對保持柔和回彈，自由對維持原本鬆散分離
+          const bonded = params.pairBond !== false;
           p.vx += dx / d * params.cohesion * ctx.force;
           p.vy += dy / d * params.cohesion * ctx.force;
           p.vx += (pair.vx - p.vx) * params.alignment * 0.5;
           p.vy += (pair.vy - p.vy) * params.alignment * 0.5;
-          if (d < params.linkRadius * 0.4) {
+          const repelRange = params.linkRadius * (bonded ? 0.25 : 0.4);
+          if (d < repelRange) {
             p.vx -= dx / d * params.separation * ctx.force;
             p.vy -= dy / d * params.separation * ctx.force;
+          } else if (bonded && d > params.linkRadius * 0.6) {
+            // 鍵結對拉回理想鍵結距離，不被 cohesion 拉力一路牽走
+            const spring = (d - params.linkRadius * 0.6) * 0.012 * ctx.force;
+            p.vx += dx / d * spring;
+            p.vy += dy / d * spring;
           }
-          p.targetHue = (p.baseHue + pair.baseHue * 0.05 + 360) % 360;
+          // F21：syncPhase 接入鍵結對色相相位偏移（0–1 映射 0–60 度）
+          const phase = Number.isFinite(Number(params.syncPhase)) ? Number(params.syncPhase) : 0;
+          p.targetHue = (p.baseHue + pair.baseHue * 0.05 + phase * 60 + 360) % 360;
         } else {
           p.targetHue = p.baseHue;
         }
@@ -2459,6 +2474,7 @@
       }
       return faces;
     }
+    // F11（預留，保留不刪）：由三角面提取邊緣列表；目前模型生成器未呼叫，保留供後續線框/邊緣描邊接入。
     function _shEdgesFromFaces(faces) {
       const seen = new Set(), edges = [];
       for (const f of faces) for (let k = 0; k < f.length; k++) {
@@ -3754,7 +3770,7 @@
         acCopyBtn: '複製',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3770,7 +3786,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -4018,7 +4034,14 @@
         customPresetDeleted: '已刪除該組自訂預設', customPresetExists: '同名預設已存在，未重複加入',
         customPresetNameEmpty: '請輸入預設名稱',
         undoBtn: '還原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
-        cmdPlaceholder: '搜尋模式、造型或精選預設…', cmdEmpty: '找不到符合的指令', cmdApplied: '已執行指令',
+        cmdPlaceholder: '搜尋模式、造型、色盤、筆刷、材料、字形或預設…', cmdEmpty: '找不到符合的指令', cmdApplied: '已執行指令',
+        acSavedCount: (n) => `${n} 已收藏`,
+        cmdCatMode: '模式', cmdCatShape: '造型', cmdCatScene: '場景', cmdCatPreset: '精選',
+        cmdCatPalette: '色盤', cmdCatBrush: '筆刷', cmdCatMaterial: '材料', cmdCatGlyph: '字形',
+        cmdDelete: '刪除',
+        toastGlyphCustomMissing: '自訂圖片遺失，已還原為圓點，請重新上傳圖片',
+        toastSavedLimit: '收藏庫已達上限（12 筆），請先刪除部分收藏',
+        toastPresetLimit: '自訂預設已達上限（8 組），請先刪除部分預設',
         toastCsvExported: '已匯出粒子物理數據 CSV', toastGlyphUploadFail: '圖片載入失敗，已還原預設圓點',
         toastGlyphSize: '圖片檔案過大（上限 8MB）',
         toastUndoEmpty: '沒有可還原的步驟', toastRedoEmpty: '沒有可重做的步驟',
@@ -4408,7 +4431,7 @@
         acCopyBtn: '复制',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4424,7 +4447,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4672,7 +4695,14 @@
         customPresetDeleted: '已删除该组自定义预设', customPresetExists: '同名预设已存在，未重复加入',
         customPresetNameEmpty: '请输入预设名称',
         undoBtn: '还原 (Ctrl+Z)', redoBtn: '重做 (Ctrl+Y)',
-        cmdPlaceholder: '搜索模式、造型或精选预设…', cmdEmpty: '找不到符合的指令', cmdApplied: '已执行指令',
+        cmdPlaceholder: '搜索模式、造型、色盘、笔刷、材料、字形或预设…', cmdEmpty: '找不到符合的指令', cmdApplied: '已执行指令',
+        acSavedCount: (n) => `${n} 已收藏`,
+        cmdCatMode: '模式', cmdCatShape: '造型', cmdCatScene: '场景', cmdCatPreset: '精选',
+        cmdCatPalette: '色盘', cmdCatBrush: '笔刷', cmdCatMaterial: '材料', cmdCatGlyph: '字形',
+        cmdDelete: '删除',
+        toastGlyphCustomMissing: '自定义图片丢失，已还原为圆点，请重新上传图片',
+        toastSavedLimit: '收藏库已达上限（12 笔），请先删除部分收藏',
+        toastPresetLimit: '自定义预设已达上限（8 组），请先删除部分预设',
         toastCsvExported: '已导出粒子物理数据 CSV', toastGlyphUploadFail: '图片载入失败，已还原默认圆点',
         toastGlyphSize: '图片文件过大（上限 8MB）',
         toastUndoEmpty: '没有可还原的步骤', toastRedoEmpty: '没有可重做的步骤',
@@ -5062,7 +5092,7 @@
         acCopyBtn: 'Copy',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5078,7 +5108,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5326,7 +5356,14 @@
         customPresetDeleted: 'Preset deleted', customPresetExists: 'A preset with this name already exists',
         customPresetNameEmpty: 'Please enter a preset name',
         undoBtn: 'Undo (Ctrl+Z)', redoBtn: 'Redo (Ctrl+Y)',
-        cmdPlaceholder: 'Search modes, shapes or curated presets…', cmdEmpty: 'No matching command', cmdApplied: 'Command executed',
+        cmdPlaceholder: 'Search modes, shapes, palettes, brushes, materials, glyphs or presets…', cmdEmpty: 'No matching command', cmdApplied: 'Command executed',
+        acSavedCount: (n) => `${n} saved`,
+        cmdCatMode: 'Mode', cmdCatShape: 'Shape', cmdCatScene: 'Scene', cmdCatPreset: 'Preset',
+        cmdCatPalette: 'Palette', cmdCatBrush: 'Brush', cmdCatMaterial: 'Material', cmdCatGlyph: 'Glyph',
+        cmdDelete: 'Delete',
+        toastGlyphCustomMissing: 'Custom image missing; reverted to dot. Please re-upload an image.',
+        toastSavedLimit: 'Saved library is full (12 entries). Delete some bookmarks first.',
+        toastPresetLimit: 'Custom presets are full (8). Delete some presets first.',
         toastCsvExported: 'Particle physics data exported to CSV', toastGlyphUploadFail: 'Image failed to load; reverted to dot glyph',
         toastGlyphSize: 'Image too large (8MB limit)',
         toastUndoEmpty: 'Nothing to undo', toastRedoEmpty: 'Nothing to redo',
@@ -5716,7 +5753,7 @@
         acCopyBtn: 'コピー',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5732,7 +5769,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -5980,7 +6017,14 @@
         customPresetDeleted: 'プリセットを削除しました', customPresetExists: '同名のプリセットが既に存在します',
         customPresetNameEmpty: 'プリセット名を入力してください',
         undoBtn: '元に戻す (Ctrl+Z)', redoBtn: 'やり直し (Ctrl+Y)',
-        cmdPlaceholder: 'モード・形状・プリセットを検索…', cmdEmpty: '一致するコマンドがありません', cmdApplied: 'コマンドを実行しました',
+        cmdPlaceholder: 'モード・形状・カラー・ブラシ・マテリアル・グリフ・プリセットを検索…', cmdEmpty: '一致するコマンドがありません', cmdApplied: 'コマンドを実行しました',
+        acSavedCount: (n) => `${n} 件保存`,
+        cmdCatMode: 'モード', cmdCatShape: '形状', cmdCatScene: 'シーン', cmdCatPreset: 'プリセット',
+        cmdCatPalette: 'カラー', cmdCatBrush: 'ブラシ', cmdCatMaterial: 'マテリアル', cmdCatGlyph: 'グリフ',
+        cmdDelete: '削除',
+        toastGlyphCustomMissing: 'カスタム画像が見つかりません。ドットに戻しました。画像を再アップロードしてください',
+        toastSavedLimit: '保存ライブラリが満杯です（12 件）。先に一部を削除してください',
+        toastPresetLimit: 'カスタムプリセットが満杯です（8 件）。先に一部を削除してください',
         toastCsvExported: '粒子データを CSV に出力しました', toastGlyphUploadFail: '画像の読み込みに失敗しました。ドットに戻します',
         toastGlyphSize: '画像が大きすぎます（上限 8MB）',
         toastUndoEmpty: '戻す操作がありません', toastRedoEmpty: 'やり直す操作がありません',
@@ -6103,6 +6147,16 @@
         ambientGain = null;
       }
       ambientInitialized = false;
+    }
+
+    // F18：暫停連動把環境 drone 增益漸降到近零；繼續且音效開啟時再漸回 0.02（不斷開節點）
+    function applyAmbientMute(muted) {
+      if (!ambientGain || !audioCtx) return;
+      const target = muted || !window.appState.soundEnabled ? 0.0001 : 0.02;
+      try {
+        ambientGain.gain.cancelScheduledValues(audioCtx.currentTime);
+        ambientGain.gain.setTargetAtTime(target, audioCtx.currentTime, 0.12);
+      } catch (e) {}
     }
 
     function playSpatialSynthNote(normX, normY, forcedFreq) {
@@ -6404,8 +6458,7 @@
     // v7.0 3D 吸附：每幀 2D 目標快取（執行期陣列，不進 DEFAULT_STATE / 動作碼 / 配置快照）
     // 條目：{ x, y, z, depthNorm }；x/y 為相對成形中心的投影偏移，z 為深度，depthNorm 為歸一化深度
     let target2DCache = [];
-    let target2DDirty = true;
-    function invalidateTarget2DCache() { target2DDirty = true; }
+    // F20：target2DDirty 旗標與 invalidateTarget2DCache() 為純死碼（快取每幀重建），已移除
     // current 模式：指標軌跡環形緩衝（上限 24 點）；亮色節點每幀上限 12
     const CURRENT_TRACE_CAP = 24;
     const currentTrace = [];
@@ -6425,7 +6478,8 @@
 
     // ==================== v7.0 Wave3 模組（F1–F8） ====================
 
-    // F8：標準 2D Perlin 噪聲（純函式、無副作用；僅供內部流場/新模式使用，不暴露 UI 開關）
+    // F11（預留，保留不刪）：標準 2D Perlin 噪聲（純函式、無副作用）；目前 flowfield 走內聯解析場，
+    // 此模組保留供後續流場/新模式接入，暫無呼叫點，勿在未評估效能前移除。
     const PERLIN_PERM = new Uint8Array(512);
     (function initPerlinPerm() {
       const p = new Uint8Array(256);
@@ -6580,10 +6634,22 @@
       }
     }
 
+    // F17：custom 字形但去背 sprite 不存在（快照/動作碼還原後常見）時，降回圓點並提示一次
+    function ensureCustomGlyphFallback() {
+      const st = window.appState;
+      if (st.particleGlyph === 'custom' && !st.customCutoutSprite) {
+        st.particleGlyph = 'circle';
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        showToast(dict.toastGlyphCustomMissing, true);
+      }
+    }
+
     // F7：Undo / Redo lite（堆疊上限 25；快照不含粒子位置，還原後自然收斂）
     const UNDO_CAP = 25;
     function buildStateSnapshot() {
       const st = window.appState;
+      const w = viewW || 1, h = viewH || 1;
+      // §2.3：lite 快照擴充到 §2.1 同一份持久化白名單；仍不含粒子位置/速度與執行期暫存
       return {
         activeMode: st.activeMode, palette: st.palette, activeShape: st.activeShape,
         particleCount: st.particleCount, brushRadius: st.brushRadius, brushOverride: st.brushOverride,
@@ -6592,7 +6658,21 @@
         mirrorSymmetry: st.mirrorSymmetry, material: st.material, gravityDir: st.gravityDir,
         orbitAnchors: st.orbitAnchors, beatPulse: st.beatPulse, additiveGlow: st.additiveGlow,
         constellationWeb: st.constellationWeb, wallBounce: st.wallBounce, hoverInfluence: st.hoverInfluence,
-        trailReticle: st.trailReticle, particleGlyph: st.particleGlyph
+        trailReticle: st.trailReticle, particleGlyph: st.particleGlyph,
+        timeScale: st.timeScale, shapeSpeed: st.shapeSpeed, shapeScale: st.shapeScale,
+        textAmp: st.textAmp, cymDamping: st.cymDamping, fwRate: st.fwRate, imgThreshold: st.imgThreshold,
+        shapeFilled: st.shapeFilled, shape3D: st.shape3D, shapeWireframe: st.shapeWireframe,
+        orbitDragMode: st.orbitDragMode, fireworkAuto: st.fireworkAuto, autoFadeHud: st.autoFadeHud,
+        zenMode: st.zenMode, soundEnabled: st.soundEnabled,
+        textEffect: st.textEffect, customText: st.customText,
+        cymaticsN: st.cymaticsN, cymaticsM: st.cymaticsM, fireworkShellType: st.fireworkShellType,
+        particleLifespan: st.particleLifespan, webMaxLinks: st.webMaxLinks, qualityTier: st.qualityTier,
+        beatBpm: st.beatBpm, bgShade: st.bgShade, baseHueOverride: st.baseHueOverride,
+        crtOverlay: st.crtOverlay, dofScale: st.dofScale, anaglyph: st.anaglyph,
+        chromatic: st.chromatic, quiver: st.quiver, activeArtPreset: st.activeArtPreset,
+        anchors: st.anchors.map(a => [
+          Number((a.x / w).toFixed(3)), Number((a.y / h).toFixed(3)), a.type
+        ])
       };
     }
     function captureUndoSnapshot() {
@@ -6628,6 +6708,62 @@
       st.wallBounce = Boolean(data.wallBounce);
       st.hoverInfluence = Boolean(data.hoverInfluence);
       st.trailReticle = Boolean(data.trailReticle);
+      // §2.3 擴充欄位還原：逐欄校驗，未知/非有限值保留現況
+      st.timeScale = num(data.timeScale, 0.1, 1.0, st.timeScale);
+      st.shapeSpeed = num(data.shapeSpeed, 0.1, 3.0, st.shapeSpeed);
+      st.shapeScale = num(data.shapeScale, 0.3, 2.5, st.shapeScale);
+      st.textAmp = num(data.textAmp, 0, 40, st.textAmp);
+      st.cymDamping = num(data.cymDamping, 0.1, 3.0, st.cymDamping);
+      st.fwRate = num(data.fwRate, 1, 120, st.fwRate);
+      st.imgThreshold = num(data.imgThreshold, 0, 100, st.imgThreshold);
+      st.shapeFilled = Boolean(data.shapeFilled);
+      st.shape3D = Boolean(data.shape3D);
+      st.shapeWireframe = Boolean(data.shapeWireframe);
+      st.orbitDragMode = Boolean(data.orbitDragMode);
+      st.fireworkAuto = Boolean(data.fireworkAuto);
+      st.autoFadeHud = Boolean(data.autoFadeHud);
+      st.zenMode = Boolean(data.zenMode);
+      st.soundEnabled = Boolean(data.soundEnabled);
+      if (WHITELIST.textEffects.includes(data.textEffect)) st.textEffect = data.textEffect;
+      if (typeof data.customText === 'string') st.customText = data.customText.slice(0, 16);
+      st.cymaticsN = Math.round(num(data.cymaticsN, 1, 9, st.cymaticsN));
+      st.cymaticsM = Math.round(num(data.cymaticsM, 1, 9, st.cymaticsM));
+      if (WHITELIST.shellTypes.includes(data.fireworkShellType)) st.fireworkShellType = data.fireworkShellType;
+      st.particleLifespan = num(data.particleLifespan, 0, 30, st.particleLifespan);
+      st.webMaxLinks = num(data.webMaxLinks, 1, 5, st.webMaxLinks);
+      if (WHITELIST.qualityTiers.includes(data.qualityTier)) st.qualityTier = data.qualityTier;
+      st.beatBpm = num(data.beatBpm, 60, 160, st.beatBpm);
+      st.bgShade = num(data.bgShade, 0, 100, st.bgShade);
+      if (data.baseHueOverride !== undefined && data.baseHueOverride !== null) {
+        const bh = Number(data.baseHueOverride);
+        st.baseHueOverride = Number.isFinite(bh) ? ((bh % 360) + 360) % 360 : null;
+      } else {
+        st.baseHueOverride = null;
+      }
+      st.crtOverlay = Boolean(data.crtOverlay);
+      st.dofScale = Boolean(data.dofScale);
+      st.anaglyph = Boolean(data.anaglyph);
+      st.chromatic = Boolean(data.chromatic);
+      st.quiver = Boolean(data.quiver);
+      if (data.activeArtPreset && ART_PRESETS.includes(data.activeArtPreset)) st.activeArtPreset = data.activeArtPreset;
+      if (Array.isArray(data.anchors)) {
+        const w = viewW || window.innerWidth || 800, h = viewH || window.innerHeight || 600;
+        const cx = w * 0.5, cy = h * 0.5;
+        st.anchors = data.anchors.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
+          const rawX = Number(item[0]), rawY = Number(item[1]);
+          const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
+          const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
+          return {
+            x: ax, y: ay,
+            type: WHITELIST.anchorTypes.includes(item[2]) ? item[2] : 'pull',
+            phase: Math.random() * Math.PI * 2,
+            orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
+            orbitAngle: Math.atan2(ay - cy, ax - cx),
+            lastTap: 0
+          };
+        });
+      }
+      ensureCustomGlyphFallback();
     }
     function undoAction() {
       const st = window.appState;
@@ -6688,7 +6824,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v7.3-${Date.now()}.csv`;
+      a.download = `particle-data-v8.0-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -6763,15 +6899,21 @@
 
     // Initialize 7 Laser Harp Strings
     const HARP_CHORD_FREQS = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
-    for (let s = 0; s < 7; s++) {
-      window.appState.harpStrings.push({
-        amp: 0,
-        vel: 0,
-        freq: HARP_CHORD_FREQS[s],
-        hue: (s * 48 + 180) % 360,
-        lastPluck: 0
-      });
+    // F12：抽出建構函式，重置後與進入 synth 模式時可補建（避免清空後永久無弦）
+    function buildHarpStrings() {
+      const arr = window.appState.harpStrings;
+      arr.length = 0;
+      for (let s = 0; s < 7; s++) {
+        arr.push({
+          amp: 0,
+          vel: 0,
+          freq: HARP_CHORD_FREQS[s],
+          hue: (s * 48 + 180) % 360,
+          lastPluck: 0
+        });
+      }
     }
+    buildHarpStrings();
 
     class Particle {
       constructor() {
@@ -8110,7 +8252,6 @@
         p.size = Math.max(0.5, Math.min(14, dynamicSize * p.sizeRatio));
         p.renderSize = p.size;
       }
-      invalidateTarget2DCache();
 
       const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
       const badge = document.getElementById('particle-count-badge');
@@ -8147,7 +8288,7 @@
       const mode = st.activeMode;
       const isAttract = (isShapeTargetMode(mode) || mode === 'text' || mode === 'image');
       target2DCache.length = 0;
-      if (!isAttract) { target2DDirty = false; return; }
+      if (!isAttract) { return; }
       const sScale = isShapeTargetMode(mode) ? (st.shapeScale || 1.0) : 1.0;
       const is3DActive = (isShapeTargetMode(mode) && st.shape3D);
       const maxZSpan = Math.max(100, Math.min(viewW, viewH) * 0.31 * sScale);
@@ -8176,7 +8317,6 @@
         }
         target2DCache.push({ x: tx, y: ty, z, depthNorm });
       }
-      target2DDirty = false;
     }
 
     function updateParticleTargetsForShape(shape) {
@@ -9101,7 +9241,6 @@
         p.smoothX = null;
         p.smoothY = null;
       }
-      invalidateTarget2DCache();
     }
 
     // --- 3D Holographic Stage (Perspective Turntable Grid + Shadow + 3D Structural Wireframe) ---
@@ -9419,7 +9558,6 @@
           particles[i].smoothX = null;
           particles[i].smoothY = null;
         }
-        invalidateTarget2DCache();
         return;
       }
 
@@ -9437,7 +9575,6 @@
         particles[i].smoothY = null;
         particles[i].color = computeParticleColor(pt.hue, 5);
       }
-      invalidateTarget2DCache();
     }
 
     // --- Media & Built-in Procedural Art Presets (7 Presets + Responsive Normalized Coordinates) ---
@@ -9793,7 +9930,6 @@
         particles[idx].targetColor = point.color;
         particles[idx].color = point.color;
       }
-      invalidateTarget2DCache();
     }
 
     // --- Radial Shockwave Impulse ---
@@ -10201,7 +10337,16 @@
       });
 
       function switchMode(newMode) {
+        const prevMode = window.appState.activeMode;
         window.appState.activeMode = newMode;
+        // F14：切模式時清掉上一模式殘留的火箭與音波漣漪，避免在新模式續跑
+        window.appState.fireworkRockets.length = 0;
+        window.appState.synthRipples.length = 0;
+        // F16：離開 3D 模型模式時歸零相機慣性速度，避免下次進入先衝一下
+        if (prevMode === 'models3d' && newMode !== 'models3d') {
+          window.appState.camVelYaw = 0;
+          window.appState.camVelPitch = 0;
+        }
         window.appState.subPanelMinimized = false;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
         if (labelToggleSubpanel) labelToggleSubpanel.textContent = dict.hideSubPanel;
@@ -10269,6 +10414,8 @@
         } else if (newMode === 'fireworks') {
           launchFireworkRocket(viewW * 0.5, viewH * 0.35);
         } else if (newMode === 'synth') {
+          // F12：琴弦若被重置清空，進入 synth 時補建
+          if (!window.appState.harpStrings.length) buildHarpStrings();
           pushSynthRipple({
             x: viewW * 0.5,
             y: viewH * 0.5,
@@ -10694,10 +10841,28 @@
       function openModal(modalEl) {
         MODAL_ELEMENTS.forEach(m => { if (m && m !== modalEl) m.classList.add('hidden'); });
         if (modalEl) modalEl.classList.remove('hidden');
+        // F19：開窗後把焦點交給彈窗內第一個可聚焦元素（輸入框優先）
+        if (!modalEl) return;
+        const focusables = modalEl.querySelectorAll('input, textarea, select, button, [href], [tabindex]:not([tabindex="-1"])');
+        const first = focusables[0] || modalEl;
+        setTimeout(() => first && first.focus && first.focus(), 30);
       }
       function closeModal() {
         MODAL_ELEMENTS.forEach(m => { if (m) m.classList.add('hidden'); });
       }
+      // F19：輕量 Tab 陷阱——焦點在開啟彈窗內循環，不落到背景畫布
+      const MODAL_FOCUSABLE = 'input, textarea, select, button, [href], [tabindex]:not([tabindex="-1"])';
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const open = MODAL_ELEMENTS.find(m => m && !m.classList.contains('hidden'));
+        if (!open) return;
+        const focusables = [...open.querySelectorAll(MODAL_FOCUSABLE)].filter(el => !el.disabled && el.offsetParent !== null);
+        if (!focusables.length) { e.preventDefault(); return; }
+        const first = focusables[0], last = focusables[focusables.length - 1];
+        const active = document.activeElement;
+        if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+      });
       const btnActionCode = document.getElementById('btn-action-code');
       const btnCloseActionCode = document.getElementById('btn-close-action-code');
       const outputActionCode = document.getElementById('output-action-code');
@@ -10755,7 +10920,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 73,
+          v: 80,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -10802,7 +10967,15 @@
           bb: st.beatBpm,
           bs: st.bgShade,
           tr2: st.trailReticle ? 1 : 0,
-          bh: st.baseHueOverride
+          bh: st.baseHueOverride,
+          sw: st.shapeWireframe ? 1 : 0,
+          od: st.orbitDragMode ? 1 : 0,
+          fa: st.fireworkAuto ? 1 : 0,
+          it: st.imgThreshold,
+          ah: st.autoFadeHud ? 1 : 0,
+          zm: st.zenMode ? 1 : 0,
+          se: st.soundEnabled ? 1 : 0,
+          ap: ART_PRESETS.includes(st.activeArtPreset) ? st.activeArtPreset : null
         };
         try {
           const jsonStr = JSON.stringify(payload);
@@ -10810,9 +10983,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB73-${encoded}`;
+          return `PSB80-${encoded}`;
         } catch (e) {
-          return 'PSB73-DEFAULT';
+          return 'PSB80-DEFAULT';
         }
       }
 
@@ -10901,6 +11074,10 @@
         const st = window.appState;
         const w = viewW || window.innerWidth || 800;
         const h = viewH || window.innerHeight || 600;
+
+        // F5：秘技成功分派前先進 Undo 堆疊（與場景/精選按鈕同一慣例；壞碼不快照）
+        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND']);
+        if (SECRET_CODES.has(upper)) captureUndoSnapshot();
 
         // Check Built-in Secret / Command Action Codes first
         if (upper === 'SUPERNOVA') {
@@ -11117,9 +11294,9 @@
           return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -11127,7 +11304,14 @@
             const jsonStr = decodeURIComponent(atob(b64));
             const data = JSON.parse(jsonStr);
             if (!data || typeof data !== 'object') throw new Error('Invalid');
-            const codeVersion = Number(data.v) || 46; // 舊碼無 v 欄位視為 46
+            // F8：舊碼缺 v 欄位時由前綴推定版本；data.v 存在且有限時覆蓋
+            const PREFIX_VERSION = { 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
+            let codeVersion = 46;
+            for (const px of Object.keys(PREFIX_VERSION)) { if (upperClean.startsWith(px)) { codeVersion = PREFIX_VERSION[px]; break; } }
+            if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Number(data.v);
+            const num = (v, lo, hi, fb) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(lo, Number(v))) : fb;
+            // F5：狀態碼成功解碼、分派前先進 Undo 堆疊
+            captureUndoSnapshot();
 
             if (data.m && WHITELIST.modes.includes(data.m)) st.activeMode = data.m;
             if (data.p && WHITELIST.palettes.includes(data.p)) st.palette = data.p;
@@ -11146,26 +11330,37 @@
             if (data.gl !== undefined) st.additiveGlow = Boolean(data.gl);
             if (data.wb !== undefined) st.constellationWeb = Boolean(data.wb);
             if (data.bn !== undefined) st.wallBounce = Boolean(data.bn);
-            if (data.ts) st.timeScale = Number(data.ts) < 0.5 ? 0.25 : 1.0;
+            // F1：timeScale 保留連續倍率，有限值夾 0.1–1.0，與編碼 toFixed(2) 對齊
+            if (data.ts !== undefined) st.timeScale = Number.isFinite(Number(data.ts)) ? Math.min(1, Math.max(0.1, Number(data.ts))) : 1.0;
             if (data.sp) st.timeSpeed = Math.min(2.0, Math.max(0.1, Number(data.sp) || 1.0));
             if (data.wd) st.webDist = Math.min(110, Math.max(20, Number(data.wd) || 48));
             if (data.sh && WHITELIST.shapes.includes(data.sh)) st.activeShape = data.sh;
             if (data.sf !== undefined) st.shapeFilled = Boolean(data.sf);
             if (data.s3 !== undefined) st.shape3D = Boolean(data.s3);
-            if (data.ss !== undefined) st.shapeSpeed = Number(data.ss);
-            if (data.sc !== undefined) st.shapeScale = Number(data.sc);
+            if (data.sw !== undefined) st.shapeWireframe = Boolean(data.sw);
+            if (data.od !== undefined) st.orbitDragMode = Boolean(data.od);
+            // F2：數值欄位統一 finite 守衛與上下限夾取
+            if (data.ss !== undefined) st.shapeSpeed = num(data.ss, 0.1, 3.0, st.shapeSpeed);
+            if (data.sc !== undefined) st.shapeScale = num(data.sc, 0.3, 2.5, st.shapeScale);
             if (data.tx) st.customText = String(data.tx).slice(0, 16);
             if (data.te && WHITELIST.textEffects.includes(data.te)) st.textEffect = data.te;
-            if (data.ta) st.textAmp = Number(data.ta);
-            if (data.cn && data.cm) setCymaticsFreq(Number(data.cn), Number(data.cm));
-            if (data.cd) st.cymDamping = Number(data.cd);
+            if (data.ta !== undefined) st.textAmp = num(data.ta, 0, 40, st.textAmp);
+            // cn/cm 先有限值並夾整數 1–9，再進 setCymaticsFreq
+            const cn = Math.round(num(data.cn, 1, 9, st.cymaticsN));
+            const cm = Math.round(num(data.cm, 1, 9, st.cymaticsM));
+            if (data.cn !== undefined || data.cm !== undefined) setCymaticsFreq(cn, cm);
+            if (data.cd !== undefined) st.cymDamping = num(data.cd, 0.1, 3.0, st.cymDamping);
             if (data.fw && WHITELIST.shellTypes.includes(data.fw)) st.fireworkShellType = data.fw;
-            if (data.fr) st.fwRate = Number(data.fr);
+            if (data.fa !== undefined) st.fireworkAuto = Boolean(data.fa);
+            if (data.fr !== undefined) st.fwRate = num(data.fr, 1, 120, st.fwRate);
+            if (data.it !== undefined) st.imgThreshold = num(data.it, 0, 100, st.imgThreshold);
             if (Array.isArray(data.an)) {
               const cx = w * 0.5, cy = h * 0.5;
-              st.anchors = data.an.slice(0, 5).map(item => {
-                const ax = (Number(item[0]) || 0.5) * w;
-                const ay = (Number(item[1]) || 0.5) * h;
+              // F3：逐筆校驗陣列形狀，單筆壞資料跳過，不拖垮整份碼
+              st.anchors = data.an.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
+                const rawX = Number(item[0]), rawY = Number(item[1]);
+                const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
+                const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
                 return {
                   x: ax,
                   y: ay,
@@ -11186,6 +11381,10 @@
             if (data.bb) st.beatBpm = Math.min(160, Math.max(60, Number(data.bb) || 78));
             if (data.bs !== undefined) st.bgShade = Math.min(100, Math.max(0, Number(data.bs) || 50));
             if (data.tr2 !== undefined) st.trailReticle = Boolean(data.tr2);
+            if (data.ah !== undefined) st.autoFadeHud = Boolean(data.ah);
+            if (data.zm !== undefined) st.zenMode = Boolean(data.zm);
+            if (data.se !== undefined) st.soundEnabled = Boolean(data.se);
+            if (data.ap && ART_PRESETS.includes(data.ap)) st.activeArtPreset = data.ap;
             if (data.bh !== undefined && data.bh !== null) {
               const bh = Number(data.bh);
               st.baseHueOverride = Number.isFinite(bh) ? ((bh % 360) + 360) % 360 : null;
@@ -11198,7 +11397,9 @@
             st.modeSubmenuOpen = false;
             st.shapeSubmenuOpen = false;
             syncAllUIControlsAfterActionCode();
-            const versionLabel = codeVersion === 73 ? 'PSB73 State'
+            ensureCustomGlyphFallback();
+            const versionLabel = codeVersion === 80 ? 'PSB80 State'
+              : codeVersion === 73 ? 'PSB73 State'
               : codeVersion === 72 ? 'PSB72 State'
               : codeVersion === 71 ? 'PSB71 State'
               : codeVersion === 70 ? 'PSB70 State'
@@ -11220,7 +11421,7 @@
       window.renderSavedActionCodes = function() {
         if (!savedAcList || !savedAcCount) return;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-        savedAcCount.textContent = `${savedActionCodes.length} SAVED`;
+        savedAcCount.textContent = typeof dict.acSavedCount === 'function' ? dict.acSavedCount(savedActionCodes.length) : `${savedActionCodes.length}`;
         savedAcList.innerHTML = '';
 
         if (savedActionCodes.length === 0) {
@@ -11317,8 +11518,13 @@
         }
         const modeTitle = dict.modeTitle(window.appState.activeMode).replace(/^.*：|^Mode:\s*/, '');
         const label = `${modeTitle} · ${window.appState.palette.toUpperCase()}`;
+        // F22：收藏庫上限 12，超限提示而不靜默截斷
+        if (savedActionCodes.length >= 12) {
+          showToast(dict.toastSavedLimit, true);
+          playProceduralSound('tap');
+          return;
+        }
         savedActionCodes.unshift({ label, code, time: Date.now() });
-        if (savedActionCodes.length > 12) savedActionCodes.length = 12;
         persistSavedActionCodes();
         window.renderSavedActionCodes();
         showToast(dict.toastAcSaved);
@@ -11611,9 +11817,15 @@
       });
 
       // 自動儲存配置：開啟時寫入 localStorage 快照，重整還原滑桿/開關/選色/模式
+      // §2.1 持久化白名單：下列皆為可序列化使用者設定；§2.2 執行期暫存不進快照：
+      // isPaused、相機角/慣性速度（camYaw/camPitch/camVelYaw/camVelPitch）、formationPos、
+      // dockCollapsed/subPanelMinimized、isVideoActive/currentVideoBlobUrl、fireworkRockets/synthRipples/harpStrings、
+      // pointers/hoverPoint、draggingAnchorIdx/fountainCursor/last* 時間戳/lastSoundTimes/lastSynced*、
+      // cursorTrail/rulerStart/pinchPrevDist、customCutoutSprite、undoStack/redoStack。
       function persistConfigSnapshot() {
         if (!window.appState.persistConfig) return;
         const st = window.appState;
+        const w = viewW || 1, h = viewH || 1;
         const snap = {
           particleCount: st.particleCount, particleSize: st.particleSize,
           attractForce: st.attractForce, trailPersistence: st.trailPersistence,
@@ -11630,7 +11842,23 @@
           beatPulse: st.beatPulse, timeSpeed: st.timeSpeed,
           particleGlyph: st.particleGlyph, crtOverlay: st.crtOverlay,
           dofScale: st.dofScale, anaglyph: st.anaglyph,
-          chromatic: st.chromatic, quiver: st.quiver
+          chromatic: st.chromatic, quiver: st.quiver,
+          // §2.1 補齊：外觀/文字/克拉尼/煙花/圖片/介面偏好
+          baseHueOverride: st.baseHueOverride, timeScale: st.timeScale,
+          shapeFilled: st.shapeFilled, shape3D: st.shape3D,
+          shapeWireframe: st.shapeWireframe, orbitDragMode: st.orbitDragMode,
+          shapeSpeed: st.shapeSpeed, shapeScale: st.shapeScale,
+          textEffect: st.textEffect, customText: st.customText, textAmp: st.textAmp,
+          cymaticsN: st.cymaticsN, cymaticsM: st.cymaticsM, cymDamping: st.cymDamping,
+          fireworkShellType: st.fireworkShellType, fireworkAuto: st.fireworkAuto,
+          fwRate: st.fwRate, imgThreshold: st.imgThreshold,
+          autoFadeHud: st.autoFadeHud, zenMode: st.zenMode, soundEnabled: st.soundEnabled,
+          activeArtPreset: ART_PRESETS.includes(st.activeArtPreset) ? st.activeArtPreset : null,
+          currentLang: currentLang,
+          activeModeCategory: st.activeModeCategory, activeShapeCategory: st.activeShapeCategory,
+          anchors: st.anchors.map(a => [
+            Number((a.x / w).toFixed(3)), Number((a.y / h).toFixed(3)), a.type
+          ])
         };
         try { localStorage.setItem(CONFIG_KEY, JSON.stringify(snap)); } catch (e) {}
       }
@@ -11641,6 +11869,7 @@
         try { snap = JSON.parse(localStorage.getItem(CONFIG_KEY) || 'null'); } catch (e) { snap = null; }
         if (!snap || typeof snap !== 'object') return;
         const st = window.appState;
+        const num = (v, lo, hi, fallback) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(lo, Number(v))) : fallback;
         if (WHITELIST.modes.includes(snap.activeMode)) st.activeMode = snap.activeMode;
         if (WHITELIST.palettes.includes(snap.palette)) st.palette = snap.palette;
         if (WHITELIST.brushes.includes(snap.brushOverride)) st.brushOverride = snap.brushOverride;
@@ -11649,7 +11878,6 @@
         if (WHITELIST.gravityDirs.includes(snap.gravityDir)) st.gravityDir = snap.gravityDir;
         if (WHITELIST.qualityTiers.includes(snap.qualityTier)) st.qualityTier = snap.qualityTier;
         if (WHITELIST.mirrorSteps.includes(Number(snap.mirrorSymmetry))) st.mirrorSymmetry = Number(snap.mirrorSymmetry);
-        const num = (v, lo, hi, fallback) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(lo, Number(v))) : fallback;
         st.particleCount = num(snap.particleCount, 1000, 18000, st.particleCount);
         st.particleSize = num(snap.particleSize, 0.5, 6.0, st.particleSize);
         st.attractForce = num(snap.attractForce, 0.1, 1.5, st.attractForce);
@@ -11679,6 +11907,58 @@
         st.anaglyph = Boolean(snap.anaglyph);
         st.chromatic = Boolean(snap.chromatic);
         st.quiver = Boolean(snap.quiver);
+        // §2.1 補齊欄位還原：數值 num() 夾取、布林 Boolean()、列舉過白名單
+        if (snap.baseHueOverride !== undefined && snap.baseHueOverride !== null) {
+          const bh = Number(snap.baseHueOverride);
+          st.baseHueOverride = Number.isFinite(bh) ? ((bh % 360) + 360) % 360 : null;
+        } else {
+          st.baseHueOverride = null;
+        }
+        st.timeScale = num(snap.timeScale, 0.1, 1.0, st.timeScale);
+        st.shapeFilled = Boolean(snap.shapeFilled);
+        st.shape3D = Boolean(snap.shape3D);
+        st.shapeWireframe = Boolean(snap.shapeWireframe);
+        st.orbitDragMode = Boolean(snap.orbitDragMode);
+        st.shapeSpeed = num(snap.shapeSpeed, 0.1, 3.0, st.shapeSpeed);
+        st.shapeScale = num(snap.shapeScale, 0.3, 2.5, st.shapeScale);
+        if (WHITELIST.textEffects.includes(snap.textEffect)) st.textEffect = snap.textEffect;
+        if (typeof snap.customText === 'string') st.customText = snap.customText.slice(0, 16);
+        st.textAmp = num(snap.textAmp, 0, 40, st.textAmp);
+        st.cymaticsN = Math.round(num(snap.cymaticsN, 1, 9, st.cymaticsN));
+        st.cymaticsM = Math.round(num(snap.cymaticsM, 1, 9, st.cymaticsM));
+        st.cymDamping = num(snap.cymDamping, 0.1, 3.0, st.cymDamping);
+        if (WHITELIST.shellTypes.includes(snap.fireworkShellType)) st.fireworkShellType = snap.fireworkShellType;
+        st.fireworkAuto = Boolean(snap.fireworkAuto);
+        st.fwRate = num(snap.fwRate, 1, 120, st.fwRate);
+        st.imgThreshold = num(snap.imgThreshold, 0, 100, st.imgThreshold);
+        st.autoFadeHud = Boolean(snap.autoFadeHud);
+        st.zenMode = Boolean(snap.zenMode);
+        st.soundEnabled = Boolean(snap.soundEnabled);
+        if (snap.activeArtPreset && ART_PRESETS.includes(snap.activeArtPreset)) st.activeArtPreset = snap.activeArtPreset;
+        if (SUPPORTED_LANGS.includes(snap.currentLang)) currentLang = snap.currentLang;
+        const MODE_CATS = ['all', 'force', 'nature', 'audio', 'media'];
+        const SHAPE_CATS = ['all', 'basic', 'spiral', 'topology', 'models'];
+        if (MODE_CATS.includes(snap.activeModeCategory)) st.activeModeCategory = snap.activeModeCategory;
+        if (SHAPE_CATS.includes(snap.activeShapeCategory)) st.activeShapeCategory = snap.activeShapeCategory;
+        if (Array.isArray(snap.anchors)) {
+          const w = viewW || window.innerWidth || 800, h = viewH || window.innerHeight || 600;
+          const cx = w * 0.5, cy = h * 0.5;
+          st.anchors = snap.anchors.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
+            const rawX = Number(item[0]), rawY = Number(item[1]);
+            const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
+            const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
+            return {
+              x: ax, y: ay,
+              type: WHITELIST.anchorTypes.includes(item[2]) ? item[2] : 'pull',
+              phase: Math.random() * Math.PI * 2,
+              orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
+              orbitAngle: Math.atan2(ay - cy, ax - cx),
+              lastTap: 0
+            };
+          });
+        }
+        // F17：custom 字形但去背圖不存在時靜默降回圓點並提示
+        ensureCustomGlyphFallback();
       }
 
       document.getElementById('btn-toggle-persist').addEventListener('click', () => {
@@ -12013,7 +12293,7 @@
           });
           const delBtn = document.createElement('button');
           delBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-semibold bg-white/5 border border-white/10 text-white/60 hover:bg-red-500/20 hover:text-red-200 transition-all';
-          delBtn.textContent = 'X';
+          delBtn.textContent = dict.cmdDelete;
           delBtn.addEventListener('click', () => {
             const cur = loadCustomPresets();
             cur.splice(idx, 1);
@@ -12043,8 +12323,12 @@
         if (list.some(p => String(p.name).toLowerCase() === name.toLowerCase())) {
           showToast(dict.customPresetExists, true); return;
         }
+        // F22：自訂預設上限 8，超限提示而不靜默淘汰舊筆
+        if (list.length >= CUSTOM_PRESETS_CAP) {
+          showToast(dict.toastPresetLimit, true);
+          return;
+        }
         list.push({ name, data: buildStateSnapshot() });
-        if (list.length > CUSTOM_PRESETS_CAP) list.shift();
         saveCustomPresets(list);
         customPresetName.value = '';
         renderCustomPresetList();
@@ -12072,6 +12356,7 @@
       }
       function buildCommandItems() {
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
         const items = [];
         WHITELIST.modes.forEach(m => {
           const label = typeof dict.modeTitle === 'function' ? dict.modeTitle(m) : m;
@@ -12087,6 +12372,33 @@
         });
         ['presetNebula', 'presetLava', 'presetNeon', 'presetLorenz', 'presetGolden', 'presetJwst'].forEach(p => {
           items.push({ type: 'preset', label: dict[p] || p, id: p, run: () => applyCuratedPreset(p) });
+        });
+        // F6：色盤分派到既有 selectPalette
+        WHITELIST.palettes.forEach(pal => {
+          items.push({ type: 'palette', label: dict['pal' + cap(pal)] || pal, id: pal, run: () => selectPalette(pal) });
+        });
+        // F6：筆刷分派（狀態切換後由同步器更新標籤與按鈕樣式）
+        WHITELIST.brushes.forEach(b => {
+          items.push({ type: 'brush', label: (dict.brushLabels && dict.brushLabels[b]) || b, id: b, run: () => { window.appState.brushOverride = b; } });
+        });
+        // F6：材料分派到既有材料按鈕群高亮
+        WHITELIST.materials.forEach(mt => {
+          items.push({ type: 'material', label: dict['mat' + cap(mt)] || mt, id: mt, run: () => { window.appState.material = mt; updateMaterialButtonsUI(); } });
+        });
+        // F6：字形分派；custom 需已有上傳去背圖，否則提示先上傳
+        WHITELIST.glyphs.forEach(g => {
+          const label = dict['glyph' + cap(g)] || g;
+          items.push({ type: 'glyph', label, id: g, run: () => {
+            if (g === 'custom') {
+              if (!window.appState.customCutoutSprite) { showToast(dict.toastGlyphCustomMissing, true); return false; }
+              window.appState.particleGlyph = 'custom';
+            } else {
+              window.appState.particleGlyph = g;
+              window.appState.customCutoutSprite = null;
+            }
+            syncGlyphButtonsUI();
+            return true;
+          } });
         });
         return items;
       }
@@ -12113,15 +12425,16 @@
           left.textContent = it.label;
           const tag = document.createElement('span');
           tag.className = 'ml-auto shrink-0 text-[10px] text-white/40 font-mono whitespace-nowrap';
-          tag.textContent = it.type;
+          const catKey = 'cmdCat' + it.type.charAt(0).toUpperCase() + it.type.slice(1);
+          tag.textContent = dict[catKey] || it.type;
           btn.appendChild(left);
           btn.appendChild(tag);
           btn.addEventListener('click', () => {
             captureUndoSnapshot();
-            it.run();
+            const applied = it.run();
             syncAllUIControlsAfterActionCode();
             closeModal();
-            showToast(dict.cmdApplied);
+            if (applied !== false) showToast(dict.cmdApplied);
           });
           cmdPaletteResults.appendChild(btn);
         });
@@ -12533,10 +12846,12 @@
         window.appState.activeMode = keepMode;
         window.appState.activeShape = keepShape;
         window.appState.activeArtPreset = keepArt;
+        // F13：依保留造型校正 shape3D，避免 2D 舊造型被當 3D 投影
+        window.appState.shape3D = isModelShape(keepShape);
         window.appState.anchors = [];
         window.appState.fireworkRockets = [];
         window.appState.synthRipples = [];
-        window.appState.harpStrings = [];
+        buildHarpStrings(); // F12：重置後重建雷琴琴弦
         window.appState.pointers = new Map();
         window.appState.hoverPoint = null;
         window.appState.formationPos = null;
@@ -12547,8 +12862,17 @@
         window.appState.customCutoutSprite = null;
         window.appState.undoStack = [];
         window.appState.redoStack = [];
+        // F9：歸零殘留索引與時間戳，避免重置後舊狀態誤觸發
+        window.appState.draggingAnchorIdx = -1;
+        window.appState.fountainCursor = 0;
+        window.appState.lastAutoFireworkTick = 0;
+        window.appState.lastBeatPulseTick = 0;
+        window.appState.lastSynthNoteTime = 0;
+        window.appState.lastTapTime = 0;
+        window.appState.lastSoundTimes = {};
+        window.appState.lastSyncedCount = 0;
+        window.appState.lastSyncedSize = 0;
         currentTrace.length = 0;
-        invalidateTarget2DCache();
       }
 
       document.getElementById('btn-reset-defaults').addEventListener('click', () => {
@@ -12581,6 +12905,9 @@
         syncModeCategoryUI();
         syncShapeButtonsUI();
         updateEngineControls();
+        // F13：重置後比照動作碼路徑校正造型路由並重建目標點
+        routeShapeMode();
+        switchMode(window.appState.activeMode);
         showToast(dict.toastReset);
         playProceduralSound('change');
       });
@@ -12674,6 +13001,7 @@
           dot.classList.remove('bg-amber-400');
           dot.classList.add('bg-blue-500', 'status-pulse');
         }
+        applyAmbientMute(window.appState.isPaused); // F18：暫停連動靜音 drone
         updateCanvasStatusLabel();
         playProceduralSound('change');
       }
@@ -12750,6 +13078,7 @@
         const nextIdx = (SUPPORTED_LANGS.indexOf(currentLang) + 1) % SUPPORTED_LANGS.length;
         updateAppLanguage(SUPPORTED_LANGS[nextIdx]);
         syncAllUIControlsAfterActionCode();
+        persistConfigSnapshot(); // F10：語言選擇隨配置快照持久化
         playProceduralSound('change');
       });
 
@@ -13053,8 +13382,13 @@
           window.appState.draggingAnchorIdx = -1;
         }
         window.appState.pointers.delete(e.pointerId);
-        window.appState.rulerStart = null;
-        window.appState.pinchPrevDist = null;
+        // F15：尺規起點僅在無剩餘觸點時清除；雙指捏合距離僅在觸點少於 2 時歸零，避免誤清
+        if (window.appState.pointers.size === 0) {
+          window.appState.rulerStart = null;
+        }
+        if (window.appState.pointers.size < 2) {
+          window.appState.pinchPrevDist = null;
+        }
         if (window.appState.pointers.size === 0) {
           mainUiLayer.classList.remove('interacting-fade');
         }
@@ -13158,36 +13492,40 @@
             ctx.globalCompositeOperation = 'lighter';
           }
 
-          // Update & Draw Rising Firework Rockets
+          // Update & Draw Rising Firework Rockets（F14 模式守衛：非 fireworks 不續跑）
           const rockets = window.appState.fireworkRockets;
-          for (let r = rockets.length - 1; r >= 0; r--) {
-            const rk = rockets[r];
-            rk.x += rk.vx * dtScale;
-            rk.y += rk.vy * dtScale;
+          if (window.appState.activeMode === 'fireworks') {
+            for (let r = rockets.length - 1; r >= 0; r--) {
+              const rk = rockets[r];
+              rk.x += rk.vx * dtScale;
+              rk.y += rk.vy * dtScale;
 
-            ctx.fillStyle = `hsl(${Math.round(rk.hue)}, 95%, 78%)`;
-            ctx.beginPath();
-            ctx.arc(rk.x, rk.y, 3.2, 0, Math.PI * 2);
-            ctx.fill();
+              ctx.fillStyle = `hsl(${Math.round(rk.hue)}, 95%, 78%)`;
+              ctx.beginPath();
+              ctx.arc(rk.x, rk.y, 3.2, 0, Math.PI * 2);
+              ctx.fill();
 
-            if (rk.y <= rk.targetY || rk.vy >= 0) {
-              spawnFireworkBurst(rk.x, rk.y, rk.shellType);
-              rockets.splice(r, 1);
+              if (rk.y <= rk.targetY || rk.vy >= 0) {
+                spawnFireworkBurst(rk.x, rk.y, rk.shellType);
+                rockets.splice(r, 1);
+              }
             }
           }
 
-          // Update & Draw Synth Ripples
+          // Update & Draw Synth Ripples（F14 模式守衛：非 synth 不續跑）
           const ripples = window.appState.synthRipples;
-          for (let i = ripples.length - 1; i >= 0; i--) {
-            const rp = ripples[i];
-            rp.r += 4.5 * dtScale;
-            const alpha = Math.max(0, 1 - rp.r / rp.maxR) * 0.45;
-            ctx.strokeStyle = `hsla(${Math.round(rp.hue)}, 90%, 68%, ${alpha.toFixed(2)})`;
-            ctx.lineWidth = 1.8;
-            ctx.beginPath();
-            ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-            ctx.stroke();
-            if (rp.r >= rp.maxR) ripples.splice(i, 1);
+          if (window.appState.activeMode === 'synth') {
+            for (let i = ripples.length - 1; i >= 0; i--) {
+              const rp = ripples[i];
+              rp.r += 4.5 * dtScale;
+              const alpha = Math.max(0, 1 - rp.r / rp.maxR) * 0.45;
+              ctx.strokeStyle = `hsla(${Math.round(rp.hue)}, 90%, 68%, ${alpha.toFixed(2)})`;
+              ctx.lineWidth = 1.8;
+              ctx.beginPath();
+              ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+              ctx.stroke();
+              if (rp.r >= rp.maxR) ripples.splice(i, 1);
+            }
           }
 
           const rawPoints = Array.from(window.appState.pointers.values());
