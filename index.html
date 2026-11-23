@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v8.0 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v8.1 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -91,6 +91,10 @@
     .cmd-result-btn:hover {
       background: rgba(59, 130, 246, 0.18);
       border-color: rgba(96, 165, 250, 0.4);
+    }
+    .cmd-result-btn.cmd-active {
+      background: rgba(59, 130, 246, 0.25);
+      border-color: rgba(96, 165, 250, 0.55);
     }
 
     /* 觸控裝置：圓形圖示按鈕最小可點擊尺寸 40px */
@@ -511,7 +515,7 @@
             <svg class="icon-svg text-cyan-400"><use href="#icon-help"/></svg>
             <span class="text-sm font-bold text-white tracking-wide" data-i18n="helpTitle">沙盒操作指南與快捷鍵</span>
           </div>
-          <button id="btn-close-modal" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-lg transition-all">
+          <button id="btn-close-modal" data-i18n-aria="ariaClose" aria-label="關閉" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1.5 rounded-lg transition-all">
             <svg class="icon-svg-sm"><use href="#icon-close"/></svg>
           </button>
         </div>
@@ -538,6 +542,7 @@
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">H</span> <span data-i18n="keyZen">沉浸全螢幕</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">K</span> <span data-i18n="keyActionCode">開啟行動碼系統（匯出/匯入/秘技指令）</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+K</span> <span data-i18n="keyCmdPalette">開啟指令面板 (Ctrl+K)</span></div>
+              <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">? / /</span> <span data-i18n="keyHelp">開啟操作指南 (? / /)</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">Ctrl+Z / Ctrl+Y</span> <span data-i18n="undoBtn">還原 (Ctrl+Z)</span> / <span data-i18n="redoBtn">重做 (Ctrl+Y)</span></div>
               <div class="col-span-2"><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">1 - 5</span> <span data-i18n="keyCat">快速切換 5 大模式分類 (全部/力場/流體/聲光/幾何)</span></div>
               <div><span class="bg-white/10 px-1.5 py-0.5 rounded text-white">E</span> <span data-i18n="keyRespawn">重生粒子</span></div>
@@ -560,7 +565,7 @@
             <svg class="icon-svg text-blue-400"><use href="#icon-code"/></svg>
             <span class="text-sm font-bold text-white tracking-wide" data-i18n="actionCodeTitle">沙盒行動碼系統 (Action Code)</span>
           </div>
-          <button id="btn-close-action-code" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-lg transition-all">
+          <button id="btn-close-action-code" data-i18n-aria="ariaClose" aria-label="關閉" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1.5 rounded-lg transition-all">
             <svg class="icon-svg-sm"><use href="#icon-close"/></svg>
           </button>
         </div>
@@ -573,7 +578,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB80-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB81-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -586,7 +591,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -684,7 +689,7 @@
             <svg class="icon-svg text-purple-400"><use href="#icon-dice"/></svg>
             <span class="text-sm font-bold text-white tracking-wide" data-i18n="customPresetsTitle">自訂預設庫</span>
           </div>
-          <button id="btn-close-custom-presets" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-lg transition-all">
+          <button id="btn-close-custom-presets" data-i18n-aria="ariaClose" aria-label="關閉" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1.5 rounded-lg transition-all">
             <svg class="icon-svg-sm"><use href="#icon-close"/></svg>
           </button>
         </div>
@@ -781,11 +786,11 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.0</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.1</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
-              <button id="btn-close-settings" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-md transition-all">
+              <button id="btn-close-settings" data-i18n-aria="ariaClose" aria-label="關閉" class="text-white/70 hover:text-white bg-white/5 hover:bg-white/15 p-1 rounded-md transition-all">
                 <svg class="icon-svg-sm"><use href="#icon-close"/></svg>
               </button>
             </div>
@@ -1187,7 +1192,7 @@
               <span data-i18n="fwRateTitle">自動連發頻率 (發射間隔)</span>
               <span id="label-fw-rate" class="font-mono text-amber-300">48</span>
             </div>
-            <input type="range" id="slider-fw-rate" min="15" max="100" step="5" value="48">
+            <input type="range" id="slider-fw-rate" min="1" max="120" step="5" value="48">
           </div>
         </div>
 
@@ -1407,7 +1412,7 @@
                 <span data-i18n="shapeScaleTitle">幾何立體縮放</span>
                 <span id="label-shape-scale" class="font-mono text-purple-300">1.0x</span>
               </div>
-              <input type="range" id="slider-shape-scale" min="0.5" max="2.0" step="0.1" value="1.0">
+              <input type="range" id="slider-shape-scale" min="0.3" max="2.5" step="0.1" value="1.0">
             </div>
           </div>
         </div>
@@ -1417,9 +1422,9 @@
           <div class="flex flex-wrap justify-between items-center gap-2">
             <span class="text-[11px] text-white/70 uppercase tracking-wider font-semibold" data-i18n="textModeTitle">粒子文字矩陣</span>
             <div class="flex items-center gap-1 bg-white/5 p-0.5 rounded-lg border border-white/10">
-              <button id="btn-text-static" class="px-2 py-0.5 rounded text-[11px] font-medium bg-blue-600 text-white transition-all" data-i18n="textStatic">穩定陣列</button>
-              <button id="btn-text-wave" class="px-2 py-0.5 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="textWave">波浪旗幟</button>
-              <button id="btn-text-pulse" class="px-2 py-0.5 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="textPulse">霓虹呼吸</button>
+              <button id="btn-text-static" class="px-2 py-1 rounded text-[11px] font-medium bg-blue-600 text-white transition-all" data-i18n="textStatic">穩定陣列</button>
+              <button id="btn-text-wave" class="px-2 py-1 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="textWave">波浪旗幟</button>
+              <button id="btn-text-pulse" class="px-2 py-1 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all" data-i18n="textPulse">霓虹呼吸</button>
               <button id="btn-fold-text-advanced" class="px-2 py-0.5 rounded text-[11px] bg-white/5 hover:bg-white/15 text-white/80 border border-white/10 flex items-center gap-1 transition-all">
                 <svg id="icon-fold-text" class="icon-svg-sm"><use href="#icon-chevron-down"/></svg>
                 <span data-i18n="textAdvBtn">動態</span>
@@ -2022,7 +2027,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.0</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.1</span>
         </div>
       </div>
     </div>
@@ -3768,9 +3773,10 @@
         acCurrentTitle: '當前沙盒狀態行動碼',
         acCurrentHint: '包含模式、物理、色彩、圖形與錨點座標',
         acCopyBtn: '複製',
+        ariaClose: '關閉', ariaDelete: '刪除',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3786,7 +3792,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -4046,6 +4052,7 @@
         toastGlyphSize: '圖片檔案過大（上限 8MB）',
         toastUndoEmpty: '沒有可還原的步驟', toastRedoEmpty: '沒有可重做的步驟',
         keyCmdPalette: '開啟指令面板 (Ctrl+K)',
+        keyHelp: '開啟操作指南 (? / /)',
         statusPaused: '已暫停',
         statusSlowmo: '慢動作 0.25x',
         backToCategories: '← 返回分類',
@@ -4429,9 +4436,10 @@
         acCurrentTitle: '当前沙盒状态行动码',
         acCurrentHint: '包含模式、物理、色彩、图形与锚点坐标',
         acCopyBtn: '复制',
+        ariaClose: '关闭', ariaDelete: '删除',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4447,7 +4455,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4707,6 +4715,7 @@
         toastGlyphSize: '图片文件过大（上限 8MB）',
         toastUndoEmpty: '没有可还原的步骤', toastRedoEmpty: '没有可重做的步骤',
         keyCmdPalette: '开启指令面板 (Ctrl+K)',
+        keyHelp: '开启操作指南 (? / /)',
         statusPaused: '已暂停',
         statusSlowmo: '慢动作 0.25x',
         backToCategories: '← 返回分类',
@@ -5090,9 +5099,10 @@
         acCurrentTitle: 'Current Sandbox Action Code',
         acCurrentHint: 'Encodes mode, physics, palette, shape & anchors',
         acCopyBtn: 'Copy',
+        ariaClose: 'Close', ariaDelete: 'Delete',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5108,7 +5118,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5368,6 +5378,7 @@
         toastGlyphSize: 'Image too large (8MB limit)',
         toastUndoEmpty: 'Nothing to undo', toastRedoEmpty: 'Nothing to redo',
         keyCmdPalette: 'Open command palette (Ctrl+K)',
+        keyHelp: 'Open help guide (? / /)',
         statusPaused: 'Paused',
         statusSlowmo: 'Slow Motion 0.25x',
         backToCategories: '← Back to Categories',
@@ -5751,9 +5762,10 @@
         acCurrentTitle: '現在のサンドボックス状態コード',
         acCurrentHint: 'モード・物理・色彩・図形・アンカー座標を保持',
         acCopyBtn: 'コピー',
+        ariaClose: '閉じる', ariaDelete: '削除',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5769,7 +5781,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -6029,6 +6041,7 @@
         toastGlyphSize: '画像が大きすぎます（上限 8MB）',
         toastUndoEmpty: '戻す操作がありません', toastRedoEmpty: 'やり直す操作がありません',
         keyCmdPalette: 'コマンドパレットを開く (Ctrl+K)',
+        keyHelp: 'ヘルプガイドを開く (? / /)',
         statusPaused: '一時停止中',
         statusSlowmo: 'スローモーション 0.25x',
         backToCategories: '← カテゴリーへ戻る',
@@ -6644,6 +6657,23 @@
       }
     }
 
+    // A5：共用錨點重建——正規化座標先夾 [0,1] 再乘視窗尺寸；動作碼／快照／Undo 三條還原路徑複用，避免漂移
+    function buildAnchorFromRaw(rawX, rawY, type, viewW, viewH) {
+      const cx = viewW * 0.5, cy = viewH * 0.5;
+      const fx = Number.isFinite(Number(rawX)) ? Math.min(1, Math.max(0, Number(rawX))) : 0.5;
+      const fy = Number.isFinite(Number(rawY)) ? Math.min(1, Math.max(0, Number(rawY))) : 0.5;
+      const ax = fx * viewW, ay = fy * viewH;
+      return {
+        x: ax,
+        y: ay,
+        type: WHITELIST.anchorTypes.includes(type) ? type : 'pull',
+        phase: Math.random() * Math.PI * 2,
+        orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
+        orbitAngle: Math.atan2(ay - cy, ax - cx),
+        lastTap: 0
+      };
+    }
+
     // F7：Undo / Redo lite（堆疊上限 25；快照不含粒子位置，還原後自然收斂）
     const UNDO_CAP = 25;
     function buildStateSnapshot() {
@@ -6747,21 +6777,10 @@
       st.quiver = Boolean(data.quiver);
       if (data.activeArtPreset && ART_PRESETS.includes(data.activeArtPreset)) st.activeArtPreset = data.activeArtPreset;
       if (Array.isArray(data.anchors)) {
+        // A5：座標先夾 [0,1] 再乘視窗尺寸，共用 buildAnchorFromRaw
         const w = viewW || window.innerWidth || 800, h = viewH || window.innerHeight || 600;
-        const cx = w * 0.5, cy = h * 0.5;
-        st.anchors = data.anchors.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
-          const rawX = Number(item[0]), rawY = Number(item[1]);
-          const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
-          const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
-          return {
-            x: ax, y: ay,
-            type: WHITELIST.anchorTypes.includes(item[2]) ? item[2] : 'pull',
-            phase: Math.random() * Math.PI * 2,
-            orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
-            orbitAngle: Math.atan2(ay - cy, ax - cx),
-            lastTap: 0
-          };
-        });
+        st.anchors = data.anchors.slice(0, 5).filter(item => Array.isArray(item))
+          .map(item => buildAnchorFromRaw(item[0], item[1], item[2], w, h));
       }
       ensureCustomGlyphFallback();
     }
@@ -6824,7 +6843,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v8.0-${Date.now()}.csv`;
+      a.download = `particle-data-v8.1-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -10096,6 +10115,11 @@
         const key = el.getAttribute('data-i18n-placeholder');
         if (dict[key]) el.setAttribute('placeholder', dict[key]);
       });
+      // U4：無障礙 aria-label 隨語言切換
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (dict[key]) el.setAttribute('aria-label', dict[key]);
+      });
       syncShapeCatAllLabel();
       document.getElementById('lang-indicator').textContent = dict.label;
       document.getElementById('active-mode-label').textContent = dict.modeTitle(window.appState.activeMode);
@@ -10342,6 +10366,9 @@
         // F14：切模式時清掉上一模式殘留的火箭與音波漣漪，避免在新模式續跑
         window.appState.fireworkRockets.length = 0;
         window.appState.synthRipples.length = 0;
+        // B13：跨模式切換清掉殘留的成形目標點與懸停點，避免新模式沿用舊座標
+        window.appState.formationPos = null;
+        window.appState.hoverPoint = null;
         // F16：離開 3D 模型模式時歸零相機慣性速度，避免下次進入先衝一下
         if (prevMode === 'models3d' && newMode !== 'models3d') {
           window.appState.camVelYaw = 0;
@@ -10527,10 +10554,7 @@
         btn.addEventListener('click', () => {
           const fwType = btn.getAttribute('data-fw');
           window.appState.fireworkShellType = fwType;
-          fwShellBtns.forEach(b => {
-            b.className = 'fw-shell-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/15 text-white/75 transition-all';
-          });
-          btn.className = 'fw-shell-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white transition-all';
+          syncShellTypeButtonsUI();
           launchFireworkRocket(viewW * (0.3 + Math.random() * 0.4), viewH * 0.35, fwType);
         });
       });
@@ -10538,11 +10562,7 @@
       const btnFwAuto = document.getElementById('btn-fw-auto');
       btnFwAuto.addEventListener('click', () => {
         window.appState.fireworkAuto = !window.appState.fireworkAuto;
-        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-        btnFwAuto.textContent = window.appState.fireworkAuto ? dict.fwAutoOn : dict.fwAutoOff;
-        btnFwAuto.className = window.appState.fireworkAuto
-          ? 'px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-600/30 border border-emerald-400/40 text-emerald-200 transition-all'
-          : 'px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/70 transition-all';
+        syncFwAutoButton();
         playProceduralSound('change');
       });
 
@@ -10559,19 +10579,11 @@
 
       // Cymatics Sub-panel Controls
       const cymPresetBtns = document.querySelectorAll('.cym-preset-btn');
-      const cymBadge = document.getElementById('cymatics-freq-badge');
-      function setCymaticsFreq(n, m) {
+      function setCymaticsFreq(n, m, silent) {
         window.appState.cymaticsN = n;
         window.appState.cymaticsM = m;
-        if (cymBadge) cymBadge.textContent = `n=${n}, m=${m}`;
-        cymPresetBtns.forEach(b => {
-          if (b.getAttribute('data-cym') === `${n},${m}`) {
-            b.className = 'cym-preset-btn px-2.5 py-1 rounded-lg text-xs font-mono bg-blue-600 text-white border border-blue-400 transition-all';
-          } else {
-            b.className = 'cym-preset-btn px-2.5 py-1 rounded-lg text-xs font-mono bg-white/5 hover:bg-white/15 text-white/80 border border-white/10 transition-all';
-          }
-        });
-        playProceduralSound('change');
+        refreshCymaticsUI();
+        if (!silent) playProceduralSound('change');
       }
 
       cymPresetBtns.forEach(btn => {
@@ -10636,22 +10648,14 @@
       if (btnShapeWireframe) {
         btnShapeWireframe.addEventListener('click', () => {
           window.appState.shapeWireframe = !window.appState.shapeWireframe;
-          const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-          btnShapeWireframe.textContent = window.appState.shapeWireframe ? dict.shapeWireOn : dict.shapeWireOff;
-          btnShapeWireframe.className = window.appState.shapeWireframe
-            ? 'px-2 py-1 rounded-md text-[11px] font-medium bg-emerald-600/40 border border-emerald-400/40 text-emerald-200 transition-all'
-            : 'px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/70 transition-all';
+          syncWireframeButton();
           playProceduralSound('change');
         });
       }
 
       btnShapeOrbitDrag.addEventListener('click', () => {
         window.appState.orbitDragMode = !window.appState.orbitDragMode;
-        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-        btnShapeOrbitDrag.textContent = window.appState.orbitDragMode ? dict.shapeOrbitOn : dict.shapeOrbitOff;
-        btnShapeOrbitDrag.className = window.appState.orbitDragMode
-          ? 'px-2 py-1 rounded-md text-[11px] font-medium bg-cyan-600/40 border border-cyan-400/40 text-cyan-200 transition-all'
-          : 'px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/70 transition-all';
+        syncOrbitDragButton();
         playProceduralSound('change');
       });
 
@@ -10694,11 +10698,7 @@
       Object.keys(textEffectBtns).forEach(effKey => {
         textEffectBtns[effKey].addEventListener('click', () => {
           window.appState.textEffect = effKey;
-          Object.keys(textEffectBtns).forEach(k => {
-            textEffectBtns[k].className = k === effKey
-              ? 'px-2 py-0.5 rounded text-[11px] font-medium bg-blue-600 text-white transition-all'
-              : 'px-2 py-0.5 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all';
-          });
+          syncTextEffectButtonsUI();
           playProceduralSound('change');
         });
       });
@@ -10736,10 +10736,7 @@
           }
           videoPreview.removeAttribute('src');
           videoPreview.load();
-          mediaPresetBtns.forEach(b => {
-            b.className = 'media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white';
-          });
-          btn.className = 'media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-blue-600/30 border border-blue-500 text-white';
+          syncArtPresetButtonsUI();
           generateProceduralArtPreset(art);
           playProceduralSound('change');
         });
@@ -10838,7 +10835,10 @@
       const modalCustomPresets = document.getElementById('modal-custom-presets');
       const modalCmdPalette = document.getElementById('modal-command-palette');
       const MODAL_ELEMENTS = [modalShortcuts, modalActionCode, modalCustomPresets, modalCmdPalette];
+      // U3：記錄開窗前觸發焦點元素，關窗後還原，避免焦點掉回背景畫布
+      let lastTrigger = null;
       function openModal(modalEl) {
+        if (!lastTrigger && document.activeElement && document.activeElement !== document.body) lastTrigger = document.activeElement;
         MODAL_ELEMENTS.forEach(m => { if (m && m !== modalEl) m.classList.add('hidden'); });
         if (modalEl) modalEl.classList.remove('hidden');
         // F19：開窗後把焦點交給彈窗內第一個可聚焦元素（輸入框優先）
@@ -10849,6 +10849,10 @@
       }
       function closeModal() {
         MODAL_ELEMENTS.forEach(m => { if (m) m.classList.add('hidden'); });
+        if (lastTrigger && typeof lastTrigger.focus === 'function') {
+          try { lastTrigger.focus(); } catch (e) {}
+        }
+        lastTrigger = null;
       }
       // F19：輕量 Tab 陷阱——焦點在開啟彈窗內循環，不落到背景畫布
       const MODAL_FOCUSABLE = 'input, textarea, select, button, [href], [tabindex]:not([tabindex="-1"])';
@@ -10920,7 +10924,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 80,
+          v: 81,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -10946,7 +10950,7 @@
           s3: st.shape3D ? 1 : 0,
           ss: Number(st.shapeSpeed.toFixed(1)),
           sc: Number(st.shapeScale.toFixed(1)),
-          tx: st.customText,
+          tx: String(st.customText).slice(0, 16),
           te: st.textEffect,
           ta: st.textAmp,
           cn: st.cymaticsN,
@@ -10975,7 +10979,17 @@
           ah: st.autoFadeHud ? 1 : 0,
           zm: st.zenMode ? 1 : 0,
           se: st.soundEnabled ? 1 : 0,
-          ap: ART_PRESETS.includes(st.activeArtPreset) ? st.activeArtPreset : null
+          ap: ART_PRESETS.includes(st.activeArtPreset) ? st.activeArtPreset : null,
+          // A6：快照已持久化的安全偏好欄位對齊進動作碼（分類 UI 狀態與 custom sprite 不進碼）
+          gy: st.particleGlyph,
+          cr: st.crtOverlay ? 1 : 0,
+          ds: st.dofScale ? 1 : 0,
+          ag: st.anaglyph ? 1 : 0,
+          xc: st.chromatic ? 1 : 0,
+          qv: st.quiver ? 1 : 0,
+          hi: st.hoverInfluence ? 1 : 0,
+          mv: Number(st.masterVolume.toFixed(2)),
+          lg: currentLang
         };
         try {
           const jsonStr = JSON.stringify(payload);
@@ -10983,9 +10997,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB80-${encoded}`;
+          return `PSB81-${encoded}`;
         } catch (e) {
-          return 'PSB80-DEFAULT';
+          return 'PSB81-DEFAULT';
         }
       }
 
@@ -11016,6 +11030,98 @@
         }
       }
 
+      // B1–B8：抽出單一 UI 刷新函式，點擊回呼、語言切換、動作碼/快照/Undo 還原三路複用，避免雙軌不同步
+      function syncShellTypeButtonsUI() {
+        const st = window.appState;
+        document.querySelectorAll('.fw-shell-btn').forEach(b => {
+          b.className = b.getAttribute('data-fw') === st.fireworkShellType
+            ? 'fw-shell-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white transition-all'
+            : 'fw-shell-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/15 text-white/75 transition-all';
+        });
+      }
+      function syncFwAutoButton() {
+        const st = window.appState;
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const btn = document.getElementById('btn-fw-auto');
+        if (!btn) return;
+        btn.textContent = st.fireworkAuto ? dict.fwAutoOn : dict.fwAutoOff;
+        btn.className = st.fireworkAuto
+          ? 'px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-600/30 border border-emerald-400/40 text-emerald-200 transition-all'
+          : 'px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/70 transition-all';
+      }
+      function syncTextEffectButtonsUI() {
+        const st = window.appState;
+        const map = { static: 'btn-text-static', wave: 'btn-text-wave', pulse: 'btn-text-pulse' };
+        Object.keys(map).forEach(k => {
+          const b = document.getElementById(map[k]);
+          if (!b) return;
+          b.className = k === st.textEffect
+            ? 'px-2 py-1 rounded text-[11px] font-medium bg-blue-600 text-white transition-all'
+            : 'px-2 py-1 rounded text-[11px] font-medium text-white/70 hover:text-white transition-all';
+        });
+      }
+      function syncArtPresetButtonsUI() {
+        const st = window.appState;
+        document.querySelectorAll('.media-preset-btn').forEach(b => {
+          b.className = b.getAttribute('data-art') === st.activeArtPreset
+            ? 'media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-blue-600/30 border border-blue-500 text-white'
+            : 'media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white';
+        });
+      }
+      function syncWireframeButton() {
+        const st = window.appState;
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const btn = document.getElementById('btn-shape-wireframe');
+        if (!btn) return;
+        btn.textContent = st.shapeWireframe ? dict.shapeWireOn : dict.shapeWireOff;
+        btn.className = st.shapeWireframe
+          ? 'px-2 py-1 rounded-md text-[11px] font-medium bg-emerald-600/40 border border-emerald-400/40 text-emerald-200 transition-all'
+          : 'px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/70 transition-all';
+      }
+      function syncOrbitDragButton() {
+        const st = window.appState;
+        const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+        const btn = document.getElementById('btn-shape-orbit-drag');
+        if (!btn) return;
+        btn.textContent = st.orbitDragMode ? dict.shapeOrbitOn : dict.shapeOrbitOff;
+        btn.className = st.orbitDragMode
+          ? 'px-2 py-1 rounded-md text-[11px] font-medium bg-cyan-600/40 border border-cyan-400/40 text-cyan-200 transition-all'
+          : 'px-2 py-1 rounded-md text-[11px] font-medium bg-white/5 hover:bg-white/15 text-white/70 transition-all';
+      }
+      function syncZenModeUI() {
+        const st = window.appState;
+        if (mainUiLayer) {
+          if (st.zenMode) mainUiLayer.classList.add('zen-hidden');
+          else mainUiLayer.classList.remove('zen-hidden');
+        }
+        const ex = document.getElementById('btn-exit-zen');
+        if (ex) {
+          if (st.zenMode) ex.classList.remove('hidden');
+          else ex.classList.add('hidden');
+        }
+      }
+      function syncSoundToggleUI() {
+        const st = window.appState;
+        const svg = document.getElementById('bgm-icon-svg');
+        if (svg) svg.innerHTML = st.soundEnabled ? '<use href="#icon-volume-on"/>' : '<use href="#icon-volume-off"/>';
+        const bars = document.getElementById('audio-visualizer-bars');
+        if (bars) {
+          if (st.soundEnabled) bars.classList.remove('hidden');
+          else bars.classList.add('hidden');
+        }
+      }
+      // B9：克拉尼 badge／預設鈕純 UI 刷新，還原路徑呼叫時不播音
+      function refreshCymaticsUI() {
+        const st = window.appState;
+        const badge = document.getElementById('cymatics-freq-badge');
+        if (badge) badge.textContent = `n=${st.cymaticsN}, m=${st.cymaticsM}`;
+        document.querySelectorAll('.cym-preset-btn').forEach(b => {
+          b.className = b.getAttribute('data-cym') === `${st.cymaticsN},${st.cymaticsM}`
+            ? 'cym-preset-btn px-2.5 py-1 rounded-lg text-xs font-mono bg-blue-600 text-white border border-blue-400 transition-all'
+            : 'cym-preset-btn px-2.5 py-1 rounded-lg text-xs font-mono bg-white/5 hover:bg-white/15 text-white/80 border border-white/10 transition-all';
+        });
+      }
+
       function syncAllUIControlsAfterActionCode() {
         const st = window.appState;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -11034,6 +11140,16 @@
         updateToggleStyle('btn-toggle-autofade', 'state-autofade', st.autoFadeHud);
         syncWave3Toggles();
         updateEngineControls();
+        // B1–B9：還原/解碼路徑統一刷新各開關與預設鈕高亮
+        syncShellTypeButtonsUI();
+        syncFwAutoButton();
+        syncTextEffectButtonsUI();
+        syncArtPresetButtonsUI();
+        syncWireframeButton();
+        syncOrbitDragButton();
+        syncZenModeUI();
+        syncSoundToggleUI();
+        refreshCymaticsUI();
 
         document.getElementById('brush-label-text').textContent = dict.brushLabels[st.brushOverride] || dict.brushDefault;
         document.getElementById('btn-brush-tool').className = st.brushOverride === 'default'
@@ -11294,9 +11410,9 @@
           return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -11305,7 +11421,7 @@
             const data = JSON.parse(jsonStr);
             if (!data || typeof data !== 'object') throw new Error('Invalid');
             // F8：舊碼缺 v 欄位時由前綴推定版本；data.v 存在且有限時覆蓋
-            const PREFIX_VERSION = { 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
+            const PREFIX_VERSION = { 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
             let codeVersion = 46;
             for (const px of Object.keys(PREFIX_VERSION)) { if (upperClean.startsWith(px)) { codeVersion = PREFIX_VERSION[px]; break; } }
             if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Number(data.v);
@@ -11319,8 +11435,8 @@
             if (data.sz) st.particleSize = Math.min(6.0, Math.max(0.5, Number(data.sz) || 2.4));
             if (data.f) st.attractForce = Math.min(1.5, Math.max(0.1, Number(data.f) || 0.55));
             if (data.tr) st.trailPersistence = Math.min(0.95, Math.max(0.4, Number(data.tr) || 0.78));
-            if (data.ch !== undefined) st.chaos = Math.min(5.0, Math.max(0, Number(data.ch)));
-            if (data.cc !== undefined) st.colorChaos = Math.min(3.0, Math.max(0, Number(data.cc)));
+            if (data.ch !== undefined) st.chaos = num(data.ch, 0, 5.0, st.chaos);
+            if (data.cc !== undefined) st.colorChaos = num(data.cc, 0, 3.0, st.colorChaos);
             if (data.bl) st.bloomStrength = Math.min(2.5, Math.max(0.2, Number(data.bl) || 1.0));
             if (data.br) st.brushRadius = Math.min(500, Math.max(80, Number(data.br) || 245));
             if (data.bo && WHITELIST.brushes.includes(data.bo)) st.brushOverride = data.bo;
@@ -11348,29 +11464,16 @@
             // cn/cm 先有限值並夾整數 1–9，再進 setCymaticsFreq
             const cn = Math.round(num(data.cn, 1, 9, st.cymaticsN));
             const cm = Math.round(num(data.cm, 1, 9, st.cymaticsM));
-            if (data.cn !== undefined || data.cm !== undefined) setCymaticsFreq(cn, cm);
+            if (data.cn !== undefined || data.cm !== undefined) setCymaticsFreq(cn, cm, true);
             if (data.cd !== undefined) st.cymDamping = num(data.cd, 0.1, 3.0, st.cymDamping);
             if (data.fw && WHITELIST.shellTypes.includes(data.fw)) st.fireworkShellType = data.fw;
             if (data.fa !== undefined) st.fireworkAuto = Boolean(data.fa);
             if (data.fr !== undefined) st.fwRate = num(data.fr, 1, 120, st.fwRate);
             if (data.it !== undefined) st.imgThreshold = num(data.it, 0, 100, st.imgThreshold);
             if (Array.isArray(data.an)) {
-              const cx = w * 0.5, cy = h * 0.5;
-              // F3：逐筆校驗陣列形狀，單筆壞資料跳過，不拖垮整份碼
-              st.anchors = data.an.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
-                const rawX = Number(item[0]), rawY = Number(item[1]);
-                const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
-                const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
-                return {
-                  x: ax,
-                  y: ay,
-                  type: WHITELIST.anchorTypes.includes(item[2]) ? item[2] : 'pull',
-                  phase: Math.random() * Math.PI * 2,
-                  orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
-                  orbitAngle: Math.atan2(ay - cy, ax - cx),
-                  lastTap: 0
-                };
-              });
+              // A5：逐筆校驗陣列形狀，座標夾 [0,1]；共用 buildAnchorFromRaw
+              st.anchors = data.an.slice(0, 5).filter(item => Array.isArray(item))
+                .map(item => buildAnchorFromRaw(item[0], item[1], item[2], w, h));
             }
             // v7.0 引擎層欄位：列舉過白名單，數值上下限夾取，未知值回退預設
             if (data.mt && WHITELIST.materials.includes(data.mt)) st.material = data.mt;
@@ -11385,6 +11488,16 @@
             if (data.zm !== undefined) st.zenMode = Boolean(data.zm);
             if (data.se !== undefined) st.soundEnabled = Boolean(data.se);
             if (data.ap && ART_PRESETS.includes(data.ap)) st.activeArtPreset = data.ap;
+            // A6：偏好欄位對齊解碼（glyph=custom 由 ensureCustomGlyphFallback 降階）
+            if (data.gy && WHITELIST.glyphs.includes(data.gy)) st.particleGlyph = data.gy;
+            if (data.cr !== undefined) st.crtOverlay = Boolean(data.cr);
+            if (data.ds !== undefined) st.dofScale = Boolean(data.ds);
+            if (data.ag !== undefined) st.anaglyph = Boolean(data.ag);
+            if (data.xc !== undefined) st.chromatic = Boolean(data.xc);
+            if (data.qv !== undefined) st.quiver = Boolean(data.qv);
+            if (data.hi !== undefined) st.hoverInfluence = Boolean(data.hi);
+            if (data.mv !== undefined) st.masterVolume = num(data.mv, 0, 1, st.masterVolume);
+            if (data.lg && SUPPORTED_LANGS.includes(data.lg)) currentLang = data.lg;
             if (data.bh !== undefined && data.bh !== null) {
               const bh = Number(data.bh);
               st.baseHueOverride = Number.isFinite(bh) ? ((bh % 360) + 360) % 360 : null;
@@ -11398,14 +11511,17 @@
             st.shapeSubmenuOpen = false;
             syncAllUIControlsAfterActionCode();
             ensureCustomGlyphFallback();
-            const versionLabel = codeVersion === 80 ? 'PSB80 State'
+            // A11：表外版本號不再靜默歸 PSB46，顯示實際編號（僅標籤，不影響解碼）
+            const versionLabel = codeVersion === 81 ? 'PSB81 State'
+              : codeVersion === 80 ? 'PSB80 State'
               : codeVersion === 73 ? 'PSB73 State'
               : codeVersion === 72 ? 'PSB72 State'
               : codeVersion === 71 ? 'PSB71 State'
               : codeVersion === 70 ? 'PSB70 State'
               : codeVersion === 65 ? 'PSB65 State'
               : codeVersion === 50 ? 'PSB50 State'
-              : 'PSB46 State';
+              : codeVersion === 46 ? 'PSB46 State'
+              : `PSB${codeVersion} State`;
             showToast(dict.toastAcApplied(versionLabel));
             return true;
           } catch (e) {
@@ -11458,14 +11574,16 @@
           });
 
           const copyBtn = document.createElement('button');
-          copyBtn.className = 'p-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-all';
+          copyBtn.className = 'p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-all';
+          copyBtn.setAttribute('aria-label', dict.acCopyBtn);
           copyBtn.innerHTML = '<svg class="icon-svg-sm"><use href="#icon-copy"/></svg>';
           copyBtn.addEventListener('click', () => {
             copyTextToClipboard(item.code);
           });
 
           const delBtn = document.createElement('button');
-          delBtn.className = 'p-1 rounded-lg bg-white/5 hover:bg-rose-500/30 text-rose-300 transition-all';
+          delBtn.className = 'p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/30 text-rose-300 transition-all';
+          delBtn.setAttribute('aria-label', dict.ariaDelete);
           delBtn.innerHTML = '<svg class="icon-svg-sm"><use href="#icon-trash"/></svg>';
           delBtn.addEventListener('click', () => {
             savedActionCodes.splice(idx, 1);
@@ -11517,7 +11635,10 @@
           return;
         }
         const modeTitle = dict.modeTitle(window.appState.activeMode).replace(/^.*：|^Mode:\s*/, '');
-        const label = `${modeTitle} · ${window.appState.palette.toUpperCase()}`;
+        // A7：色盤名走字典本地化，查無才回退 enum 大寫
+        const palKey = 'pal' + window.appState.palette.charAt(0).toUpperCase() + window.appState.palette.slice(1);
+        const palTitle = dict[palKey] || window.appState.palette.toUpperCase();
+        const label = `${modeTitle} · ${palTitle}`;
         // F22：收藏庫上限 12，超限提示而不靜默截斷
         if (savedActionCodes.length >= 12) {
           showToast(dict.toastSavedLimit, true);
@@ -11555,8 +11676,11 @@
         });
       });
 
+      // A9：滑桿 input 路徑統一 finite 守衛＋值域夾取，非法輸入回退當前/預設值
+      const clampSlider = (raw, lo, hi, fb) => Number.isFinite(Number(raw)) ? Math.min(hi, Math.max(lo, Number(raw))) : fb;
+
       sliderBrushRadius.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 80, 500, window.appState.brushRadius);
         window.appState.brushRadius = val;
         document.getElementById('label-brushradius-val').textContent = `${val}px`;
       });
@@ -11651,49 +11775,49 @@
       const sliderBgShade = document.getElementById('slider-bgshade');
 
       sliderWebDist.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 20, 110, window.appState.webDist);
         window.appState.webDist = val;
         document.getElementById('label-webdist-val').textContent = `${val}px`;
       });
 
       sliderTimeSpeed.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.1, 2.0, window.appState.timeSpeed);
         window.appState.timeSpeed = val;
         document.getElementById('label-timespeed-val').textContent = `${val.toFixed(2)}x`;
       });
 
       sliderShapeSpeed.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.1, 3.0, window.appState.shapeSpeed);
         window.appState.shapeSpeed = val;
         document.getElementById('label-shape-speed').textContent = `${val.toFixed(1)}x`;
       });
 
       sliderShapeScale.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.3, 2.5, window.appState.shapeScale);
         window.appState.shapeScale = val;
         document.getElementById('label-shape-scale').textContent = `${val.toFixed(1)}x`;
       });
 
       sliderFwRate.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 1, 120, window.appState.fwRate);
         window.appState.fwRate = val;
         document.getElementById('label-fw-rate').textContent = val;
       });
 
       sliderCymDamping.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.1, 3.0, window.appState.cymDamping);
         window.appState.cymDamping = val;
         document.getElementById('label-cym-damping').textContent = `${val.toFixed(1)}x`;
       });
 
       sliderTextAmp.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 0, 40, window.appState.textAmp);
         window.appState.textAmp = val;
         document.getElementById('label-text-amp').textContent = `${val}px`;
       });
 
       sliderImgThreshold.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 0, 100, window.appState.imgThreshold);
         window.appState.imgThreshold = val;
         document.getElementById('label-img-threshold').textContent = val;
         if (window.appState.activeMode === 'image' && offscreenCanvas) {
@@ -11770,29 +11894,29 @@
       }
 
       sliderLifespan.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
-        window.appState.particleLifespan = Math.min(30, Math.max(0, val));
+        const val = clampSlider(e.target.value, 0, 30, window.appState.particleLifespan);
+        window.appState.particleLifespan = val;
         document.getElementById('label-lifespan-val').textContent = val > 0 ? `${val}s` : currentDict().toggleOff;
         persistConfigSnapshot();
       });
 
       sliderWebLinks.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
-        window.appState.webMaxLinks = Math.min(5, Math.max(1, val));
+        const val = clampSlider(e.target.value, 1, 5, window.appState.webMaxLinks);
+        window.appState.webMaxLinks = val;
         document.getElementById('label-weblinks-val').textContent = window.appState.webMaxLinks;
         persistConfigSnapshot();
       });
 
       sliderBpm.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
-        window.appState.beatBpm = Math.min(160, Math.max(60, val));
+        const val = clampSlider(e.target.value, 60, 160, window.appState.beatBpm);
+        window.appState.beatBpm = val;
         document.getElementById('label-bpm-val').textContent = window.appState.beatBpm;
         persistConfigSnapshot();
       });
 
       sliderBgShade.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
-        window.appState.bgShade = Math.min(100, Math.max(0, val));
+        const val = clampSlider(e.target.value, 0, 100, window.appState.bgShade);
+        window.appState.bgShade = val;
         document.getElementById('label-bgshade-val').textContent = `${window.appState.bgShade}%`;
         persistConfigSnapshot();
       });
@@ -11941,21 +12065,10 @@
         if (MODE_CATS.includes(snap.activeModeCategory)) st.activeModeCategory = snap.activeModeCategory;
         if (SHAPE_CATS.includes(snap.activeShapeCategory)) st.activeShapeCategory = snap.activeShapeCategory;
         if (Array.isArray(snap.anchors)) {
+          // A5：座標先夾 [0,1] 再乘視窗尺寸，共用 buildAnchorFromRaw
           const w = viewW || window.innerWidth || 800, h = viewH || window.innerHeight || 600;
-          const cx = w * 0.5, cy = h * 0.5;
-          st.anchors = snap.anchors.slice(0, 5).filter(item => Array.isArray(item)).map(item => {
-            const rawX = Number(item[0]), rawY = Number(item[1]);
-            const ax = (Number.isFinite(rawX) ? rawX : 0.5) * w;
-            const ay = (Number.isFinite(rawY) ? rawY : 0.5) * h;
-            return {
-              x: ax, y: ay,
-              type: WHITELIST.anchorTypes.includes(item[2]) ? item[2] : 'pull',
-              phase: Math.random() * Math.PI * 2,
-              orbitDist: Math.max(40, Math.hypot(ax - cx, ay - cy)),
-              orbitAngle: Math.atan2(ay - cy, ax - cx),
-              lastTap: 0
-            };
-          });
+          st.anchors = snap.anchors.slice(0, 5).filter(item => Array.isArray(item))
+            .map(item => buildAnchorFromRaw(item[0], item[1], item[2], w, h));
         }
         // F17：custom 字形但去背圖不存在時靜默降回圓點並提示
         ensureCustomGlyphFallback();
@@ -12011,45 +12124,45 @@
       }
 
       sliderCount.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 1000, 18000, window.appState.particleCount);
         window.appState.particleCount = val;
         document.getElementById('label-count-val').textContent = val;
         syncParticleSettings();
       });
 
       sliderSize.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.5, 6.0, window.appState.particleSize);
         window.appState.particleSize = val;
         document.getElementById('label-size-val').textContent = val.toFixed(1);
         syncParticleSettings();
       });
 
       sliderForce.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.1, 1.5, window.appState.attractForce);
         window.appState.attractForce = val;
         document.getElementById('label-force-val').textContent = val.toFixed(2);
       });
 
       sliderTrail.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.4, 0.95, window.appState.trailPersistence);
         window.appState.trailPersistence = val;
         document.getElementById('label-trail-val').textContent = val.toFixed(2);
       });
 
       sliderChaos.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0, 5.0, window.appState.chaos);
         window.appState.chaos = val;
         document.getElementById('label-chaos-val').textContent = val.toFixed(1);
       });
 
       sliderColorChaos.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0, 3.0, window.appState.colorChaos);
         window.appState.colorChaos = val;
         document.getElementById('label-colorchaos-val').textContent = val.toFixed(1);
       });
 
       sliderVolume.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
+        const val = clampSlider(e.target.value, 0, 100, window.appState.masterVolume * 100);
         window.appState.masterVolume = val / 100;
         document.getElementById('label-vol-val').textContent = `${val}%`;
         if (masterGain && audioCtx) {
@@ -12058,7 +12171,7 @@
       });
 
       sliderBloom.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
+        const val = clampSlider(e.target.value, 0.2, 2.5, window.appState.bloomStrength);
         window.appState.bloomStrength = val;
         document.getElementById('label-bloom-val').textContent = val.toFixed(1);
       });
@@ -12340,6 +12453,8 @@
       const cmdPaletteResults = document.getElementById('cmd-palette-results');
       const CMD_MAX_RESULTS = 24;
       function shapeDictKey(shape) {
+        // A3：縮寫 DNA 字典鍵為全大寫，其餘造型走首字母大寫規則
+        if (shape === 'dna') return 'shapeDNA';
         return 'shape' + shape.charAt(0).toUpperCase() + shape.slice(1);
       }
       function selectShapeFromPalette(shape) {
@@ -12402,6 +12517,20 @@
         });
         return items;
       }
+      // U1：指令面板鍵盤導覽——activeIndex 配合 ↑↓ 焦點樣式、Enter 執行；開窗／搜尋重置索引
+      let cmdActiveIndex = -1;
+      let cmdMatched = [];
+      function paintCmdActive() {
+        const rows = cmdPaletteResults.querySelectorAll('.cmd-result-btn');
+        rows.forEach((r, i) => r.classList.toggle('cmd-active', i === cmdActiveIndex));
+      }
+      function runCommandItem(it) {
+        captureUndoSnapshot();
+        const applied = it.run();
+        syncAllUIControlsAfterActionCode();
+        closeModal();
+        if (applied !== false) showToast(dict.cmdApplied);
+      }
       function renderCommandPalette(query) {
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
         const q = (query || '').trim().toLowerCase();
@@ -12410,6 +12539,8 @@
         const matched = items
           .filter(it => !q || it.label.toLowerCase().includes(q) || it.id.toLowerCase().includes(q))
           .slice(0, CMD_MAX_RESULTS);
+        cmdMatched = matched;
+        cmdActiveIndex = matched.length ? 0 : -1;
         if (!matched.length) {
           const empty = document.createElement('div');
           empty.className = 'text-[11px] text-white/45 px-1 py-2';
@@ -12417,9 +12548,9 @@
           cmdPaletteResults.appendChild(empty);
           return;
         }
-        matched.forEach(it => {
+        matched.forEach((it, idx) => {
           const btn = document.createElement('button');
-          btn.className = 'cmd-result-btn';
+          btn.className = 'cmd-result-btn' + (idx === cmdActiveIndex ? ' cmd-active' : '');
           const left = document.createElement('span');
           left.className = 'flex-1 min-w-0 text-xs text-white/85 truncate';
           left.textContent = it.label;
@@ -12429,13 +12560,7 @@
           tag.textContent = dict[catKey] || it.type;
           btn.appendChild(left);
           btn.appendChild(tag);
-          btn.addEventListener('click', () => {
-            captureUndoSnapshot();
-            const applied = it.run();
-            syncAllUIControlsAfterActionCode();
-            closeModal();
-            if (applied !== false) showToast(dict.cmdApplied);
-          });
+          btn.addEventListener('click', () => runCommandItem(it));
           cmdPaletteResults.appendChild(btn);
         });
       }
@@ -12445,6 +12570,19 @@
         setTimeout(() => { try { cmdSearchInput.focus(); } catch (e) {} }, 30);
       }
       cmdSearchInput.addEventListener('input', () => renderCommandPalette(cmdSearchInput.value));
+      cmdSearchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (cmdMatched.length) { cmdActiveIndex = (cmdActiveIndex + 1) % cmdMatched.length; paintCmdActive(); }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (cmdMatched.length) { cmdActiveIndex = (cmdActiveIndex - 1 + cmdMatched.length) % cmdMatched.length; paintCmdActive(); }
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const it = cmdMatched[cmdActiveIndex];
+          if (it) runCommandItem(it);
+        }
+      });
       modalCmdPalette.addEventListener('click', (e) => {
         if (e.target === modalCmdPalette) closeModal();
       });
@@ -12796,9 +12934,8 @@
             applyScenePreset(btn.getAttribute('data-scene'));
           }
           syncSlidersUI();
-          updateToggleStyle('btn-toggle-glow', 'state-glow', window.appState.additiveGlow);
-          updateToggleStyle('btn-toggle-web', 'state-web', window.appState.constellationWeb);
-          updateToggleStyle('btn-toggle-bounce', 'state-bounce', window.appState.wallBounce);
+          // B10：補齊其餘開關與預設鈕同步；回呼進場已 captureUndoSnapshot，此處不重複推 Undo
+          syncAllUIControlsAfterActionCode();
           const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
           showToast(dict.toastSceneApplied(btn.textContent));
         });
@@ -12860,6 +12997,12 @@
         window.appState.rulerStart = null;
         window.appState.pinchPrevDist = null;
         window.appState.customCutoutSprite = null;
+        // A4：重置回收影片 Blob URL，避免重整/重置後舊影片資源洩漏
+        if (window.appState.currentVideoBlobUrl) {
+          try { URL.revokeObjectURL(window.appState.currentVideoBlobUrl); } catch (e) {}
+          window.appState.currentVideoBlobUrl = null;
+        }
+        window.appState.isVideoActive = false;
         window.appState.undoStack = [];
         window.appState.redoStack = [];
         // F9：歸零殘留索引與時間戳，避免重置後舊狀態誤觸發
@@ -12908,6 +13051,10 @@
         // F13：重置後比照動作碼路徑校正造型路由並重建目標點
         routeShapeMode();
         switchMode(window.appState.activeMode);
+        // A1：重置後本機不再殘留舊快照——persistConfig 已歸 false，persistConfigSnapshot 會早退，
+        // 故直接移除 CONFIG_KEY，避免重整後開場還原把舊設定回流
+        try { videoPreview.pause(); videoPreview.removeAttribute('src'); videoPreview.load(); } catch (e) {}
+        try { localStorage.removeItem(CONFIG_KEY); } catch (e) {}
         showToast(dict.toastReset);
         playProceduralSound('change');
       });
@@ -12920,7 +13067,7 @@
         const nextBrush = brushOrder[nextIdx];
         window.appState.brushOverride = nextBrush;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
-        const label = dict.brushLabels[nextBrush];
+        const label = dict.brushLabels[nextBrush] || dict.brushDefault;
         document.getElementById('brush-label-text').textContent = label;
         btnBrushTool.className = nextBrush === 'default'
           ? 'glass-panel rounded-full px-2.5 py-1.5 text-white/85 hover:text-white hover:bg-white/10 active:scale-95 transition-all flex items-center gap-1 text-[11px] font-medium'
@@ -13022,19 +13169,11 @@
 
       document.getElementById('btn-toggle-bgm').addEventListener('click', () => {
         window.appState.soundEnabled = !window.appState.soundEnabled;
-        const bgmSvg = document.getElementById('bgm-icon-svg');
-        bgmSvg.innerHTML = window.appState.soundEnabled
-          ? '<use href="#icon-volume-on"/>'
-          : '<use href="#icon-volume-off"/>';
+        syncSoundToggleUI();
         if (!window.appState.soundEnabled) {
           stopAmbientDrone();
         } else {
           ensureAudioContext();
-        }
-        const bars = document.getElementById('audio-visualizer-bars');
-        if (bars) {
-          if (window.appState.soundEnabled) bars.classList.remove('hidden');
-          else bars.classList.add('hidden');
         }
         if (window.appState.soundEnabled) playProceduralSound('change');
       });
@@ -13043,13 +13182,7 @@
       const btnExitZen = document.getElementById('btn-exit-zen');
       function setZenMode(enabled) {
         window.appState.zenMode = enabled;
-        if (enabled) {
-          mainUiLayer.classList.add('zen-hidden');
-          btnExitZen.classList.remove('hidden');
-        } else {
-          mainUiLayer.classList.remove('zen-hidden');
-          btnExitZen.classList.add('hidden');
-        }
+        syncZenModeUI();
         playProceduralSound('change');
       }
       document.getElementById('btn-zen-mode').addEventListener('click', () => setZenMode(true));
@@ -13084,12 +13217,10 @@
 
       // Keyboard Shortcuts
       window.addEventListener('keydown', (e) => {
-        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
-          return;
-        }
         const modalOpen = !modalActionCode.classList.contains('hidden') || !modalShortcuts.classList.contains('hidden') ||
           (modalCustomPresets && !modalCustomPresets.classList.contains('hidden')) ||
           (modalCmdPalette && !modalCmdPalette.classList.contains('hidden'));
+        // U7：Escape 判斷先於輸入框守衛，輸入框聚焦下按 Escape 也關閉當前彈窗
         if (e.key === 'Escape') {
           if (modalOpen) {
             if (!modalActionCode.classList.contains('hidden')) toggleActionCodeModal(false);
@@ -13097,6 +13228,9 @@
             else closeModal();
             e.preventDefault();
           }
+          return;
+        }
+        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           return;
         }
         // F6/F7：組合鍵（Ctrl+K 指令面板；Ctrl+Z 還原；Ctrl+Y / Ctrl+Shift+Z 重做）
@@ -13366,6 +13500,8 @@
       });
 
       function removePointer(e) {
+        // B12：冪等早退，pointerup/pointercancel 雙綁定重複觸發時不再誤清殘留狀態
+        if (!window.appState.pointers.has(e.pointerId) && !anchorDragMap.has(e.pointerId)) return;
         const dragRec = anchorDragMap.get(e.pointerId);
         if (dragRec) {
           const anc = window.appState.anchors[dragRec.idx];
