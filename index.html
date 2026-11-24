@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v8.3 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v8.4 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -578,7 +578,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB83-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB84-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -591,7 +591,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -600,7 +600,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <div class="flex justify-between items-center">
               <span class="font-semibold text-amber-300" data-i18n="acPresetTitle">內建傳奇秘技行動碼（點擊立即觸發）</span>
-              <span class="text-[10px] text-white/45 font-mono">20 CODES</span>
+              <span class="text-[10px] text-white/45 font-mono">22 CODES</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
               <button data-ac-preset="SUPERNOVA" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-400/50 transition-all flex flex-col">
@@ -682,6 +682,14 @@
               <button data-ac-preset="STARDUST" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-violet-500/20 border border-white/10 hover:border-violet-400/50 transition-all flex flex-col">
                 <span class="font-mono text-[11px] font-bold text-violet-300">#STARDUST</span>
                 <span class="text-[10px] text-white/75 truncate" data-i18n="acDescStardust">星塵</span>
+              </button>
+              <button data-ac-preset="DRAGONBREATH" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-400/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-orange-300">#DRAGONBREATH</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescDragonbreath">龍息</span>
+              </button>
+              <button data-ac-preset="MIDNIGHTGARDEN" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-400/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-purple-300">#MIDNIGHTGARDEN</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescMidnightgarden">午夜花園</span>
               </button>
             </div>
           </div>
@@ -806,7 +814,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.3</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.4</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -854,6 +862,9 @@
                 <button data-scene="duneBreeze" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-amber-600/25 hover:border-amber-300 transition-all" data-i18n="sceneDuneBreeze">沙丘微風</button>
                 <button data-scene="lanternRiver" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-600/25 hover:border-orange-300 transition-all" data-i18n="sceneLanternRiver">燈火河</button>
                 <button data-scene="starfall" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-violet-600/25 hover:border-violet-300 transition-all" data-i18n="sceneStarfall">星雨</button>
+                <button data-scene="mistyBamboo" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-emerald-600/25 hover:border-emerald-400 transition-all" data-i18n="sceneMistyBamboo">霧竹</button>
+                <button data-scene="emberStorm" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-600/25 hover:border-orange-300 transition-all" data-i18n="sceneEmberStorm">餘燼風暴</button>
+                <button data-scene="crystalLake" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-sky-600/25 hover:border-sky-300 transition-all" data-i18n="sceneCrystalLake">晶湖</button>
               </div>
               <div class="mt-1.5">
                 <div class="text-[10px] font-semibold text-amber-300/80 mb-1" data-i18n="curatedPresets">精選一鍵預設</div>
@@ -956,6 +967,9 @@
                 <button data-palette="emberGold" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palEmberGold">餘燼金</button>
                 <button data-palette="ultraviolet" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palUltraviolet">紫外光</button>
                 <button data-palette="sandstorm" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palSandstorm">沙暴</button>
+                <button data-palette="roseQuartz" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palRoseQuartz">薔薇石英</button>
+                <button data-palette="deepOcean" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palDeepOcean">深洋</button>
+                <button data-palette="fallMaple" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palFallMaple">秋楓</button>
               </div>
             </div>
           </div>
@@ -1148,6 +1162,7 @@
                     <button data-mat="ember" class="mat-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="matEmber">餘燼</button>
                     <button data-mat="plasma" class="mat-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="matPlasma">等離子</button>
                     <button data-mat="honey" class="mat-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="matHoney">蜂蜜</button>
+                    <button data-mat="gel" class="mat-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="matGel">凝膠</button>
                   </div>
                 </div>
               </div>
@@ -1178,6 +1193,8 @@
                   <button data-glyph="crescent" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphCrescent">新月</button>
                   <button data-glyph="clover" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphClover">四葉</button>
                   <button data-glyph="star4" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphStar4">四角星</button>
+                  <button data-glyph="leaf" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphLeaf">葉片</button>
+                  <button data-glyph="pinwheel" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphPinwheel">風車</button>
                   <button id="btn-glyph-upload" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-dashed border-white/20 text-white/75 transition-all" data-i18n="glyphCustom">自訂圖片</button>
                 </div>
               </div>
@@ -1299,6 +1316,7 @@
             <input type="text" id="filter-input-shapes" class="px-2 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/80 placeholder:text-white/35 w-24 sm:w-32 outline-none" data-i18n-placeholder="filterPlaceholder" data-i18n-aria="filterAria" aria-label="">
           </div>
           <div id="shape-menu-hint" class="w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="shapeMenuHint">請選擇上方分類檢視圖形</div>
+          <div id="shapes-filter-empty" class="hidden w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="filterEmpty">無符合項目</div>
           <div id="shapes-grid-container" class="hidden grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-1.5 max-h-[44vh] v72-scroll-y pb-1">
             <button id="shape-circle" data-shape-cat="basic" class="shape-btn bg-blue-600 border-blue-500 border text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeCircle">圓形</button>
             <button id="shape-square" data-shape-cat="basic" class="shape-btn bg-white/5 hover:bg-white/15 border border-white/10 text-white py-1.5 rounded-lg text-xs font-medium transition-all" data-i18n="shapeSquare">正方形</button>
@@ -1551,6 +1569,8 @@
               <button data-art="lattice" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artLattice">格網</button>
               <button data-art="bamboo" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artBamboo">竹節</button>
               <button data-art="vortexRings" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artVortexRings">渦旋環</button>
+              <button data-art="featherFan" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artFeatherFan">羽扇</button>
+              <button data-art="sunDial" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artSunDial">日晷</button>
             </div>
           </div>
           <div id="panel-img-advanced" class="hidden border-t border-white/10 pt-2 flex flex-col gap-1.5">
@@ -1605,6 +1625,7 @@
             <input type="text" id="filter-input-modes" class="px-2 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/80 placeholder:text-white/35 w-24 sm:w-32 outline-none" data-i18n-placeholder="filterPlaceholder" data-i18n-aria="filterAria" aria-label="">
           </div>
           <div id="mode-menu-hint" class="w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="modeMenuHint">請選擇上方分類檢視模式</div>
+          <div id="modes-filter-empty" class="hidden w-full px-2 py-3 text-center text-[11px] text-white/40" data-i18n="filterEmpty">無符合項目</div>
 
           <nav id="main-dock-nav" class="hidden w-full glass-panel rounded-3xl p-1.5 flex sm:grid sm:grid-cols-8 xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-1 interactive-el transition-all max-h-[50vh] v72-scroll-y pb-1">
             <button id="mode-pull" data-mode-cat="force" class="mode-btn flex flex-col items-center justify-center gap-1 py-2 px-0.5 rounded-2xl text-blue-400 bg-blue-500/15 border border-blue-500/30 transition-all">
@@ -2084,7 +2105,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.3</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.4</span>
         </div>
       </div>
     </div>
@@ -2201,8 +2222,8 @@
         'magnet', 'kepler', 'spring', 'centrifuge', 'ferrofluid', 'plasma', 'entangle', 'glacier', 'acousticLev', 'doubleWave', 'fermiGas', 'coulombCrystal', 'penningTrap', 'magneticReconn', 'kerrBlackhole', 'diracMonopole', 'yukawaMeson', 'eulerDisk',
         // --- v7.1 Wave 2：nature/audio/media 58 ---
         'wave', 'rain', 'snow', 'smoke', 'sand', 'meteor', 'prismOptics', 'lotusPond', 'rayleighTaylor', 'kelvinHelmholtz', 'benardCells', 'dandelionWind', 'ballLightning', 'supercellTornado', 'glacierCalving', 'geyserEruption', 'tidalBore', 'biolumBay', 'sandDunes', 'dna', 'vine', 'chemicals', 'pandemic', 'antColony', 'coral', 'bubbles', 'slimeMold', 'chainReaction', 'immuneDefense', 'hallEffect', 'atpSynthase', 'synapseFire', 'quorumSensing', 'myceliumNetwork', 'actionPotential', 'laser', 'cymatics3d', 'stringArt', 'mhdGenerator', 'pulsarBeam', 'moireFringes', 'harmonicLissajous', 'euclideanCircles', 'cymaticWater', 'qr', 'radar', 'svgPath', 'pixelDestruct', 'cosmicLensing', 'lagrangePoints', 'rocheLimit', 'fourierEpicycles', 'typhoonEye', 'hopfFibration', 'penroseTiling', 'hyperbolicPoincare', 'voronoiShatter', 'riemannZeta'],
-      brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock'],
-      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome', 'duskMist', 'mintFrost', 'voltGreen', 'copperRose', 'auroraCyan', 'duskRose', 'deepTeal', 'emberGold', 'ultraviolet', 'sandstorm'],
+      brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode'],
+      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome', 'duskMist', 'mintFrost', 'voltGreen', 'copperRose', 'auroraCyan', 'duskRose', 'deepTeal', 'emberGold', 'ultraviolet', 'sandstorm', 'roseQuartz', 'deepOcean', 'fallMaple'],
       shapes: ['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil', 'saturn', 'spaceship', 'dragon', 'crystal', 'castle', 'hourglass', 'jellyfish', 'phoenix', 'neuronNet', 'tourbillon', 'globeRelief', 'orrery', 'coral3d', 'trex', 'inkLandscape', 'dysonSphere', 'jwstMirror', 'quantumFridge', 'toroidalCoil', 'heart3d', 'tesseract', 'toriiGate', 'stellarator', 'calabiYau',
         // --- v7.1 Wave 3A：34 個新 3D 模型（6 家族）---
         'pyramid', 'diamond', 'octahedron', 'icosahedron', 'dodecahedron', 'buckminster', 'origamiCrane', 'sierpinskiTet', 'stellaOctangula',
@@ -2220,13 +2241,13 @@
       shellTypes: ['all', 'peony', 'heart', 'saturn', 'willow'],
       anchorTypes: ['pull', 'vortex', 'push', 'orbit'],
       mirrorSteps: [1, 2, 4, 6],
-      materials: ['none', 'viscous', 'bouncy', 'ember', 'plasma', 'honey'],
+      materials: ['none', 'viscous', 'bouncy', 'ember', 'plasma', 'honey', 'gel'],
       gravityDirs: ['none', 'up', 'down', 'left', 'right'],
       qualityTiers: ['high', 'mid', 'low'],
-      glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom', 'crescent', 'clover', 'star4']
+      glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom', 'crescent', 'clover', 'star4', 'leaf', 'pinwheel']
     };
     // 內建圖片藝術預設白名單（custom 為使用者上傳圖片，不進快照/動作碼列舉校驗）
-    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune', 'ripple', 'constellation', 'lattice', 'bamboo', 'vortexRings'];
+    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune', 'ripple', 'constellation', 'lattice', 'bamboo', 'vortexRings', 'featherFan', 'sunDial'];
 
     // v7.3：造型目標模式集合（2D 形狀 + 獨立 3D 模型藝廊共用同一套成形/快取/指標分支）
     const isShapeTargetMode = (m) => m === 'shapes' || m === 'models3d';
@@ -3635,7 +3656,7 @@
         palVoltGreen: '電子螢光綠',
         palCopperRose: '古銅玫瑰',
         palAuroraCyan: '極光青',
-        palDuskRose: '暮薔薇', palDeepTeal: '深青銅', palEmberGold: '餘燼金', palUltraviolet: '紫外光', palSandstorm: '沙暴',
+        palDuskRose: '暮薔薇', palDeepTeal: '深青銅', palEmberGold: '餘燼金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '薔薇石英', palDeepOcean: '深洋', palFallMaple: '秋楓',
         particleCount: '粒子數量',
         particleSize: '粒子基礎大小',
         forceStrength: '引力與物理強度',
@@ -3786,7 +3807,7 @@
         sceneTidalTwin: '潮汐雙星',
         sceneNeonAlley: '雨巷霓虹',
         sceneCheckerSilhouette: '棋盤剪影',
-        sceneAuroraCave: '極光洞窟', sceneDuneBreeze: '沙丘微風', sceneLanternRiver: '燈火河', sceneStarfall: '星雨',
+        sceneAuroraCave: '極光洞窟', sceneDuneBreeze: '沙丘微風', sceneLanternRiver: '燈火河', sceneStarfall: '星雨', sceneMistyBamboo: '霧竹', sceneEmberStorm: '餘燼風暴', sceneCrystalLake: '晶湖',
         presetNebula: '創世星雲',
         presetLava: '地心熔岩',
         presetNeon: '霓虹萬花',
@@ -3801,7 +3822,7 @@
         artRune: '符印',
         artRipple: '同心波紋',
         artConstellation: '星座連線',
-        artLattice: '格網', artBamboo: '竹節', artVortexRings: '渦旋環',
+        artLattice: '格網', artBamboo: '竹節', artVortexRings: '渦旋環', artFeatherFan: '羽扇', artSunDial: '日晷',
         acDescCrystallize: '晶簇冰封陣',
         acDescEmberfall: '餘燼流星雨',
         acDescNeongarden: '霓虹花園',
@@ -3811,7 +3832,7 @@
         acDescStillmind: '靜心留白',
         acDescGlacierdrift: '冰河緩流',
         acDescVoltpulse: '電流脈衝',
-        acDescObsidiandeep: '黑曜石深淵', acDescClockwork: '鐘錶機芯', acDescStardust: '星塵',
+        acDescObsidiandeep: '黑曜石深淵', acDescClockwork: '鐘錶機芯', acDescStardust: '星塵', acDescDragonbreath: '龍息', acDescMidnightgarden: '午夜花園',
         keyRespawn: '重生粒子',
         keyBounce: '邊界反彈切換',
         keyWeb: '星網連線切換',
@@ -3825,6 +3846,7 @@
         matEmber: '餘燼',
         matPlasma: '等離子',
         matHoney: '蜂蜜',
+        matGel: '凝膠',
         acSaveCombo: '收藏目前組合',
         brushRadius: '筆刷作用半徑',
         helpTitle: '沙盒操作指南與快捷鍵',
@@ -3855,7 +3877,7 @@
         ariaSnapshot: '儲存畫面截圖', ariaBgm: '環境與互動五聲音階音效', ariaZen: '沉浸全螢幕', ariaSettings: '沙盒設定面板',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3871,7 +3893,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -4068,7 +4090,8 @@
           ruler: '筆刷：直尺',
           magnet: '筆刷：磁吸',
           spray: '筆刷：噴霧',
-          shock: '筆刷：衝擊環'
+          shock: '筆刷：衝擊環',
+          erode: '筆刷：侵蝕'
         },
         modePull: '吸引',
         modePush: '推開',
@@ -4112,7 +4135,7 @@
         glyphLabel: '粒子造型',
         glyphCircle: '圓點', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '愛心',
         glyphLightning: '閃電', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '櫻瓣',
-        glyphDiamond: '鑽石', glyphRing: '圓環', glyphNote: '音符', glyphCustom: '自訂圖片', glyphCrescent: '新月', glyphClover: '四葉', glyphStar4: '四角星',
+        glyphDiamond: '鑽石', glyphRing: '圓環', glyphNote: '音符', glyphCustom: '自訂圖片', glyphCrescent: '新月', glyphClover: '四葉', glyphStar4: '四角星', glyphLeaf: '葉片', glyphPinwheel: '風車',
         toggleCrt: 'CRT 螢幕', toggleDof: '景深縮放', toggleAnaglyph: '紅藍立體',
         toggleChromatic: '色差透鏡', toggleQuiver: '速度向量',
         exportCsv: '匯出 CSV',
@@ -4322,7 +4345,7 @@
         palVoltGreen: '电子荧光绿',
         palCopperRose: '古铜玫瑰',
         palAuroraCyan: '极光青',
-        palDuskRose: '暮蔷薇', palDeepTeal: '深青铜', palEmberGold: '余烬金', palUltraviolet: '紫外光', palSandstorm: '沙暴',
+        palDuskRose: '暮蔷薇', palDeepTeal: '深青铜', palEmberGold: '余烬金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '蔷薇石英', palDeepOcean: '深洋', palFallMaple: '秋枫',
         particleCount: '粒子数量',
         particleSize: '粒子基础大小',
         forceStrength: '引力与物理强度',
@@ -4473,7 +4496,7 @@
         sceneTidalTwin: '潮汐双星',
         sceneNeonAlley: '雨巷霓虹',
         sceneCheckerSilhouette: '棋盘剪影',
-        sceneAuroraCave: '极光洞窟', sceneDuneBreeze: '沙丘微风', sceneLanternRiver: '灯火河', sceneStarfall: '星雨',
+        sceneAuroraCave: '极光洞窟', sceneDuneBreeze: '沙丘微风', sceneLanternRiver: '灯火河', sceneStarfall: '星雨', sceneMistyBamboo: '雾竹', sceneEmberStorm: '余烬风暴', sceneCrystalLake: '晶湖',
         presetNebula: '创世星云',
         presetLava: '地心熔岩',
         presetNeon: '霓虹万花',
@@ -4488,7 +4511,7 @@
         artRune: '符印',
         artRipple: '同心波纹',
         artConstellation: '星座连线',
-        artLattice: '格网', artBamboo: '竹节', artVortexRings: '涡旋环',
+        artLattice: '格网', artBamboo: '竹节', artVortexRings: '涡旋环', artFeatherFan: '羽扇', artSunDial: '日晷',
         acDescCrystallize: '晶簇冰封阵',
         acDescEmberfall: '余烬流星雨',
         acDescNeongarden: '霓虹花园',
@@ -4498,7 +4521,7 @@
         acDescStillmind: '静心留白',
         acDescGlacierdrift: '冰河缓流',
         acDescVoltpulse: '电流脉冲',
-        acDescObsidiandeep: '黑曜石深渊', acDescClockwork: '钟表机芯', acDescStardust: '星尘',
+        acDescObsidiandeep: '黑曜石深渊', acDescClockwork: '钟表机芯', acDescStardust: '星尘', acDescDragonbreath: '龙息', acDescMidnightgarden: '午夜花园',
         keyRespawn: '重生粒子',
         keyBounce: '边界反弹切换',
         keyWeb: '星网连线切换',
@@ -4512,6 +4535,7 @@
         matEmber: '余烬',
         matPlasma: '等离子',
         matHoney: '蜂蜜',
+        matGel: '凝胶',
         acSaveCombo: '收藏当前组合',
         brushRadius: '笔刷作用半径',
         helpTitle: '沙盒操作指南与快捷键',
@@ -4542,7 +4566,7 @@
         ariaSnapshot: '保存画面截图', ariaBgm: '环境与互动五声音阶音效', ariaZen: '沉浸全屏', ariaSettings: '沙盒设置面板',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4558,7 +4582,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4755,7 +4779,8 @@
           ruler: '笔刷：直尺',
           magnet: '笔刷：磁吸',
           spray: '笔刷：喷雾',
-          shock: '笔刷：冲击环'
+          shock: '笔刷：冲击环',
+          erode: '笔刷：侵蚀'
         },
         modePull: '吸引',
         modePush: '推开',
@@ -4799,7 +4824,7 @@
         glyphLabel: '粒子造型',
         glyphCircle: '圆点', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '爱心',
         glyphLightning: '闪电', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '樱瓣',
-        glyphDiamond: '钻石', glyphRing: '圆环', glyphNote: '音符', glyphCustom: '自定义图片', glyphCrescent: '新月', glyphClover: '四叶', glyphStar4: '四角星',
+        glyphDiamond: '钻石', glyphRing: '圆环', glyphNote: '音符', glyphCustom: '自定义图片', glyphCrescent: '新月', glyphClover: '四叶', glyphStar4: '四角星', glyphLeaf: '叶片', glyphPinwheel: '风车',
         toggleCrt: 'CRT 屏幕', toggleDof: '景深缩放', toggleAnaglyph: '红蓝立体',
         toggleChromatic: '色差透镜', toggleQuiver: '速度向量',
         exportCsv: '导出 CSV',
@@ -5009,7 +5034,7 @@
         palVoltGreen: 'Volt Green',
         palCopperRose: 'Copper Rose',
         palAuroraCyan: 'Aurora Cyan',
-        palDuskRose: 'Dusk Rose', palDeepTeal: 'Deep Teal', palEmberGold: 'Ember Gold', palUltraviolet: 'Ultraviolet', palSandstorm: 'Sandstorm',
+        palDuskRose: 'Dusk Rose', palDeepTeal: 'Deep Teal', palEmberGold: 'Ember Gold', palUltraviolet: 'Ultraviolet', palSandstorm: 'Sandstorm', palRoseQuartz: 'Rose Quartz', palDeepOcean: 'Deep Ocean', palFallMaple: 'Fall Maple',
         particleCount: 'Particle Count',
         particleSize: 'Base Particle Size',
         forceStrength: 'Force Intensity',
@@ -5160,7 +5185,7 @@
         sceneTidalTwin: 'Tidal Twin',
         sceneNeonAlley: 'Neon Alley',
         sceneCheckerSilhouette: 'Checker Silhouette',
-        sceneAuroraCave: 'Aurora Cave', sceneDuneBreeze: 'Dune Breeze', sceneLanternRiver: 'Lantern River', sceneStarfall: 'Starfall',
+        sceneAuroraCave: 'Aurora Cave', sceneDuneBreeze: 'Dune Breeze', sceneLanternRiver: 'Lantern River', sceneStarfall: 'Starfall', sceneMistyBamboo: 'Misty Bamboo', sceneEmberStorm: 'Ember Storm', sceneCrystalLake: 'Crystal Lake',
         presetNebula: 'Genesis Nebula',
         presetLava: 'Deep Lava',
         presetNeon: 'Neon Kaleido',
@@ -5175,7 +5200,7 @@
         artRune: 'Rune',
         artRipple: 'Concentric Ripple',
         artConstellation: 'Constellation',
-        artLattice: 'Lattice', artBamboo: 'Bamboo', artVortexRings: 'Vortex Rings',
+        artLattice: 'Lattice', artBamboo: 'Bamboo', artVortexRings: 'Vortex Rings', artFeatherFan: 'Feather Fan', artSunDial: 'Sun Dial',
         acDescCrystallize: 'Crystallize Frost Array',
         acDescEmberfall: 'Ember Meteor Shower',
         acDescNeongarden: 'Neon Garden',
@@ -5185,7 +5210,7 @@
         acDescStillmind: 'Still Mind',
         acDescGlacierdrift: 'Glacier Drift',
         acDescVoltpulse: 'Volt Pulse',
-        acDescObsidiandeep: 'Obsidian Deep', acDescClockwork: 'Clockwork', acDescStardust: 'Stardust',
+        acDescObsidiandeep: 'Obsidian Deep', acDescClockwork: 'Clockwork', acDescStardust: 'Stardust', acDescDragonbreath: 'Dragon Breath', acDescMidnightgarden: 'Midnight Garden',
         keyRespawn: 'Respawn particles',
         keyBounce: 'Toggle wall bounce',
         keyWeb: 'Toggle constellation web',
@@ -5199,6 +5224,7 @@
         matEmber: 'Ember',
         matPlasma: 'Plasma',
         matHoney: 'Honey',
+        matGel: 'Gel',
         acSaveCombo: 'Save current combo',
         brushRadius: 'Brush Force Radius',
         helpTitle: 'Controls & Shortcuts Guide',
@@ -5229,7 +5255,7 @@
         ariaSnapshot: 'Save canvas snapshot', ariaBgm: 'Ambient & interaction pentatonic sound', ariaZen: 'Immersive fullscreen', ariaSettings: 'Sandbox settings panel',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5245,7 +5271,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5442,7 +5468,8 @@
           ruler: 'Brush: Ruler',
           magnet: 'Brush: Magnet',
           spray: 'Brush: Spray',
-          shock: 'Brush: Shock Ring'
+          shock: 'Brush: Shock Ring',
+          erode: 'Brush: Erode'
         },
         modePull: 'Attract',
         modePush: 'Repel',
@@ -5486,7 +5513,7 @@
         glyphLabel: 'Particle Glyph',
         glyphCircle: 'Dot', glyphStar: 'Star', glyphHexagon: 'Hexagon', glyphHeart: 'Heart',
         glyphLightning: 'Bolt', glyphFeather: 'Feather', glyphSnowflake: 'Snowflake', glyphSakura: 'Petal',
-        glyphDiamond: 'Diamond', glyphRing: 'Ring', glyphNote: 'Note', glyphCustom: 'Custom Image', glyphCrescent: 'Crescent', glyphClover: 'Clover', glyphStar4: 'Star 4',
+        glyphDiamond: 'Diamond', glyphRing: 'Ring', glyphNote: 'Note', glyphCustom: 'Custom Image', glyphCrescent: 'Crescent', glyphClover: 'Clover', glyphStar4: 'Star 4', glyphLeaf: 'Leaf', glyphPinwheel: 'Pinwheel',
         toggleCrt: 'CRT Screen', toggleDof: 'Depth Scale', toggleAnaglyph: 'Anaglyph 3D',
         toggleChromatic: 'Chromatic Lens', toggleQuiver: 'Velocity Arrows',
         exportCsv: 'Export CSV',
@@ -5696,7 +5723,7 @@
         palVoltGreen: 'ボルトグリーン',
         palCopperRose: 'カッパーローズ',
         palAuroraCyan: 'オーロラシアン',
-        palDuskRose: '夕暮れローズ', palDeepTeal: 'ディープティール', palEmberGold: 'エンバーゴールド', palUltraviolet: '紫外線', palSandstorm: '砂嵐',
+        palDuskRose: '夕暮れローズ', palDeepTeal: 'ディープティール', palEmberGold: 'エンバーゴールド', palUltraviolet: '紫外線', palSandstorm: '砂嵐', palRoseQuartz: 'ローズクォーツ', palDeepOcean: '深海', palFallMaple: '紅葉',
         particleCount: '粒子数',
         particleSize: '粒子基本サイズ',
         forceStrength: '引力・物理強度',
@@ -5847,7 +5874,7 @@
         sceneTidalTwin: '潮汐の双星',
         sceneNeonAlley: 'ネオン路地',
         sceneCheckerSilhouette: 'チェック剪影',
-        sceneAuroraCave: 'オーロラ洞窟', sceneDuneBreeze: '砂丘の風', sceneLanternRiver: '灯籠の川', sceneStarfall: '流星群',
+        sceneAuroraCave: 'オーロラ洞窟', sceneDuneBreeze: '砂丘の風', sceneLanternRiver: '灯籠の川', sceneStarfall: '流星群', sceneMistyBamboo: '霧竹', sceneEmberStorm: '余燼の嵐', sceneCrystalLake: '水晶湖',
         presetNebula: '創世星雲',
         presetLava: 'マグマ',
         presetNeon: 'ネオン万花',
@@ -5862,7 +5889,7 @@
         artRune: 'ルーン',
         artRipple: '同心リング',
         artConstellation: '星座連結',
-        artLattice: '格子', artBamboo: '竹', artVortexRings: '渦巻きリング',
+        artLattice: '格子', artBamboo: '竹', artVortexRings: '渦巻きリング', artFeatherFan: '羽根扇', artSunDial: '日時計',
         acDescCrystallize: '結晶氷結陣',
         acDescEmberfall: '残り火流星群',
         acDescNeongarden: 'ネオンガーデン',
@@ -5872,7 +5899,7 @@
         acDescStillmind: '静かなる留白',
         acDescGlacierdrift: '氷河ドリフト',
         acDescVoltpulse: 'ボルトパルス',
-        acDescObsidiandeep: '黒曜の淵', acDescClockwork: '時計仕掛け', acDescStardust: '星塵',
+        acDescObsidiandeep: '黒曜の淵', acDescClockwork: '時計仕掛け', acDescStardust: '星塵', acDescDragonbreath: '竜息', acDescMidnightgarden: '真夜中の庭',
         keyRespawn: '粒子再生成',
         keyBounce: '壁バウンス切替',
         keyWeb: '星網接続切替',
@@ -5886,6 +5913,7 @@
         matEmber: '残り火',
         matPlasma: 'プラズマ',
         matHoney: 'ハチミツ',
+        matGel: 'ゲル',
         acSaveCombo: '現在の組合を保存',
         brushRadius: 'ブラシ作用半径',
         helpTitle: '操作ガイド・ショートカット',
@@ -5916,7 +5944,7 @@
         ariaSnapshot: 'キャンバスをスナップショット保存', ariaBgm: '環境・インタラクション五声音階サウンド', ariaZen: '没入フルスクリーン', ariaSettings: 'サンドボックス設定パネル',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5932,7 +5960,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -6129,7 +6157,8 @@
           ruler: 'ブラシ：定規',
           magnet: 'ブラシ：磁石',
           spray: 'ブラシ：スプレー',
-          shock: 'ブラシ：衝撃リング'
+          shock: 'ブラシ：衝撃リング',
+          erode: 'ブラシ：浸食'
         },
         modePull: '吸引',
         modePush: '反発',
@@ -6173,7 +6202,7 @@
         glyphLabel: '粒子の形',
         glyphCircle: 'ドット', glyphStar: '星', glyphHexagon: '六角形', glyphHeart: 'ハート',
         glyphLightning: '稲妻', glyphFeather: '羽根', glyphSnowflake: '雪の結晶', glyphSakura: '花びら',
-        glyphDiamond: 'ダイヤ', glyphRing: 'リング', glyphNote: '音符', glyphCustom: 'カスタム画像', glyphCrescent: '三日月', glyphClover: 'クローバー', glyphStar4: '四角星',
+        glyphDiamond: 'ダイヤ', glyphRing: 'リング', glyphNote: '音符', glyphCustom: 'カスタム画像', glyphCrescent: '三日月', glyphClover: 'クローバー', glyphStar4: '四角星', glyphLeaf: '葉', glyphPinwheel: '風車',
         toggleCrt: 'CRT 画面', toggleDof: '被写界深度', toggleAnaglyph: '赤青立体',
         toggleChromatic: '色収差レンズ', toggleQuiver: '速度ベクトル',
         exportCsv: 'CSV 出力',
@@ -6601,6 +6630,15 @@
       } else if (palette === 'sandstorm') {
         // 沙暴：沙黃→駝棕→灰褐，低飽和
         return `hsl(${Math.round(band3(40, 30, 20) / 5) * 5}, ${Math.min(100, 52 + satBoost)}%, ${Math.max(18, lightness - 2)}%)`;
+      } else if (palette === 'roseQuartz') {
+        // 薔薇石英：粉→霧紫→奶白，中高亮度、中低飽和
+        return `hsl(${Math.round(band3(320, 280, 350) / 5) * 5}, ${Math.min(100, 58 + satBoost)}%, ${Math.min(92, lightness + 4)}%)`;
+      } else if (palette === 'deepOcean') {
+        // 深洋：藏青→電藍→青，低亮度
+        return `hsl(${Math.round(band3(220, 200, 250) / 5) * 5}, ${Math.min(100, 80 + satBoost)}%, ${Math.max(16, lightness - 6)}%)`;
+      } else if (palette === 'fallMaple') {
+        // 秋楓：朱紅→金橙→褐，中低飽和
+        return `hsl(${Math.round(band3(15, 35, 25) / 5) * 5}, ${Math.min(100, 70 + satBoost)}%, ${Math.max(20, lightness - 2)}%)`;
       } else {
         const roundedH = Math.round(norm / 6) * 6;
         return `hsl(${roundedH}, ${Math.min(100, 88 + satBoost)}%, ${lightness}%)`;
@@ -6633,6 +6671,8 @@
     function expandMirroredPoints(rawPoints) {
       const sym = window.appState.mirrorSymmetry || 1;
       if (sym <= 1 || rawPoints.length === 0) return rawPoints;
+      // B2：未識別（白名單外）的對稱值兜底回原點，避免未來越界值把排放清空成空陣列
+      if (sym !== 2 && sym !== 4 && sym !== 6) return rawPoints;
       const cx = viewW * 0.5;
       const cy = viewH * 0.5;
       const out = [];
@@ -6683,9 +6723,19 @@
     let runtimeTierOverride = null;
     function effectiveQualityTier() { return runtimeTierOverride || window.appState.qualityTier; }
     let fpsEma = 60, fpsLowStreak = 0, fpsHighStreak = 0;
+    // S-A1：還原／關閉自動／重置時一併歸零執行期畫質狀態，避免殘留 override 與旗標矛盾
+    function resetAutoQualityRuntime() {
+      runtimeTierOverride = null;
+      fpsEma = 60;
+      fpsLowStreak = 0;
+      fpsHighStreak = 0;
+    }
     // F4：螢火蟲 Kuramoto 耦合空間網格（cell≈60px），執行期純記憶體，不進快照／動作碼；resize 後每幀重建
     const FF_CELL = 60;
+    const FF_RADIUS = 55;
+    const FF_R2 = FF_RADIUS * FF_RADIUS;
     let ffGrid = new Map();
+    let ffNeighborBuf = []; // R-E1：複用緩衝，消除每粒子每幀分配
     function ffCellKey(x, y) { return Math.floor(x / FF_CELL) + '_' + Math.floor(y / FF_CELL); }
     function ffRebuildGrid() {
       ffGrid.clear();
@@ -6697,16 +6747,123 @@
         arr.push(p);
       }
     }
+    // R-E1：復用緩衝陣列＋耦合半徑距離截斷，僅回傳半徑內鄰居
     function ffNeighbors(p) {
-      const out = [];
+      ffNeighborBuf.length = 0;
       const cx = Math.floor(p.x / FF_CELL), cy = Math.floor(p.y / FF_CELL);
       for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
           const g = ffGrid.get((cx + dx) + '_' + (cy + dy));
-          if (g) { for (let k = 0; k < g.length; k++) out.push(g[k]); }
+          if (g) {
+            for (let k = 0; k < g.length; k++) {
+              const q = g[k];
+              if (q === p) continue;
+              const ddx = q.x - p.x, ddy = q.y - p.y;
+              if (ddx * ddx + ddy * ddy <= FF_R2) ffNeighborBuf.push(q);
+            }
+          }
         }
       }
-      return out;
+      return ffNeighborBuf;
+    }
+
+    // F1：convection 持久溫度場（執行期暫態，不進快照／動作碼）；48×27 雙陣列，底部加熱、頂部冷卻
+    const CONV_GW = 48, CONV_GH = 27;
+    let convTemp = null, convTempNext = null;
+    function initConvectionGrid() {
+      convTemp = new Float32Array(CONV_GW * CONV_GH);
+      convTempNext = new Float32Array(CONV_GW * CONV_GH);
+      for (let y = 0; y < CONV_GH; y++) {
+        const fill = 0.5 - (y / (CONV_GH - 1)) * 0.45; // 底部偏熱、頂部偏冷
+        for (let x = 0; x < CONV_GW; x++) convTemp[y * CONV_GW + x] = fill;
+      }
+    }
+    function stepConvection(dtScale) {
+      if (!convTemp || !convTempNext) return;
+      const decay = Math.pow(0.985, dtScale);
+      for (let y = 0; y < CONV_GH; y++) {
+        for (let x = 0; x < CONV_GW; x++) {
+          const i = y * CONV_GW + x;
+          const up = convTemp[(y === 0 ? 0 : y - 1) * CONV_GW + x];
+          const down = convTemp[(y === CONV_GH - 1 ? CONV_GH - 1 : y + 1) * CONV_GW + x];
+          const left = convTemp[y * CONV_GW + (x === 0 ? 0 : x - 1)];
+          const right = convTemp[y * CONV_GW + (x === CONV_GW - 1 ? CONV_GW - 1 : x + 1)];
+          const avg = (up + down + left + right) * 0.25;
+          let t = convTemp[i] + (avg - convTemp[i]) * 0.35 * dtScale;
+          t *= decay;
+          convTempNext[i] = Math.min(1, Math.max(0, t));
+        }
+      }
+      // 邊界驅動：底部列保溫、頂部列降溫
+      for (let x = 0; x < CONV_GW; x++) {
+        convTempNext[x] = Math.min(1, convTempNext[x] + 0.02 * dtScale);
+        const bi = (CONV_GH - 1) * CONV_GW + x;
+        convTempNext[bi] = Math.max(0.15, convTempNext[bi] - 0.02 * dtScale);
+      }
+      const swap = convTemp; convTemp = convTempNext; convTempNext = swap;
+    }
+    function sampleConvTemp(x, y) {
+      if (!convTemp) return 0.5;
+      const gx = Math.min(CONV_GW - 1, Math.max(0, Math.floor((x / (viewW || 1)) * CONV_GW)));
+      const gy = Math.min(CONV_GH - 1, Math.max(0, Math.floor((y / (viewH || 1)) * CONV_GH)));
+      return convTemp[gy * CONV_GW + gx];
+    }
+
+    // F2：reactionDiffusion Gray-Scott U/V 雙柵格（執行期暫態，不進快照／動作碼；種子固定）
+    const RD_GW_HI = 96, RD_GH_HI = 54, RD_GW_LO = 64, RD_GH_LO = 36;
+    let rdU = null, rdV = null, rdGW = 0, rdGH = 0;
+    function initReactionDiffusion() {
+      const low = effectiveQualityTier() === 'low';
+      rdGW = low ? RD_GW_LO : RD_GW_HI;
+      rdGH = low ? RD_GH_LO : RD_GH_HI;
+      rdU = new Float32Array(rdGW * rdGH);
+      rdV = new Float32Array(rdGW * rdGH);
+      rdU.fill(1);
+      rdV.fill(0);
+      // 確定性 LCG 滴入 V，避免依賴 Math.random 造成快照／重播不確定
+      let seed = 1337;
+      const rand = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+      const drops = Math.floor(rdGW * rdGH * 0.03);
+      for (let d = 0; d < drops; d++) {
+        const ix = Math.floor(rand() * rdGW), iy = Math.floor(rand() * rdGH);
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const x = ix + dx, y = iy + dy;
+          if (x >= 0 && x < rdGW && y >= 0 && y < rdGH) { rdU[y * rdGW + x] = 0.5; rdV[y * rdGW + x] = 0.25; }
+        }
+      }
+    }
+    function stepReactionDiffusion() {
+      if (!rdU || !rdV) return;
+      const Du = 0.16, Dv = 0.08, F = 0.035, k = 0.062;
+      const U = new Float32Array(rdGW * rdGH), V = new Float32Array(rdGW * rdGH);
+      const lapU = (x, y) => {
+        const c = rdU[y * rdGW + x];
+        const n = rdU[(y === 0 ? 0 : y - 1) * rdGW + x] + rdU[(y === rdGH - 1 ? rdGH - 1 : y + 1) * rdGW + x]
+          + rdU[y * rdGW + (x === 0 ? 0 : x - 1)] + rdU[y * rdGW + (x === rdGW - 1 ? rdGW - 1 : x + 1)];
+        return n - 4 * c;
+      };
+      const lapV = (x, y) => {
+        const c = rdV[y * rdGW + x];
+        const n = rdV[(y === 0 ? 0 : y - 1) * rdGW + x] + rdV[(y === rdGH - 1 ? rdGH - 1 : y + 1) * rdGW + x]
+          + rdV[y * rdGW + (x === 0 ? 0 : x - 1)] + rdV[y * rdGW + (x === rdGW - 1 ? rdGW - 1 : x + 1)];
+        return n - 4 * c;
+      };
+      for (let y = 0; y < rdGH; y++) {
+        for (let x = 0; x < rdGW; x++) {
+          const i = y * rdGW + x;
+          const u = rdU[i], v = rdV[i];
+          const uvv = u * v * v;
+          U[i] = Math.min(1, Math.max(0, u + (Du * lapU(x, y) - uvv + F * (1 - u)) * 0.9));
+          V[i] = Math.min(1, Math.max(0, v + (Dv * lapV(x, y) + uvv - (F + k) * v) * 0.9));
+        }
+      }
+      rdU = U; rdV = V;
+    }
+    function sampleRDV(x, y) {
+      if (!rdV) return 0;
+      const gx = Math.min(rdGW - 1, Math.max(0, Math.floor((x / (viewW || 1)) * rdGW)));
+      const gy = Math.min(rdGH - 1, Math.max(0, Math.floor((y / (viewH || 1)) * rdGH)));
+      return rdV[gy * rdGW + gx];
     }
     // v7.0 3D 吸附：每幀 2D 目標快取（執行期陣列，不進 DEFAULT_STATE / 動作碼 / 配置快照）
     // 條目：{ x, y, z, depthNorm }；x/y 為相對成形中心的投影偏移，z 為深度，depthNorm 為歸一化深度
@@ -6869,6 +7026,26 @@
           if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
         }
         ctx.closePath(); ctx.fill();
+      } else if (glyph === 'leaf') {
+        const s = r * 1.6;
+        ctx.ellipse(x, y, s * 0.55, s, -Math.PI / 6, 0, Math.PI * 2);
+        ctx.fill();
+        const prevLineWidth = ctx.lineWidth;
+        ctx.strokeStyle = ctx.fillStyle;
+        ctx.lineWidth = 1.1;
+        ctx.beginPath();
+        ctx.moveTo(x - s * 0.4, y + s * 0.75);
+        ctx.lineTo(x + s * 0.4, y - s * 0.75);
+        ctx.stroke();
+        ctx.lineWidth = prevLineWidth;
+      } else if (glyph === 'pinwheel') {
+        const s = r * 1.5;
+        for (let k = 0; k < 4; k++) {
+          const a = k * Math.PI / 2;
+          ctx.beginPath();
+          ctx.ellipse(x + Math.cos(a) * s * 0.3, y + Math.sin(a) * s * 0.3, s * 0.55, s * 0.25, a, 0, Math.PI * 2);
+          ctx.fill();
+        }
       } else {
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
@@ -6886,6 +7063,37 @@
 
     // F1：去背圖片處理（角落底色 + 近白判透明；失敗回預設圓點）
     const GLYPH_FILE_LIMIT = 8 * 1024 * 1024;
+    // F3：sprite 本機持久化獨立 key（不進快照／動作碼）；dataURL 上限 256KB，超限靜默不存
+    const CUTOUT_SPRITE_KEY = 'psb70_cutout_sprite';
+    const CUTOUT_SPRITE_MAX = 262144;
+    function persistCutoutSprite() {
+      const off = window.appState.customCutoutSprite;
+      if (!off) return;
+      try {
+        const url = off.toDataURL('image/png');
+        if (url.length <= CUTOUT_SPRITE_MAX) localStorage.setItem(CUTOUT_SPRITE_KEY, url);
+      } catch (e) { /* QuotaExceeded 等例外：靜默降回僅執行期 */ }
+    }
+    function rehydrateCutoutSprite() {
+      try {
+        const url = localStorage.getItem(CUTOUT_SPRITE_KEY);
+        if (!url) return;
+        const img = new Image();
+        // 已去背的 64×64 成品直接重建 canvas，不再二次去背（避免暗色像素被誤清）
+        img.onload = () => {
+          try {
+            const off = document.createElement('canvas');
+            off.width = 64; off.height = 64;
+            off.getContext('2d').drawImage(img, 0, 0, 64, 64);
+            window.appState.customCutoutSprite = off;
+            window.appState.particleGlyph = 'custom';
+            if (typeof window.__syncAppUI === 'function') window.__syncAppUI();
+          } catch (e) { try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e2) {} }
+        };
+        img.onerror = () => { try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e) {} };
+        img.src = url;
+      } catch (e) {}
+    }
     function processGlyphCutout(img) {
       try {
         const off = document.createElement('canvas');
@@ -6906,19 +7114,21 @@
         releaseCutoutSprite();
         window.appState.customCutoutSprite = off;
         window.appState.particleGlyph = 'custom';
+        persistCutoutSprite();
       } catch (e) {
         releaseCutoutSprite();
         window.appState.particleGlyph = 'circle';
       }
     }
 
-    // R2：釋放舊去背 sprite——先把 canvas 寬高歸零協助回收再清空參考
+    // R2：釋放舊去背 sprite——先把 canvas 寬高歸零協助回收再清空參考；一併清除本機持久化
     function releaseCutoutSprite() {
       const old = window.appState.customCutoutSprite;
       if (old) {
         try { old.width = 0; old.height = 0; } catch (e) {}
       }
       window.appState.customCutoutSprite = null;
+      try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e) {}
     }
 
     // F17：custom 字形但去背 sprite 不存在（快照/動作碼還原後常見）時，降回圓點並提示一次
@@ -6938,7 +7148,10 @@
       const st = window.appState;
       if (st.activeArtPreset !== 'custom') return;
       const img = document.getElementById('img-preview');
-      if (isMediaValid(img)) return;
+      const vid = document.getElementById('video-preview');
+      // S-E1：有效影片預覽不算失效，避免影片 custom 被誤降回 planet
+      const videoOk = st.isVideoActive && vid && isMediaValid(vid);
+      if (videoOk || isMediaValid(img)) return;
       st.activeArtPreset = 'planet';
       try { generateProceduralArtPreset('planet'); } catch (e) {}
       if (typeof syncArtPresetButtonsUI === 'function') syncArtPresetButtonsUI();
@@ -7061,6 +7274,7 @@
       st.webMaxLinks = num(data.webMaxLinks, 1, 5, st.webMaxLinks);
       if (WHITELIST.qualityTiers.includes(data.qualityTier)) st.qualityTier = data.qualityTier;
       st.autoQuality = asBool(data.autoQuality, st.autoQuality);
+      resetAutoQualityRuntime();
       st.beatBpm = num(data.beatBpm, 60, 160, st.beatBpm);
       st.bgShade = num(data.bgShade, 0, 100, st.bgShade);
       if (data.baseHueOverride !== undefined && data.baseHueOverride !== null) {
@@ -7147,7 +7361,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v8.3-${Date.now()}.csv`;
+      a.download = `particle-data-v8.4-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -7398,14 +7612,21 @@
             this.targetHue = (this.baseHue + Math.random() * 40 * colorChaos) % 360;
           }
         } else if (forceMode === 'shock') {
-          // 衝擊環：環帶內單發徑向衝擊（事件型）
+          // 衝擊環：按住期間對環帶內粒子持續施加徑向衝擊（環帶事件型語意；無 settled 寫入）
           const ringR = 120 * rScale;
           const band = 46 * rScale;
           if (Math.abs(dist - ringR) < band) {
             const imp = (1 - Math.abs(dist - ringR) / band) * 7.5 * force * weight;
             this.vx += (dx / dist) * imp;
             this.vy += (dy / dist) * imp;
-            this.settled = false;
+          }
+        } else if (forceMode === 'erode') {
+          // 侵蝕：環帶內減速磨耗＋色相轉暗，不向外衝擊（與 shock 反向）
+          const erodeR = 130 * rScale;
+          if (dist < erodeR) {
+            this.vx *= framePow(0.86);
+            this.vy *= framePow(0.86);
+            this.targetHue = (this.baseHue + 16 * colorChaos) % 360;
           }
         }
         // ruler 為直線排放筆刷，於 emitter 處理，這裡不施加點力
@@ -7948,18 +8169,19 @@
           }
           this.targetHue = this.baseHue;
         } else if (mode === 'convection') {
-          // 對流浮力：下半受熱上升、上半冷卻下沉，水平環流
+          // 對流浮力：取持久溫度場，受熱上升、冷卻下沉，水平環流
           const normY = this.y / (viewH || 1);
-          const buoy = (0.5 - normY) * 0.35 * force;
+          const tCell = sampleConvTemp(this.x, this.y);
+          const buoy = (tCell - 0.5) * 0.55 * force;
           this.vy -= buoy;
           this.vx += Math.sin(normY * 6 + timeTick * 0.06) * 0.14 * force;
-          this.targetHue = ((normY < 0.5 ? 10 : 200) + normY * 60) % 360;
+          this.targetHue = (10 + tCell * 160) % 360;
         } else if (mode === 'reactionDiffusion') {
-          // 反應擴散斑：切向漂移，色相隨擴散場循環
-          const val = Math.sin(this.x * 0.02 + timeTick * 0.04) * Math.cos(this.y * 0.02 - timeTick * 0.03);
+          // 反應擴散斑：切向漂移，色相隨 U/V 場 V 值循環
+          const vVal = sampleRDV(this.x, this.y);
           this.vx += Math.cos(this.y * 0.02) * 0.12 * force;
           this.vy -= Math.sin(this.x * 0.02) * 0.12 * force;
-          this.targetHue = (120 + (val + 1) * 60) % 360;
+          this.targetHue = (120 + vVal * 180) % 360;
         } else if (mode === 'fireflies') {
           // 螢火蟲：慢遊場域，Kuramoto 鄰域相位同步後閃爍（K≈0.03）
           const neighbors = ffNeighbors(this);
@@ -8403,6 +8625,13 @@
           // 蜂蜜：強黏滯，運動沉重緩慢
           this.vx *= framePow(0.82);
           this.vy *= framePow(0.82);
+        } else if (material === 'gel') {
+          // 凝膠：高黏彈阻尼＋輕微回彈趨勢，色相偏青
+          this.vx *= framePow(0.88);
+          this.vy *= framePow(0.88);
+          this.vx *= 1.03;
+          this.vy *= 1.03;
+          this.targetHue = (180 + this.baseHue * 0.05) % 360;
         }
 
         // Self-healing NaN/Infinity guard
@@ -10283,6 +10512,33 @@
           }
           offscreenCtx.stroke();
         }
+      } else if (presetName === 'featherFan') {
+        // 羽扇：底部軸心放射 8 條漸細羽軸，淺青→白漸層（確定性，無隨機）
+        const spokes = 8;
+        const bx = cx, by = size - 10;
+        for (let k = 0; k < spokes; k++) {
+          const prog = k / (spokes - 1);
+          const ang = -Math.PI / 2 + (prog - 0.5) * 1.0;
+          const len = 34 - Math.abs(prog - 0.5) * 10;
+          offscreenCtx.strokeStyle = k % 2 === 0 ? '#7dd3fc' : '#e0f2fe';
+          offscreenCtx.lineWidth = Math.max(1, 2.5 - prog);
+          offscreenCtx.beginPath();
+          offscreenCtx.moveTo(bx, by);
+          offscreenCtx.lineTo(bx + Math.cos(ang) * len, by + Math.sin(ang) * len);
+          offscreenCtx.stroke();
+        }
+      } else if (presetName === 'sunDial') {
+        // 日晷：兩圈同心弧＋偏角指針，暖棕色系
+        offscreenCtx.strokeStyle = '#b45309';
+        offscreenCtx.lineWidth = 2;
+        offscreenCtx.beginPath(); offscreenCtx.arc(cx, cy, 26, 0, Math.PI * 2); offscreenCtx.stroke();
+        offscreenCtx.beginPath(); offscreenCtx.arc(cx, cy, 18, 0, Math.PI * 2); offscreenCtx.stroke();
+        offscreenCtx.strokeStyle = '#78350f';
+        offscreenCtx.lineWidth = 2.5;
+        offscreenCtx.beginPath();
+        offscreenCtx.moveTo(cx, cy);
+        offscreenCtx.lineTo(cx + Math.cos(-Math.PI / 3) * 22, cy + Math.sin(-Math.PI / 3) * 22);
+        offscreenCtx.stroke();
       }
 
       const thumb = document.getElementById('mini-media-thumb');
@@ -10609,6 +10865,10 @@
         if (mPill) mTitle.textContent = mPill.textContent;
       }
       updateAnchorUI();
+      // R-E3：語言切換後重跑三個過濾框，讓隱藏狀態對應新語言文案
+      if (typeof filterRefreshers !== 'undefined' && filterRefreshers.length) {
+        filterRefreshers.forEach(fn => { try { fn(); } catch (e) {} });
+      }
       if (typeof updateEngineControls === 'function') updateEngineControls();
     }
 
@@ -10632,6 +10892,9 @@
         ctx.fillStyle = '#050508';
         ctx.fillRect(0, 0, w, h);
         syncParticleSettings();
+        // F1/F2：尺寸改變時重建作用中的場域柵格（維持固定解析度）
+        if (window.appState.activeMode === 'convection') initConvectionGrid();
+        else if (window.appState.activeMode === 'reactionDiffusion') initReactionDiffusion();
       }
     }
 
@@ -10811,6 +11074,12 @@
         // F14：切模式時清掉上一模式殘留的火箭與音波漣漪，避免在新模式續跑
         window.appState.fireworkRockets.length = 0;
         window.appState.synthRipples.length = 0;
+        // 場域暫態清理：離開螢火蟲清耦合網格；進入對流／反應擴散重建各自柵格，離開時清空
+        ffGrid.clear();
+        if (newMode === 'convection') initConvectionGrid();
+        else { convTemp = null; convTempNext = null; }
+        if (newMode === 'reactionDiffusion') initReactionDiffusion();
+        else { rdU = null; rdV = null; }
         // B13：跨模式切換清掉殘留的成形目標點與懸停點，避免新模式沿用舊座標
         window.appState.formationPos = null;
         window.appState.hoverPoint = null;
@@ -10901,6 +11170,7 @@
           });
           playSpatialSynthNote(0.5, 0.5);
         }
+        refreshOutputCode();
       }
 
       const mainDockNav = document.getElementById('main-dock-nav');
@@ -10993,9 +11263,11 @@
       });
 
       // F1：長清單過濾框（純執行期暫態，不進快照／動作碼）；比對按鈕文字＋data id，與分類 pill 疊加
+      const filterRefreshers = [];
       function setupListFilter(inputId, scopeSel, btnSel, emptyId) {
         const input = document.getElementById(inputId);
         if (!input) return;
+        const isVisibleBtn = (b) => b.style.display !== 'none' && !b.classList.contains('hidden') && b.offsetParent !== null;
         const applyFilter = () => {
           const scope = document.querySelector(scopeSel);
           if (!scope) return;
@@ -11011,13 +11283,14 @@
           const empty = document.getElementById(emptyId);
           if (empty) empty.classList.toggle('hidden', q === '' || shown > 0);
         };
+        filterRefreshers.push(applyFilter);
         input.addEventListener('input', applyFilter);
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') { input.value = ''; applyFilter(); input.blur(); }
           else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             const scope = document.querySelector(scopeSel);
             if (!scope) return;
-            const vis = [...scope.querySelectorAll(btnSel)].filter(b => b.style.display !== 'none');
+            const vis = [...scope.querySelectorAll(btnSel)].filter(isVisibleBtn);
             if (!vis.length) return;
             e.preventDefault();
             const idx = vis.indexOf(document.activeElement);
@@ -11026,8 +11299,8 @@
           }
         });
       }
-      setupListFilter('filter-input-modes', '#main-dock-nav', '.mode-btn', 'mode-menu-hint');
-      setupListFilter('filter-input-shapes', '#shapes-grid-container', '.shape-btn', 'shape-menu-hint');
+      setupListFilter('filter-input-modes', '#main-dock-nav', '.mode-btn', 'modes-filter-empty');
+      setupListFilter('filter-input-shapes', '#shapes-grid-container', '.shape-btn', 'shapes-filter-empty');
       setupListFilter('filter-input-models', '#models-grid-container', '.shape-btn', 'models-filter-empty');
 
       WHITELIST.modes.forEach(m => {
@@ -11422,7 +11695,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 83,
+          v: 84,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -11496,9 +11769,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB83-${encoded}`;
+          return `PSB84-${encoded}`;
         } catch (e) {
-          return 'PSB83-DEFAULT';
+          return 'PSB84-DEFAULT';
         }
       }
 
@@ -11621,6 +11894,12 @@
         });
       }
 
+      // S-E4：集中刷新輸出動作碼，供色盤／模式等切換收尾呼叫，避免停留舊碼
+      function refreshOutputCode() {
+        const out = document.getElementById('output-action-code');
+        if (out) out.value = generateCurrentActionCode();
+      }
+
       function syncAllUIControlsAfterActionCode() {
         const st = window.appState;
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
@@ -11691,7 +11970,7 @@
         const h = viewH || window.innerHeight || 600;
 
         // F5：秘技成功分派前先進 Undo 堆疊（與場景/精選按鈕同一慣例；壞碼不快照）
-        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND', 'GLACIERDRIFT', 'VOLTPULSE', 'OBSIDIANDEEP', 'CLOCKWORK', 'STARDUST']);
+        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND', 'GLACIERDRIFT', 'VOLTPULSE', 'OBSIDIANDEEP', 'CLOCKWORK', 'STARDUST', 'DRAGONBREATH', 'MIDNIGHTGARDEN']);
         if (SECRET_CODES.has(upper)) captureUndoSnapshot();
 
         // Check Built-in Secret / Command Action Codes first
@@ -11964,7 +12243,7 @@
           showToast(dict.toastAcApplied('#CLOCKWORK'));
           return true;
         } else if (upper === 'STARDUST') {
-          // 星塵：星系 + 星雲，星網開、鏡像 3、長拖尾輝光
+          // 星塵：星系 + 星雲，星網開、鏡像 4（白名單值）、長拖尾輝光
           st.activeMode = 'galaxy';
           st.palette = 'nebula';
           st.attractForce = 0.60;
@@ -11972,15 +12251,42 @@
           st.additiveGlow = true;
           st.constellationWeb = true;
           st.webDist = 56;
-          st.mirrorSymmetry = 3;
+          st.mirrorSymmetry = 4;
           syncAllUIControlsAfterActionCode();
           showToast(dict.toastAcApplied('#STARDUST'));
           return true;
+        } else if (upper === 'DRAGONBREATH') {
+          // 龍息：暖金噴流、左右雙 push 錨點、長輝光
+          st.activeMode = 'current';
+          st.palette = 'fallMaple';
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.86;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.anchors = [
+            { x: w * 0.18, y: h * 0.5, type: 'push', phase: 0, orbitDist: 0, orbitAngle: 0, lastTap: 0 },
+            { x: w * 0.82, y: h * 0.5, type: 'push', phase: 0, orbitDist: 0, orbitAngle: 0, lastTap: 0 }
+          ];
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#DRAGONBREATH'));
+          return true;
+        } else if (upper === 'MIDNIGHTGARDEN') {
+          // 午夜花園：紫外光、鏡像 4、星網
+          st.activeMode = 'lotusPond';
+          st.palette = 'ultraviolet';
+          st.attractForce = 0.50;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = true;
+          st.constellationWeb = true;
+          st.mirrorSymmetry = 4;
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#MIDNIGHTGARDEN'));
+          return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB83-', 'PSB82-', 'PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB84-', 'PSB83-', 'PSB82-', 'PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -11989,7 +12295,7 @@
             const data = JSON.parse(jsonStr);
             if (!data || typeof data !== 'object') throw new Error('Invalid');
             // F8：舊碼缺 v 欄位時由前綴推定版本；data.v 存在且有限時覆蓋
-            const PREFIX_VERSION = { 'PSB83-': 83, 'PSB82-': 82, 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
+            const PREFIX_VERSION = { 'PSB84-': 84, 'PSB83-': 83, 'PSB82-': 82, 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
             let codeVersion = 46;
             for (const px of Object.keys(PREFIX_VERSION)) { if (upperClean.startsWith(px)) { codeVersion = PREFIX_VERSION[px]; break; } }
             if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Math.round(Number(data.v));
@@ -12050,6 +12356,7 @@
             if (data.wl !== undefined) st.webMaxLinks = Math.min(5, Math.max(1, Number(data.wl) || 3));
             if (data.qt && WHITELIST.qualityTiers.includes(data.qt)) st.qualityTier = data.qt;
             st.autoQuality = asBool(data.aq, true);
+            resetAutoQualityRuntime();
             if (data.bb) st.beatBpm = Math.min(160, Math.max(60, Number(data.bb) || 78));
             if (data.bs !== undefined) st.bgShade = num(data.bs, 0, 100, st.bgShade);
             if (data.tr2 !== undefined) st.trailReticle = asBool(data.tr2, st.trailReticle);
@@ -12085,7 +12392,8 @@
             // E2：解碼成功且持久化開啟時回寫本機快照
             if (window.appState.persistConfig) persistConfigSnapshot();
             // A11：表外版本號不再靜默歸 PSB46，顯示實際編號（僅標籤，不影響解碼）
-            const versionLabel = codeVersion === 83 ? 'PSB83 State'
+            const versionLabel = codeVersion === 84 ? 'PSB84 State'
+              : codeVersion === 83 ? 'PSB83 State'
               : codeVersion === 82 ? 'PSB82 State'
               : codeVersion === 81 ? 'PSB81 State'
               : codeVersion === 80 ? 'PSB80 State'
@@ -12402,7 +12710,7 @@
 
       // --- v7.0 引擎調校控制項 ---
       const GRAVITY_ORDER = ['none', 'up', 'down', 'left', 'right'];
-      const MATERIAL_ORDER = ['none', 'viscous', 'bouncy', 'ember', 'plasma', 'honey'];
+      const MATERIAL_ORDER = ['none', 'viscous', 'bouncy', 'ember', 'plasma', 'honey', 'gel'];
       const QUALITY_ORDER = ['high', 'mid', 'low'];
       const CONFIG_KEY = 'psb70_config';
 
@@ -12479,7 +12787,8 @@
 
       function toggleAutoQuality() {
         window.appState.autoQuality = !window.appState.autoQuality;
-        if (window.appState.autoQuality) runtimeTierOverride = null;
+        // S-A1：開啟或關閉自動都清掉執行期 override 與 EMA 計數，旗標與實際階層一致
+        resetAutoQualityRuntime();
         updateEngineControls();
         persistConfigSnapshot();
         playProceduralSound('change');
@@ -12610,6 +12919,7 @@
         if (WHITELIST.gravityDirs.includes(snap.gravityDir)) st.gravityDir = snap.gravityDir;
         if (WHITELIST.qualityTiers.includes(snap.qualityTier)) st.qualityTier = snap.qualityTier;
         st.autoQuality = asBool(snap.autoQuality, st.autoQuality);
+        resetAutoQualityRuntime();
         if (WHITELIST.mirrorSteps.includes(Number(snap.mirrorSymmetry))) st.mirrorSymmetry = Number(snap.mirrorSymmetry);
         st.particleCount = num(snap.particleCount, 1000, 18000, st.particleCount);
         st.particleSize = num(snap.particleSize, 0.5, 6.0, st.particleSize);
@@ -13213,6 +13523,7 @@
         });
         if (isShapeTargetMode(window.appState.activeMode)) updateParticleTargetsForShape(window.appState.activeShape);
         if (window.appState.activeMode === 'text') updateParticleTargetsForText(window.appState.customText);
+        refreshOutputCode();
       }
 
       paletteBtns.forEach(btn => {
@@ -13552,6 +13863,34 @@
           st.constellationWeb = false;
           st.mirrorSymmetry = 2;
           switchMode('meteor');
+        } else if (scene === 'mistyBamboo') {
+          // 霧竹：青綠慢流、長拖尾、低擾動
+          selectPalette('deepTeal');
+          st.attractForce = 0.45;
+          st.trailPersistence = 0.86;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.chaos = 0.35;
+          switchMode('current');
+        } else if (scene === 'emberStorm') {
+          // 餘燼風暴：暖色旋渦、輝光、高擾動
+          selectPalette('fallMaple');
+          st.attractForce = 0.55;
+          st.trailPersistence = 0.80;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.chaos = 1.2;
+          switchMode('supercellTornado');
+        } else if (scene === 'crystalLake') {
+          // 晶湖：深藍平靜、鏡像 2、弱浮力
+          selectPalette('deepOcean');
+          st.attractForce = 0.42;
+          st.trailPersistence = 0.84;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 2;
+          st.wallBounce = false;
+          switchMode('auroraBand');
         }
         syncShape3DLabel();
       }
@@ -13695,13 +14034,17 @@
         window.appState.rulerStart = null;
         window.appState.pinchPrevDist = null;
         releaseCutoutSprite();
-        ensureCustomArtFallback();
-        // A4：重置回收影片 Blob URL，避免重整/重置後舊影片資源洩漏
+        // S-E3：先回收媒體（blob revoke、isVideoActive=false、清影片來源），再呼叫 fallback，避免有效影片被誤判
         if (window.appState.currentVideoBlobUrl) {
           try { URL.revokeObjectURL(window.appState.currentVideoBlobUrl); } catch (e) {}
           window.appState.currentVideoBlobUrl = null;
         }
         window.appState.isVideoActive = false;
+        try { const vd = document.getElementById('video-preview'); if (vd) { vd.pause(); vd.removeAttribute('src'); vd.load(); } } catch (e) {}
+        ensureCustomArtFallback();
+        // S-E2/R-E5：重置歸零自動畫質執行期狀態，並清螢火蟲耦合網格（下一幕需要時重建）
+        resetAutoQualityRuntime();
+        ffGrid.clear();
         window.appState.undoStack = [];
         window.appState.redoStack = [];
         // F9：歸零殘留索引與時間戳，避免重置後舊狀態誤觸發
@@ -13759,7 +14102,7 @@
 
       // Interactive Brush Override Switcher (6 Brushes: default, pull, push, vortex, rainbow, fountain)
       const btnBrushTool = document.getElementById('btn-brush-tool');
-      const brushOrder = ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock'];
+      const brushOrder = ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode'];
       function cycleBrushTool() {
         const nextIdx = (brushOrder.indexOf(window.appState.brushOverride) + 1) % brushOrder.length;
         const nextBrush = brushOrder[nextIdx];
@@ -14611,8 +14954,17 @@
             draw3DStageAndWireframe(centerPoint, rotYCos, rotYSin, rotXCos, rotXSin);
           }
 
+          // F1/F2：場域推進（執行期暫態，不進快照／動作碼）；低階機反應擴散降為隔幀
+          if (window.appState.activeMode === 'convection') {
+            stepConvection(dtScale);
+          } else if (window.appState.activeMode === 'reactionDiffusion') {
+            const rdLow = effectiveQualityTier() === 'low';
+            if (!rdLow) { stepReactionDiffusion(); stepReactionDiffusion(); }
+            else if (frameCount % 2 === 0) stepReactionDiffusion();
+          }
+
           const len = particles.length;
-          if (window.appState.mode === 'fireflies') ffRebuildGrid();
+          if (window.appState.activeMode === 'fireflies') ffRebuildGrid();
           for (let i = 0; i < len; i++) {
             const p = particles[i];
             p.update(activePoints, centerPoint, rotYCos, rotYSin, rotXCos, rotXSin, dtScale, i);
@@ -14728,6 +15080,11 @@
           restoreConfigSnapshot();
         }
       } catch (e) {}
+
+      // F3：開場 config 還原後獨立還原去背 sprite；僅當還原字形為 custom 時載入，失敗走既有兜底
+      // sprite key 存在即代表使用者最後狀態為 custom（切走/重置會清 key）；
+      // 還原期 fallback 可能已把 glyph 降回 circle，故不以當前 glyph 作守衛
+      rehydrateCutoutSprite();
 
       // 開場同步一次 UI 文案與開關狀態（含 ON/OFF 字典標籤、滑桿與面板）
       updateAppLanguage(currentLang);
