@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>像素粒子沙盒 v8.4 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
+  <title>像素粒子沙盒 v8.5 — 互動物理、鏡像繪製、公轉錨點與全息音律實驗室</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <style>
@@ -578,7 +578,7 @@
               <span class="text-[10px] text-white/45 font-mono" data-i18n="acCurrentHint">包含模式、物理、色彩、圖形與錨點座標</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="output-action-code" readonly value="PSB84-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
+              <input type="text" id="output-action-code" readonly value="PSB85-..." class="flex-1 bg-black/50 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-[11px] text-cyan-300 outline-none">
               <button id="btn-copy-action-code" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1 transition-all whitespace-nowrap">
                 <svg class="icon-svg-sm"><use href="#icon-copy"/></svg>
                 <span data-i18n="acCopyBtn">複製</span>
@@ -591,7 +591,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <span class="font-semibold text-purple-300" data-i18n="acInputTitle">輸入或貼上行動碼執行</span>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="input-action-code" placeholder="貼上 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
+              <input type="text" id="input-action-code" placeholder="貼上 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)" class="flex-1 bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-white/40 outline-none focus:border-purple-400">
               <button id="btn-apply-action-code" class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white px-4 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap" data-i18n="acExecuteBtn">執行行動碼</button>
             </div>
           </div>
@@ -600,7 +600,7 @@
           <div class="bg-white/5 rounded-2xl p-3 border border-white/10 flex flex-col gap-2">
             <div class="flex justify-between items-center">
               <span class="font-semibold text-amber-300" data-i18n="acPresetTitle">內建傳奇秘技行動碼（點擊立即觸發）</span>
-              <span class="text-[10px] text-white/45 font-mono">22 CODES</span>
+              <span class="text-[10px] text-white/45 font-mono">25 CODES</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
               <button data-ac-preset="SUPERNOVA" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-400/50 transition-all flex flex-col">
@@ -690,6 +690,18 @@
               <button data-ac-preset="MIDNIGHTGARDEN" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-400/50 transition-all flex flex-col">
                 <span class="font-mono text-[11px] font-bold text-purple-300">#MIDNIGHTGARDEN</span>
                 <span class="text-[10px] text-white/75 truncate" data-i18n="acDescMidnightgarden">午夜花園</span>
+              </button>
+              <button data-ac-preset="IRONBLOSSOM" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-rose-500/20 border border-white/10 hover:border-rose-400/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-rose-300">#IRONBLOSSOM</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescIronblossom">鐵花綻放</span>
+              </button>
+              <button data-ac-preset="HOURGLASS" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-slate-500/20 border border-white/10 hover:border-slate-300/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-slate-300">#HOURGLASS</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescHourglass">沙漏時序</span>
+              </button>
+              <button data-ac-preset="MOONSURF" class="ac-preset-btn py-1.5 px-2 rounded-xl text-left bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-300/50 transition-all flex flex-col">
+                <span class="font-mono text-[11px] font-bold text-sky-300">#MOONSURF</span>
+                <span class="text-[10px] text-white/75 truncate" data-i18n="acDescMoonsurf">月面衝浪</span>
               </button>
             </div>
           </div>
@@ -814,7 +826,7 @@
           <div class="flex justify-between items-center border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold uppercase tracking-wider text-blue-400" data-i18n="sandboxControl">沙盒物理與色彩設定</span>
-              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.4</span>
+              <span class="text-[10px] text-emerald-300 font-mono bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">v8.5</span>
             </div>
             <div class="flex items-center gap-1.5">
               <button id="btn-reset-defaults" class="text-[11px] text-white/70 hover:text-white bg-white/5 hover:bg-white/15 px-2.5 py-1 rounded-md transition-all" data-i18n="resetDefaults">重設預設值</button>
@@ -865,6 +877,9 @@
                 <button data-scene="mistyBamboo" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-emerald-600/25 hover:border-emerald-400 transition-all" data-i18n="sceneMistyBamboo">霧竹</button>
                 <button data-scene="emberStorm" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-600/25 hover:border-orange-300 transition-all" data-i18n="sceneEmberStorm">餘燼風暴</button>
                 <button data-scene="crystalLake" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-sky-600/25 hover:border-sky-300 transition-all" data-i18n="sceneCrystalLake">晶湖</button>
+                <button data-scene="frostedPanes" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-sky-500/25 hover:border-sky-300 transition-all" data-i18n="sceneFrostedPanes">霜花玻璃</button>
+                <button data-scene="emberDrifter" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-orange-500/25 hover:border-orange-300 transition-all" data-i18n="sceneEmberDrifter">餘燼漂流</button>
+                <button data-scene="drizzleRoof" class="scene-preset-btn py-1.5 px-2 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/85 hover:bg-cyan-600/25 hover:border-cyan-300 transition-all" data-i18n="sceneDrizzleRoof">雨簷細雨</button>
               </div>
               <div class="mt-1.5">
                 <div class="text-[10px] font-semibold text-amber-300/80 mb-1" data-i18n="curatedPresets">精選一鍵預設</div>
@@ -970,6 +985,9 @@
                 <button data-palette="roseQuartz" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palRoseQuartz">薔薇石英</button>
                 <button data-palette="deepOcean" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palDeepOcean">深洋</button>
                 <button data-palette="fallMaple" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palFallMaple">秋楓</button>
+                <button data-palette="lagoon" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palLagoon">潟湖</button>
+                <button data-palette="plumWine" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palPlumWine">梅酒</button>
+                <button data-palette="gunmetal" class="palette-btn py-1.5 px-1.5 rounded-lg text-[11px] font-medium border border-white/10 bg-white/5 text-white/75 hover:bg-white/10 transition-all" data-i18n="palGunmetal">槍鐵</button>
               </div>
             </div>
           </div>
@@ -1169,6 +1187,24 @@
             </div>
           </div>
 
+          <!-- Accordion: F1 Sequencer (16-step + WAV export) -->
+          <div class="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+            <button id="btn-acc-seq" class="w-full flex justify-between items-center py-2 px-3 hover:bg-white/5 transition-all text-left">
+              <span class="text-xs font-semibold text-emerald-300" data-i18n="seqTitle">音序器</span>
+              <svg id="icon-acc-seq" class="icon-svg-sm text-white/70 transition-transform duration-200"><use href="#icon-chevron-down"/></svg>
+            </button>
+            <div id="body-acc-seq" class="hidden p-2.5 pt-0 transition-all flex flex-col gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <button id="btn-seq-play" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-emerald-600/30 border border-emerald-400/40 text-emerald-100 transition-all" data-i18n="seqPlay">播放</button>
+                <button id="btn-seq-stop" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="seqStop">停止</button>
+                <button id="btn-seq-clear" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="seqClear">清空</button>
+                <button id="btn-seq-export" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-cyan-600/30 border border-cyan-400/40 text-cyan-100 transition-all" data-i18n="seqExport">匯出 WAV</button>
+              </div>
+              <div id="seq-steps" class="grid grid-cols-8 gap-1.5"></div>
+              <div class="text-[10px] text-white/50" data-i18n="seqStepHint">點擊切換開關；右鍵循環音高。播放步進高亮。</div>
+            </div>
+          </div>
+
           <!-- Accordion 7: v7.0 Appearance, Glyph & Data Tools -->
           <div class="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
             <button id="btn-acc-appearance" class="w-full flex justify-between items-center py-2 px-3 hover:bg-white/5 transition-all text-left">
@@ -1195,6 +1231,8 @@
                   <button data-glyph="star4" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphStar4">四角星</button>
                   <button data-glyph="leaf" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphLeaf">葉片</button>
                   <button data-glyph="pinwheel" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphPinwheel">風車</button>
+                  <button data-glyph="droplet" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphDroplet">水滴</button>
+                  <button data-glyph="comet" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-white/10 text-white/75 transition-all" data-i18n="glyphComet">彗星</button>
                   <button id="btn-glyph-upload" class="glyph-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white/5 border border-dashed border-white/20 text-white/75 transition-all" data-i18n="glyphCustom">自訂圖片</button>
                 </div>
               </div>
@@ -1571,6 +1609,8 @@
               <button data-art="vortexRings" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artVortexRings">渦旋環</button>
               <button data-art="featherFan" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artFeatherFan">羽扇</button>
               <button data-art="sunDial" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artSunDial">日晷</button>
+              <button data-art="compassRose" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artCompassRose">羅盤玫瑰</button>
+              <button data-art="waveTrio" class="media-preset-btn px-2.5 py-1 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/75 hover:text-white" data-i18n="artWaveTrio">三疊浪</button>
             </div>
           </div>
           <div id="panel-img-advanced" class="hidden border-t border-white/10 pt-2 flex flex-col gap-1.5">
@@ -2105,7 +2145,7 @@
 
         <!-- Bottom Version Footer (No Ultra) -->
         <div id="bottom-version-footer" class="w-full flex justify-center items-center pointer-events-none select-none -mt-1">
-          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.4</span>
+          <span class="font-mono text-[10px] text-white/50 tracking-widest px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10">v8.5</span>
         </div>
       </div>
     </div>
@@ -2195,6 +2235,7 @@
       qualityTier: 'high', // 'high', 'mid', 'low'
       autoQuality: true, // F2：自動畫質；false 時 qualityTier 為純手動偏好
       beatBpm: 78, // 節拍每分鐘次數 60–160
+      sequencer: null, // F1 音序器 {b,s}；null 由 sanitizeSeq 兜底全關（播放指標/相位為暫態，不序列化）
       bgShade: 50, // 0–100% 背景深淺，50 對應現況深黑
       trailReticle: true, // 軌跡光環開關
       persistConfig: false, // 自動儲存配置開關（預設關）
@@ -2222,8 +2263,8 @@
         'magnet', 'kepler', 'spring', 'centrifuge', 'ferrofluid', 'plasma', 'entangle', 'glacier', 'acousticLev', 'doubleWave', 'fermiGas', 'coulombCrystal', 'penningTrap', 'magneticReconn', 'kerrBlackhole', 'diracMonopole', 'yukawaMeson', 'eulerDisk',
         // --- v7.1 Wave 2：nature/audio/media 58 ---
         'wave', 'rain', 'snow', 'smoke', 'sand', 'meteor', 'prismOptics', 'lotusPond', 'rayleighTaylor', 'kelvinHelmholtz', 'benardCells', 'dandelionWind', 'ballLightning', 'supercellTornado', 'glacierCalving', 'geyserEruption', 'tidalBore', 'biolumBay', 'sandDunes', 'dna', 'vine', 'chemicals', 'pandemic', 'antColony', 'coral', 'bubbles', 'slimeMold', 'chainReaction', 'immuneDefense', 'hallEffect', 'atpSynthase', 'synapseFire', 'quorumSensing', 'myceliumNetwork', 'actionPotential', 'laser', 'cymatics3d', 'stringArt', 'mhdGenerator', 'pulsarBeam', 'moireFringes', 'harmonicLissajous', 'euclideanCircles', 'cymaticWater', 'qr', 'radar', 'svgPath', 'pixelDestruct', 'cosmicLensing', 'lagrangePoints', 'rocheLimit', 'fourierEpicycles', 'typhoonEye', 'hopfFibration', 'penroseTiling', 'hyperbolicPoincare', 'voronoiShatter', 'riemannZeta'],
-      brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode'],
-      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome', 'duskMist', 'mintFrost', 'voltGreen', 'copperRose', 'auroraCyan', 'duskRose', 'deepTeal', 'emberGold', 'ultraviolet', 'sandstorm', 'roseQuartz', 'deepOcean', 'fallMaple'],
+      brushes: ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode', 'vapor'],
+      palettes: ['spectrum', 'cyber', 'fire', 'aurora', 'ocean', 'sakura', 'matrix', 'mono', 'dusk', 'forest', 'champagne', 'bronze', 'pastel', 'sunset', 'emerald', 'royal', 'ice', 'synthwave', 'gold', 'lava', 'mint', 'nebula', 'bloodmoon', 'amber', 'monochrome', 'duskMist', 'mintFrost', 'voltGreen', 'copperRose', 'auroraCyan', 'duskRose', 'deepTeal', 'emberGold', 'ultraviolet', 'sandstorm', 'roseQuartz', 'deepOcean', 'fallMaple', 'lagoon', 'plumWine', 'gunmetal'],
       shapes: ['circle', 'square', 'star', 'heart', 'triangle', 'hexagon', 'infinity', 'spiral', 'dna', 'atom', 'butterfly', 'torus', 'cube', 'lissajous', 'hyperboloid', 'klein', 'astroid', 'mobius', 'catenoid', 'trefoil', 'saturn', 'spaceship', 'dragon', 'crystal', 'castle', 'hourglass', 'jellyfish', 'phoenix', 'neuronNet', 'tourbillon', 'globeRelief', 'orrery', 'coral3d', 'trex', 'inkLandscape', 'dysonSphere', 'jwstMirror', 'quantumFridge', 'toroidalCoil', 'heart3d', 'tesseract', 'toriiGate', 'stellarator', 'calabiYau',
         // --- v7.1 Wave 3A：34 個新 3D 模型（6 家族）---
         'pyramid', 'diamond', 'octahedron', 'icosahedron', 'dodecahedron', 'buckminster', 'origamiCrane', 'sierpinskiTet', 'stellaOctangula',
@@ -2244,10 +2285,10 @@
       materials: ['none', 'viscous', 'bouncy', 'ember', 'plasma', 'honey', 'gel'],
       gravityDirs: ['none', 'up', 'down', 'left', 'right'],
       qualityTiers: ['high', 'mid', 'low'],
-      glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom', 'crescent', 'clover', 'star4', 'leaf', 'pinwheel']
+      glyphs: ['circle', 'star', 'hexagon', 'heart', 'lightning', 'feather', 'snowflake', 'sakura', 'diamond', 'ring', 'note', 'custom', 'crescent', 'clover', 'star4', 'leaf', 'pinwheel', 'droplet', 'comet']
     };
     // 內建圖片藝術預設白名單（custom 為使用者上傳圖片，不進快照/動作碼列舉校驗）
-    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune', 'ripple', 'constellation', 'lattice', 'bamboo', 'vortexRings', 'featherFan', 'sunDial'];
+    const ART_PRESETS = ['planet', 'sunset', 'matrix', 'nebula', 'lotus', 'supernova', 'vortex', 'rose', 'feather', 'mask', 'wave', 'rune', 'ripple', 'constellation', 'lattice', 'bamboo', 'vortexRings', 'featherFan', 'sunDial', 'compassRose', 'waveTrio'];
 
     // v7.3：造型目標模式集合（2D 形狀 + 獨立 3D 模型藝廊共用同一套成形/快取/指標分支）
     const isShapeTargetMode = (m) => m === 'shapes' || m === 'models3d';
@@ -3656,7 +3697,7 @@
         palVoltGreen: '電子螢光綠',
         palCopperRose: '古銅玫瑰',
         palAuroraCyan: '極光青',
-        palDuskRose: '暮薔薇', palDeepTeal: '深青銅', palEmberGold: '餘燼金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '薔薇石英', palDeepOcean: '深洋', palFallMaple: '秋楓',
+        palDuskRose: '暮薔薇', palDeepTeal: '深青銅', palEmberGold: '餘燼金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '薔薇石英', palDeepOcean: '深洋', palFallMaple: '秋楓', palLagoon: '潟湖', palPlumWine: '梅酒', palGunmetal: '槍鐵',
         particleCount: '粒子數量',
         particleSize: '粒子基礎大小',
         forceStrength: '引力與物理強度',
@@ -3807,7 +3848,7 @@
         sceneTidalTwin: '潮汐雙星',
         sceneNeonAlley: '雨巷霓虹',
         sceneCheckerSilhouette: '棋盤剪影',
-        sceneAuroraCave: '極光洞窟', sceneDuneBreeze: '沙丘微風', sceneLanternRiver: '燈火河', sceneStarfall: '星雨', sceneMistyBamboo: '霧竹', sceneEmberStorm: '餘燼風暴', sceneCrystalLake: '晶湖',
+        sceneAuroraCave: '極光洞窟', sceneDuneBreeze: '沙丘微風', sceneLanternRiver: '燈火河', sceneStarfall: '星雨', sceneMistyBamboo: '霧竹', sceneEmberStorm: '餘燼風暴', sceneCrystalLake: '晶湖', sceneFrostedPanes: '霜花玻璃', sceneEmberDrifter: '餘燼漂流', sceneDrizzleRoof: '雨簷細雨',
         presetNebula: '創世星雲',
         presetLava: '地心熔岩',
         presetNeon: '霓虹萬花',
@@ -3822,7 +3863,7 @@
         artRune: '符印',
         artRipple: '同心波紋',
         artConstellation: '星座連線',
-        artLattice: '格網', artBamboo: '竹節', artVortexRings: '渦旋環', artFeatherFan: '羽扇', artSunDial: '日晷',
+        artLattice: '格網', artBamboo: '竹節', artVortexRings: '渦旋環', artFeatherFan: '羽扇', artSunDial: '日晷', artCompassRose: '羅盤玫瑰', artWaveTrio: '三疊浪',
         acDescCrystallize: '晶簇冰封陣',
         acDescEmberfall: '餘燼流星雨',
         acDescNeongarden: '霓虹花園',
@@ -3832,7 +3873,7 @@
         acDescStillmind: '靜心留白',
         acDescGlacierdrift: '冰河緩流',
         acDescVoltpulse: '電流脈衝',
-        acDescObsidiandeep: '黑曜石深淵', acDescClockwork: '鐘錶機芯', acDescStardust: '星塵', acDescDragonbreath: '龍息', acDescMidnightgarden: '午夜花園',
+        acDescObsidiandeep: '黑曜石深淵', acDescClockwork: '鐘錶機芯', acDescStardust: '星塵', acDescDragonbreath: '龍息', acDescMidnightgarden: '午夜花園', acDescIronblossom: '鐵花綻放', acDescHourglass: '沙漏時序', acDescMoonsurf: '月面衝浪',
         keyRespawn: '重生粒子',
         keyBounce: '邊界反彈切換',
         keyWeb: '星網連線切換',
@@ -3877,7 +3918,7 @@
         ariaSnapshot: '儲存畫面截圖', ariaBgm: '環境與互動五聲音階音效', ariaZen: '沉浸全螢幕', ariaSettings: '沙盒設定面板',
         acSaveBtn: '收藏',
         acInputTitle: '輸入或貼上行動碼執行',
-        acInputPlaceholder: '貼上 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
+        acInputPlaceholder: '貼上 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或輸入秘技碼 (如 SUPERNOVA)',
         acExecuteBtn: '執行行動碼',
         acPresetTitle: '內建傳奇秘技行動碼（點擊立即觸發）',
         acDescSupernova: '超新星雙核爆發',
@@ -3893,7 +3934,7 @@
         acLoadItem: '載入',
         toastAcCopied: '已複製行動碼至剪貼簿！',
         toastAcApplied: (name) => `已成功執行行動碼：${name}`,
-        toastAcInvalid: '行動碼格式無效，請輸入 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
+        toastAcInvalid: '行動碼格式無效，請輸入 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 狀態碼或內建秘技碼',
         toastAcSaved: '已將當前配置收藏至行動碼庫！',
         textPlaceholder: '輸入文字...',
         audioVolume: '音效與氛圍音量',
@@ -3907,6 +3948,9 @@
         webMaxLinks: '星網每點連線數',
         qualityTier: '渲染畫質',
         beatBpm: '節拍速度',
+        seqTitle: '音序器', seqPlay: '播放', seqStop: '停止', seqClear: '清空', seqExport: '匯出 WAV',
+        seqStepHint: '點擊切換開關；右鍵循環音高。播放步進高亮。',
+        seqExported: '音序器 WAV 已匯出', seqExportFail: 'WAV 匯出失敗', seqEmptyWarn: '序列為空，無法匯出',
         bgShade: '背景深淺',
         toggleTrail: '軌跡光環',
         persistConfig: '自動儲存配置',
@@ -4091,7 +4135,8 @@
           magnet: '筆刷：磁吸',
           spray: '筆刷：噴霧',
           shock: '筆刷：衝擊環',
-          erode: '筆刷：侵蝕'
+          erode: '筆刷：侵蝕',
+          vapor: '筆刷：蒸氣'
         },
         modePull: '吸引',
         modePush: '推開',
@@ -4135,7 +4180,7 @@
         glyphLabel: '粒子造型',
         glyphCircle: '圓點', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '愛心',
         glyphLightning: '閃電', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '櫻瓣',
-        glyphDiamond: '鑽石', glyphRing: '圓環', glyphNote: '音符', glyphCustom: '自訂圖片', glyphCrescent: '新月', glyphClover: '四葉', glyphStar4: '四角星', glyphLeaf: '葉片', glyphPinwheel: '風車',
+        glyphDiamond: '鑽石', glyphRing: '圓環', glyphNote: '音符', glyphCustom: '自訂圖片', glyphCrescent: '新月', glyphClover: '四葉', glyphStar4: '四角星', glyphLeaf: '葉片', glyphPinwheel: '風車', glyphDroplet: '水滴', glyphComet: '彗星',
         toggleCrt: 'CRT 螢幕', toggleDof: '景深縮放', toggleAnaglyph: '紅藍立體',
         toggleChromatic: '色差透鏡', toggleQuiver: '速度向量',
         exportCsv: '匯出 CSV',
@@ -4345,7 +4390,7 @@
         palVoltGreen: '电子荧光绿',
         palCopperRose: '古铜玫瑰',
         palAuroraCyan: '极光青',
-        palDuskRose: '暮蔷薇', palDeepTeal: '深青铜', palEmberGold: '余烬金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '蔷薇石英', palDeepOcean: '深洋', palFallMaple: '秋枫',
+        palDuskRose: '暮蔷薇', palDeepTeal: '深青铜', palEmberGold: '余烬金', palUltraviolet: '紫外光', palSandstorm: '沙暴', palRoseQuartz: '蔷薇石英', palDeepOcean: '深洋', palFallMaple: '秋枫', palLagoon: '潟湖', palPlumWine: '梅酒', palGunmetal: '枪铁',
         particleCount: '粒子数量',
         particleSize: '粒子基础大小',
         forceStrength: '引力与物理强度',
@@ -4496,7 +4541,7 @@
         sceneTidalTwin: '潮汐双星',
         sceneNeonAlley: '雨巷霓虹',
         sceneCheckerSilhouette: '棋盘剪影',
-        sceneAuroraCave: '极光洞窟', sceneDuneBreeze: '沙丘微风', sceneLanternRiver: '灯火河', sceneStarfall: '星雨', sceneMistyBamboo: '雾竹', sceneEmberStorm: '余烬风暴', sceneCrystalLake: '晶湖',
+        sceneAuroraCave: '极光洞窟', sceneDuneBreeze: '沙丘微风', sceneLanternRiver: '灯火河', sceneStarfall: '星雨', sceneMistyBamboo: '雾竹', sceneEmberStorm: '余烬风暴', sceneCrystalLake: '晶湖', sceneFrostedPanes: '霜花玻璃', sceneEmberDrifter: '余烬漂流', sceneDrizzleRoof: '雨檐细雨',
         presetNebula: '创世星云',
         presetLava: '地心熔岩',
         presetNeon: '霓虹万花',
@@ -4511,7 +4556,7 @@
         artRune: '符印',
         artRipple: '同心波纹',
         artConstellation: '星座连线',
-        artLattice: '格网', artBamboo: '竹节', artVortexRings: '涡旋环', artFeatherFan: '羽扇', artSunDial: '日晷',
+        artLattice: '格网', artBamboo: '竹节', artVortexRings: '涡旋环', artFeatherFan: '羽扇', artSunDial: '日晷', artCompassRose: '罗盘玫瑰', artWaveTrio: '三叠浪',
         acDescCrystallize: '晶簇冰封阵',
         acDescEmberfall: '余烬流星雨',
         acDescNeongarden: '霓虹花园',
@@ -4521,7 +4566,7 @@
         acDescStillmind: '静心留白',
         acDescGlacierdrift: '冰河缓流',
         acDescVoltpulse: '电流脉冲',
-        acDescObsidiandeep: '黑曜石深渊', acDescClockwork: '钟表机芯', acDescStardust: '星尘', acDescDragonbreath: '龙息', acDescMidnightgarden: '午夜花园',
+        acDescObsidiandeep: '黑曜石深渊', acDescClockwork: '钟表机芯', acDescStardust: '星尘', acDescDragonbreath: '龙息', acDescMidnightgarden: '午夜花园', acDescIronblossom: '铁花绽放', acDescHourglass: '沙漏时序', acDescMoonsurf: '月面冲浪',
         keyRespawn: '重生粒子',
         keyBounce: '边界反弹切换',
         keyWeb: '星网连线切换',
@@ -4566,7 +4611,7 @@
         ariaSnapshot: '保存画面截图', ariaBgm: '环境与互动五声音阶音效', ariaZen: '沉浸全屏', ariaSettings: '沙盒设置面板',
         acSaveBtn: '收藏',
         acInputTitle: '输入或粘贴行动码执行',
-        acInputPlaceholder: '粘贴 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
+        acInputPlaceholder: '粘贴 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或输入秘技码 (如 SUPERNOVA)',
         acExecuteBtn: '执行行动码',
         acPresetTitle: '内置传奇秘技行动码（点击立即触发）',
         acDescSupernova: '超新星双核爆发',
@@ -4582,7 +4627,7 @@
         acLoadItem: '载入',
         toastAcCopied: '已复制行动码至剪贴板！',
         toastAcApplied: (name) => `已成功执行行动码：${name}`,
-        toastAcInvalid: '行动码格式无效，请输入 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
+        toastAcInvalid: '行动码格式无效，请输入 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- 状态码或内置秘技码',
         toastAcSaved: '已将当前配置收藏至行动码库！',
         textPlaceholder: '输入文字...',
         audioVolume: '音效与氛围音量',
@@ -4596,6 +4641,9 @@
         webMaxLinks: '星网每点连线数',
         qualityTier: '渲染画质',
         beatBpm: '节拍速度',
+        seqTitle: '音序器', seqPlay: '播放', seqStop: '停止', seqClear: '清空', seqExport: '导出 WAV',
+        seqStepHint: '点击切换开关；右键循环音高。播放步进高亮。',
+        seqExported: '音序器 WAV 已导出', seqExportFail: 'WAV 导出失败', seqEmptyWarn: '序列为空，无法导出',
         bgShade: '背景深浅',
         toggleTrail: '轨迹光环',
         persistConfig: '自动储存配置',
@@ -4780,7 +4828,8 @@
           magnet: '笔刷：磁吸',
           spray: '笔刷：喷雾',
           shock: '笔刷：冲击环',
-          erode: '笔刷：侵蚀'
+          erode: '笔刷：侵蚀',
+          vapor: '笔刷：蒸气'
         },
         modePull: '吸引',
         modePush: '推开',
@@ -4824,7 +4873,7 @@
         glyphLabel: '粒子造型',
         glyphCircle: '圆点', glyphStar: '星形', glyphHexagon: '六角', glyphHeart: '爱心',
         glyphLightning: '闪电', glyphFeather: '羽毛', glyphSnowflake: '雪花', glyphSakura: '樱瓣',
-        glyphDiamond: '钻石', glyphRing: '圆环', glyphNote: '音符', glyphCustom: '自定义图片', glyphCrescent: '新月', glyphClover: '四叶', glyphStar4: '四角星', glyphLeaf: '叶片', glyphPinwheel: '风车',
+        glyphDiamond: '钻石', glyphRing: '圆环', glyphNote: '音符', glyphCustom: '自定义图片', glyphCrescent: '新月', glyphClover: '四叶', glyphStar4: '四角星', glyphLeaf: '叶片', glyphPinwheel: '风车', glyphDroplet: '水滴', glyphComet: '彗星',
         toggleCrt: 'CRT 屏幕', toggleDof: '景深缩放', toggleAnaglyph: '红蓝立体',
         toggleChromatic: '色差透镜', toggleQuiver: '速度向量',
         exportCsv: '导出 CSV',
@@ -5034,7 +5083,7 @@
         palVoltGreen: 'Volt Green',
         palCopperRose: 'Copper Rose',
         palAuroraCyan: 'Aurora Cyan',
-        palDuskRose: 'Dusk Rose', palDeepTeal: 'Deep Teal', palEmberGold: 'Ember Gold', palUltraviolet: 'Ultraviolet', palSandstorm: 'Sandstorm', palRoseQuartz: 'Rose Quartz', palDeepOcean: 'Deep Ocean', palFallMaple: 'Fall Maple',
+        palDuskRose: 'Dusk Rose', palDeepTeal: 'Deep Teal', palEmberGold: 'Ember Gold', palUltraviolet: 'Ultraviolet', palSandstorm: 'Sandstorm', palRoseQuartz: 'Rose Quartz', palDeepOcean: 'Deep Ocean', palFallMaple: 'Fall Maple', palLagoon: 'Lagoon', palPlumWine: 'Plum Wine', palGunmetal: 'Gunmetal',
         particleCount: 'Particle Count',
         particleSize: 'Base Particle Size',
         forceStrength: 'Force Intensity',
@@ -5185,7 +5234,7 @@
         sceneTidalTwin: 'Tidal Twin',
         sceneNeonAlley: 'Neon Alley',
         sceneCheckerSilhouette: 'Checker Silhouette',
-        sceneAuroraCave: 'Aurora Cave', sceneDuneBreeze: 'Dune Breeze', sceneLanternRiver: 'Lantern River', sceneStarfall: 'Starfall', sceneMistyBamboo: 'Misty Bamboo', sceneEmberStorm: 'Ember Storm', sceneCrystalLake: 'Crystal Lake',
+        sceneAuroraCave: 'Aurora Cave', sceneDuneBreeze: 'Dune Breeze', sceneLanternRiver: 'Lantern River', sceneStarfall: 'Starfall', sceneMistyBamboo: 'Misty Bamboo', sceneEmberStorm: 'Ember Storm', sceneCrystalLake: 'Crystal Lake', sceneFrostedPanes: 'Frosted Panes', sceneEmberDrifter: 'Ember Drifter', sceneDrizzleRoof: 'Drizzle Roof',
         presetNebula: 'Genesis Nebula',
         presetLava: 'Deep Lava',
         presetNeon: 'Neon Kaleido',
@@ -5200,7 +5249,7 @@
         artRune: 'Rune',
         artRipple: 'Concentric Ripple',
         artConstellation: 'Constellation',
-        artLattice: 'Lattice', artBamboo: 'Bamboo', artVortexRings: 'Vortex Rings', artFeatherFan: 'Feather Fan', artSunDial: 'Sun Dial',
+        artLattice: 'Lattice', artBamboo: 'Bamboo', artVortexRings: 'Vortex Rings', artFeatherFan: 'Feather Fan', artSunDial: 'Sun Dial', artCompassRose: 'Compass Rose', artWaveTrio: 'Wave Trio',
         acDescCrystallize: 'Crystallize Frost Array',
         acDescEmberfall: 'Ember Meteor Shower',
         acDescNeongarden: 'Neon Garden',
@@ -5210,7 +5259,7 @@
         acDescStillmind: 'Still Mind',
         acDescGlacierdrift: 'Glacier Drift',
         acDescVoltpulse: 'Volt Pulse',
-        acDescObsidiandeep: 'Obsidian Deep', acDescClockwork: 'Clockwork', acDescStardust: 'Stardust', acDescDragonbreath: 'Dragon Breath', acDescMidnightgarden: 'Midnight Garden',
+        acDescObsidiandeep: 'Obsidian Deep', acDescClockwork: 'Clockwork', acDescStardust: 'Stardust', acDescDragonbreath: 'Dragon Breath', acDescMidnightgarden: 'Midnight Garden', acDescIronblossom: 'Iron Blossom', acDescHourglass: 'Hourglass', acDescMoonsurf: 'Moon Surf',
         keyRespawn: 'Respawn particles',
         keyBounce: 'Toggle wall bounce',
         keyWeb: 'Toggle constellation web',
@@ -5255,7 +5304,7 @@
         ariaSnapshot: 'Save canvas snapshot', ariaBgm: 'Ambient & interaction pentatonic sound', ariaZen: 'Immersive fullscreen', ariaSettings: 'Sandbox settings panel',
         acSaveBtn: 'Save',
         acInputTitle: 'Enter or Paste Action Code',
-        acInputPlaceholder: 'Paste PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
+        acInputPlaceholder: 'Paste PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or secret code (e.g. SUPERNOVA)',
         acExecuteBtn: 'Execute',
         acPresetTitle: 'Built-in Legendary Action Codes (1-Click)',
         acDescSupernova: 'Binary Supernova Burst',
@@ -5271,7 +5320,7 @@
         acLoadItem: 'Load',
         toastAcCopied: 'Action Code copied to clipboard!',
         toastAcApplied: (name) => `Action Code executed: ${name}`,
-        toastAcInvalid: 'Invalid Action Code. Use a PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
+        toastAcInvalid: 'Invalid Action Code. Use a PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- code or a preset code.',
         toastAcSaved: 'Current sandbox setup saved to library!',
         textPlaceholder: 'Enter text...',
         audioVolume: 'Master Volume',
@@ -5285,6 +5334,9 @@
         webMaxLinks: 'Web Links Per Point',
         qualityTier: 'Render Quality',
         beatBpm: 'Beat Tempo',
+        seqTitle: 'Sequencer', seqPlay: 'Play', seqStop: 'Stop', seqClear: 'Clear', seqExport: 'Export WAV',
+        seqStepHint: 'Click toggles on/off; right-click cycles pitch. Active step highlights.',
+        seqExported: 'Sequencer WAV exported', seqExportFail: 'WAV export failed', seqEmptyWarn: 'Sequence is empty, nothing to export',
         bgShade: 'Background Shade',
         toggleTrail: 'Trail Reticle',
         persistConfig: 'Auto-Save Config',
@@ -5469,7 +5521,8 @@
           magnet: 'Brush: Magnet',
           spray: 'Brush: Spray',
           shock: 'Brush: Shock Ring',
-          erode: 'Brush: Erode'
+          erode: 'Brush: Erode',
+          vapor: 'Brush: Vapor'
         },
         modePull: 'Attract',
         modePush: 'Repel',
@@ -5513,7 +5566,7 @@
         glyphLabel: 'Particle Glyph',
         glyphCircle: 'Dot', glyphStar: 'Star', glyphHexagon: 'Hexagon', glyphHeart: 'Heart',
         glyphLightning: 'Bolt', glyphFeather: 'Feather', glyphSnowflake: 'Snowflake', glyphSakura: 'Petal',
-        glyphDiamond: 'Diamond', glyphRing: 'Ring', glyphNote: 'Note', glyphCustom: 'Custom Image', glyphCrescent: 'Crescent', glyphClover: 'Clover', glyphStar4: 'Star 4', glyphLeaf: 'Leaf', glyphPinwheel: 'Pinwheel',
+        glyphDiamond: 'Diamond', glyphRing: 'Ring', glyphNote: 'Note', glyphCustom: 'Custom Image', glyphCrescent: 'Crescent', glyphClover: 'Clover', glyphStar4: 'Star 4', glyphLeaf: 'Leaf', glyphPinwheel: 'Pinwheel', glyphDroplet: 'Droplet', glyphComet: 'Comet',
         toggleCrt: 'CRT Screen', toggleDof: 'Depth Scale', toggleAnaglyph: 'Anaglyph 3D',
         toggleChromatic: 'Chromatic Lens', toggleQuiver: 'Velocity Arrows',
         exportCsv: 'Export CSV',
@@ -5723,7 +5776,7 @@
         palVoltGreen: 'ボルトグリーン',
         palCopperRose: 'カッパーローズ',
         palAuroraCyan: 'オーロラシアン',
-        palDuskRose: '夕暮れローズ', palDeepTeal: 'ディープティール', palEmberGold: 'エンバーゴールド', palUltraviolet: '紫外線', palSandstorm: '砂嵐', palRoseQuartz: 'ローズクォーツ', palDeepOcean: '深海', palFallMaple: '紅葉',
+        palDuskRose: '夕暮れローズ', palDeepTeal: 'ディープティール', palEmberGold: 'エンバーゴールド', palUltraviolet: '紫外線', palSandstorm: '砂嵐', palRoseQuartz: 'ローズクォーツ', palDeepOcean: '深海', palFallMaple: '紅葉', palLagoon: 'ラグーン', palPlumWine: '梅酒', palGunmetal: 'ガンメタル',
         particleCount: '粒子数',
         particleSize: '粒子基本サイズ',
         forceStrength: '引力・物理強度',
@@ -5874,7 +5927,7 @@
         sceneTidalTwin: '潮汐の双星',
         sceneNeonAlley: 'ネオン路地',
         sceneCheckerSilhouette: 'チェック剪影',
-        sceneAuroraCave: 'オーロラ洞窟', sceneDuneBreeze: '砂丘の風', sceneLanternRiver: '灯籠の川', sceneStarfall: '流星群', sceneMistyBamboo: '霧竹', sceneEmberStorm: '余燼の嵐', sceneCrystalLake: '水晶湖',
+        sceneAuroraCave: 'オーロラ洞窟', sceneDuneBreeze: '砂丘の風', sceneLanternRiver: '灯籠の川', sceneStarfall: '流星群', sceneMistyBamboo: '霧竹', sceneEmberStorm: '余燼の嵐', sceneCrystalLake: '水晶湖', sceneFrostedPanes: '霜張りガラス', sceneEmberDrifter: '残火の漂流', sceneDrizzleRoof: '雨垂れ屋根',
         presetNebula: '創世星雲',
         presetLava: 'マグマ',
         presetNeon: 'ネオン万花',
@@ -5889,7 +5942,7 @@
         artRune: 'ルーン',
         artRipple: '同心リング',
         artConstellation: '星座連結',
-        artLattice: '格子', artBamboo: '竹', artVortexRings: '渦巻きリング', artFeatherFan: '羽根扇', artSunDial: '日時計',
+        artLattice: '格子', artBamboo: '竹', artVortexRings: '渦巻きリング', artFeatherFan: '羽根扇', artSunDial: '日時計', artCompassRose: 'コンパスローズ', artWaveTrio: '三連波',
         acDescCrystallize: '結晶氷結陣',
         acDescEmberfall: '残り火流星群',
         acDescNeongarden: 'ネオンガーデン',
@@ -5899,7 +5952,7 @@
         acDescStillmind: '静かなる留白',
         acDescGlacierdrift: '氷河ドリフト',
         acDescVoltpulse: 'ボルトパルス',
-        acDescObsidiandeep: '黒曜の淵', acDescClockwork: '時計仕掛け', acDescStardust: '星塵', acDescDragonbreath: '竜息', acDescMidnightgarden: '真夜中の庭',
+        acDescObsidiandeep: '黒曜の淵', acDescClockwork: '時計仕掛け', acDescStardust: '星塵', acDescDragonbreath: '竜息', acDescMidnightgarden: '真夜中の庭', acDescIronblossom: '鉄花', acDescHourglass: '砂時計', acDescMoonsurf: '月面サーフィン',
         keyRespawn: '粒子再生成',
         keyBounce: '壁バウンス切替',
         keyWeb: '星網接続切替',
@@ -5944,7 +5997,7 @@
         ariaSnapshot: 'キャンバスをスナップショット保存', ariaBgm: '環境・インタラクション五声音階サウンド', ariaZen: '没入フルスクリーン', ariaSettings: 'サンドボックス設定パネル',
         acSaveBtn: '保存',
         acInputTitle: 'アクションコードを入力して実行',
-        acInputPlaceholder: 'PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
+        acInputPlaceholder: 'PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技コード (SUPERNOVA等) を入力',
         acExecuteBtn: '実行',
         acPresetTitle: '内蔵レジェンド秘技コード（ワンクリック発動）',
         acDescSupernova: '超新星連星バースト',
@@ -5960,7 +6013,7 @@
         acLoadItem: '読込',
         toastAcCopied: 'アクションコードをコピーしました！',
         toastAcApplied: (name) => `アクションコード発動：${name}`,
-        toastAcInvalid: '無効なコードです。PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
+        toastAcInvalid: '無効なコードです。PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46- または秘技名を入力してください。',
         toastAcSaved: '現在の設定をコードライブラリに保存しました！',
         textPlaceholder: '文字を入力...',
         audioVolume: '音響・環境音量',
@@ -5974,6 +6027,9 @@
         webMaxLinks: 'ネット接続数',
         qualityTier: '描画画質',
         beatBpm: 'テンポ',
+        seqTitle: 'シーケンサー', seqPlay: '再生', seqStop: '停止', seqClear: 'クリア', seqExport: 'WAV 書き出し',
+        seqStepHint: 'クリックで ON/OFF、右クリックで音高を切替。再生ステップをハイライト。',
+        seqExported: 'シーケンサー WAV を書き出しました', seqExportFail: 'WAV 書き出しに失敗しました', seqEmptyWarn: 'シーケンスが空です',
         bgShade: '背景の濃淡',
         toggleTrail: '軌跡リング',
         persistConfig: '設定自動保存',
@@ -6158,7 +6214,8 @@
           magnet: 'ブラシ：磁石',
           spray: 'ブラシ：スプレー',
           shock: 'ブラシ：衝撃リング',
-          erode: 'ブラシ：浸食'
+          erode: 'ブラシ：浸食',
+          vapor: 'ブラシ：蒸気'
         },
         modePull: '吸引',
         modePush: '反発',
@@ -6202,7 +6259,7 @@
         glyphLabel: '粒子の形',
         glyphCircle: 'ドット', glyphStar: '星', glyphHexagon: '六角形', glyphHeart: 'ハート',
         glyphLightning: '稲妻', glyphFeather: '羽根', glyphSnowflake: '雪の結晶', glyphSakura: '花びら',
-        glyphDiamond: 'ダイヤ', glyphRing: 'リング', glyphNote: '音符', glyphCustom: 'カスタム画像', glyphCrescent: '三日月', glyphClover: 'クローバー', glyphStar4: '四角星', glyphLeaf: '葉', glyphPinwheel: '風車',
+        glyphDiamond: 'ダイヤ', glyphRing: 'リング', glyphNote: '音符', glyphCustom: 'カスタム画像', glyphCrescent: '三日月', glyphClover: 'クローバー', glyphStar4: '四角星', glyphLeaf: '葉', glyphPinwheel: '風車', glyphDroplet: '水滴', glyphComet: '彗星',
         toggleCrt: 'CRT 画面', toggleDof: '被写界深度', toggleAnaglyph: '赤青立体',
         toggleChromatic: '色収差レンズ', toggleQuiver: '速度ベクトル',
         exportCsv: 'CSV 出力',
@@ -6425,6 +6482,62 @@
       } catch (e) {}
     }
 
+    const SEQ_STEP_COUNT = 16;
+    const SEQ_PITCH_COUNT = PENTATONIC_FREQS.length;
+
+    function defaultSeq() {
+      return { b: 120, s: Array.from({ length: SEQ_STEP_COUNT }, () => [0, 0.6, false]) };
+    }
+    // F1 音序器守衛：頂層物件；b 60–160；s 截 16 步；逐步三元組校驗、finite 夾取、asBool；空序列回填全關
+    function sanitizeSeq(raw) {
+      const fb = defaultSeq();
+      if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return fb;
+      const bRaw = Number(raw.b);
+      const b = Number.isFinite(bRaw) ? Math.min(160, Math.max(60, bRaw)) : 120;
+      const sIn = raw.s;
+      if (!Array.isArray(sIn)) return { b, s: fb.s.map(x => x.slice()) };
+      const s = [];
+      for (let i = 0; i < Math.min(SEQ_STEP_COUNT, sIn.length); i++) {
+        const step = sIn[i];
+        if (!Array.isArray(step) || step.length < 3) continue;
+        let ni = Math.round(Number(step[0]));
+        if (!Number.isFinite(ni)) ni = 0;
+        ni = Math.min(SEQ_PITCH_COUNT - 1, Math.max(0, ni));
+        let vel = Number(step[1]);
+        if (!Number.isFinite(vel)) vel = 0.6;
+        vel = Math.min(1, Math.max(0, vel));
+        const on = !!step[2];
+        s.push([ni, vel, on]);
+      }
+      if (!s.length) return { b, s: fb.s.map(x => x.slice()) };
+      return { b, s };
+    }
+    function serializeSeq(seq) {
+      const clean = sanitizeSeq(seq);
+      return { b: clean.b, s: clean.s.map(x => [x[0], Number(x[1].toFixed(2)), x[2]]) };
+    }
+
+    // 純 builder：即時 / 離線（OfflineAudioContext）共用；不碰全域 audioCtx、masterGain 或防抖
+    function buildTone(ctx, dest, opts) {
+      if (!ctx || !dest) return null;
+      const when = Number.isFinite(opts.when) ? opts.when : ctx.currentTime;
+      const dur = opts.dur || 0.13;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.type = opts.type || 'sine';
+      if (Number.isFinite(opts.freqStart)) osc.frequency.setValueAtTime(opts.freqStart, when);
+      if (Number.isFinite(opts.freqEnd)) osc.frequency.exponentialRampToValueAtTime(opts.freqEnd, when + dur);
+      gain.gain.setValueAtTime(0.0001, when);
+      gain.gain.linearRampToValueAtTime(opts.gainPeak || 0.02, when + (opts.attack || 0.006));
+      gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+      osc.start(when);
+      osc.stop(when + dur + 0.01);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch (e) {} };
+      return { osc, gain };
+    }
+
     function playProceduralSound(type) {
       if (!window.appState.soundEnabled) return;
       const nowMs = performance.now();
@@ -6436,60 +6549,174 @@
       if (!ctxAudio) return;
 
       try {
-        const now = ctxAudio.currentTime;
-        const osc = ctxAudio.createOscillator();
-        const gain = ctxAudio.createGain();
-        osc.connect(gain);
-        gain.connect(masterGain);
-
-        osc.onended = () => {
-          try {
-            osc.disconnect();
-            gain.disconnect();
-          } catch (e) {}
-        };
-
         if (type === 'change') {
           const freq = PENTATONIC_FREQS[noteCursor % PENTATONIC_FREQS.length];
           noteCursor++;
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now);
-          osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.13);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.022, now + 0.006);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.13);
-          osc.start(now);
-          osc.stop(now + 0.14);
+          buildTone(ctxAudio, masterGain, { type: 'sine', freqStart: freq, freqEnd: freq * 1.25, gainPeak: 0.022, attack: 0.006, dur: 0.13 });
         } else if (type === 'tap') {
-          const freq = PENTATONIC_FREQS[(noteCursor++) % PENTATONIC_FREQS.length] * 0.5;
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq * 1.2, now);
-          osc.frequency.exponentialRampToValueAtTime(freq * 0.75, now + 0.09);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.02, now + 0.005);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
-          osc.start(now);
-          osc.stop(now + 0.1);
+          const idx = (noteCursor++) % PENTATONIC_FREQS.length;
+          const base = PENTATONIC_FREQS[idx] * 0.5;
+          buildTone(ctxAudio, masterGain, { type: 'sine', freqStart: base * 1.2, freqEnd: base * 0.75, gainPeak: 0.02, attack: 0.005, dur: 0.09 });
         } else if (type === 'shockwave') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(150, now);
-          osc.frequency.exponentialRampToValueAtTime(38, now + 0.28);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.04, now + 0.008);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
-          osc.start(now);
-          osc.stop(now + 0.29);
+          buildTone(ctxAudio, masterGain, { type: 'triangle', freqStart: 150, freqEnd: 38, gainPeak: 0.04, attack: 0.008, dur: 0.28 });
         } else if (type === 'launch') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(220, now);
-          osc.frequency.exponentialRampToValueAtTime(680, now + 0.22);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.015, now + 0.006);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
-          osc.start(now);
-          osc.stop(now + 0.23);
+          buildTone(ctxAudio, masterGain, { type: 'sine', freqStart: 220, freqEnd: 680, gainPeak: 0.015, attack: 0.006, dur: 0.22 });
         }
       } catch (e) {}
+    }
+
+    // --- F1 音序器執行期（播放指標 / 排程相位為純暫態，不進快照 / 動作碼）---
+    let seqPlaying = false, seqStepIdx = 0, seqNextAt = 0, seqTimer = null;
+    function ensureSequencer() {
+      if (!window.appState.sequencer) window.appState.sequencer = sanitizeSeq(undefined);
+    }
+    function seqBpm() { return sanitizeSeq(window.appState.sequencer).b; }
+    function seqStop() {
+      seqPlaying = false;
+      if (seqTimer) { clearInterval(seqTimer); seqTimer = null; }
+      renderSeqSteps();
+    }
+    function seqPlay() {
+      ensureSequencer();
+      const ctx = ensureAudioContext();
+      seqPlaying = true;
+      seqStepIdx = 0;
+      if (ctx && masterGain) {
+        seqNextAt = ctx.currentTime + 0.06;
+        if (seqTimer) clearInterval(seqTimer);
+        seqTimer = setInterval(seqTickLive, 25);
+      }
+      renderSeqSteps();
+    }
+    function seqTickLive() {
+      if (!seqPlaying) return;
+      const ctx = audioCtx;
+      if (!ctx) { seqStop(); return; }
+      const seq = sanitizeSeq(window.appState.sequencer);
+      const stepDur = 60 / seq.b;
+      while (seqNextAt <= ctx.currentTime + 0.06) {
+        const step = seq.s[seqStepIdx];
+        if (step && step[2]) {
+          const freq = PENTATONIC_FREQS[step[0] % SEQ_PITCH_COUNT];
+          buildTone(ctx, masterGain, { freqStart: freq, freqEnd: freq * 1.1, gainPeak: 0.03 * step[1], attack: 0.005, dur: Math.min(stepDur * 0.9, 0.4), when: seqNextAt });
+        }
+        seqNextAt += stepDur;
+        seqStepIdx = (seqStepIdx + 1) % SEQ_STEP_COUNT;
+      }
+      renderSeqSteps();
+    }
+    function renderSeqSteps() {
+      const wrap = document.getElementById('seq-steps');
+      if (!wrap) return;
+      ensureSequencer();
+      const seq = sanitizeSeq(window.appState.sequencer);
+      wrap.innerHTML = '';
+      seq.s.forEach((step, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'seq-step-btn h-9 rounded-lg text-[10px] font-mono border transition-all ' + (step[2]
+          ? 'bg-emerald-600/40 border-emerald-400/50 text-emerald-100'
+          : 'bg-white/5 border-white/10 text-white/50');
+        btn.textContent = String(step[0]);
+        btn.title = `${i + 1} · pitch ${step[0]} · vel ${step[1].toFixed(1)}`;
+        if (seqPlaying && step[2] && i === seqStepIdx) btn.classList.add('ring-1', 'ring-emerald-300');
+        btn.addEventListener('click', () => {
+          captureUndoSnapshot();
+          ensureSequencer();
+          const cur = sanitizeSeq(window.appState.sequencer);
+          cur.s[i][2] = !cur.s[i][2];
+          window.appState.sequencer = cur;
+          if (typeof window.__persistConfig === 'function') window.__persistConfig();
+          renderSeqSteps();
+          playProceduralSound('change');
+        });
+        btn.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          captureUndoSnapshot();
+          ensureSequencer();
+          const cur = sanitizeSeq(window.appState.sequencer);
+          cur.s[i][0] = (cur.s[i][0] + 1) % SEQ_PITCH_COUNT;
+          window.appState.sequencer = cur;
+          if (typeof window.__persistConfig === 'function') window.__persistConfig();
+          renderSeqSteps();
+        });
+        wrap.appendChild(btn);
+      });
+    }
+    function seqClear() {
+      captureUndoSnapshot();
+      const fb = sanitizeSeq(undefined);
+      window.appState.sequencer = { b: seqBpm(), s: fb.s };
+      if (typeof window.__persistConfig === 'function') window.__persistConfig();
+      renderSeqSteps();
+    }
+    function encodeWavPcm16(buf) {
+      const numCh = buf.numberOfChannels, sr = buf.sampleRate, len = buf.length;
+      const dataLen = numCh * len * 2;
+      const out = new ArrayBuffer(44 + dataLen);
+      const dv = new DataView(out);
+      const writeStr = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+      writeStr(0, 'RIFF');
+      dv.setUint32(4, 36 + dataLen, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      dv.setUint32(16, 16, true);
+      dv.setUint16(20, 1, true);
+      dv.setUint16(22, numCh, true);
+      dv.setUint32(24, sr, true);
+      dv.setUint32(28, sr * numCh * 2, true);
+      dv.setUint16(32, numCh * 2, true);
+      dv.setUint16(34, 16, true);
+      writeStr(36, 'data');
+      dv.setUint32(40, dataLen, true);
+      let off = 44;
+      for (let ch = 0; ch < numCh; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < len; i++) {
+          const v = Math.max(-1, Math.min(1, d[i]));
+          dv.setInt16(off, v < 0 ? v * 0x8000 : v * 0x7FFF, true);
+          off += 2;
+        }
+      }
+      return out;
+    }
+    async function seqExportWav() {
+      ensureSequencer();
+      const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
+      const seq = sanitizeSeq(window.appState.sequencer);
+      if (!seq.s.some(x => x[2])) { showToast(dict.seqEmptyWarn, true); return; }
+      const stepDur = 60 / seq.b;
+      let totalDur = seq.s.length * stepDur;
+      if (totalDur > 30) totalDur = 30; // 離線匯出總時長上限 30s
+      try {
+        const Offline = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+        if (!Offline) { showToast(dict.seqExportFail, true); return; }
+        const sr = 44100;
+        const off = new Offline(1, Math.ceil(totalDur * sr), sr);
+        const offGain = off.createGain();
+        offGain.gain.value = 1;
+        offGain.connect(off.destination);
+        seq.s.forEach((step, i) => {
+          if (!step[2]) return;
+          const t = i * stepDur;
+          if (t >= totalDur) return;
+          const freq = PENTATONIC_FREQS[step[0] % SEQ_PITCH_COUNT];
+          buildTone(off, offGain, { freqStart: freq, freqEnd: freq * 1.08, gainPeak: 0.5 * step[1], attack: 0.01, dur: Math.min(stepDur * 0.9, 0.4), when: t });
+        });
+        const rendered = await off.startRendering();
+        const wav = encodeWavPcm16(rendered);
+        const blob = new Blob([wav], { type: 'audio/wav' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sequencer-${Date.now()}.wav`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+        showToast(dict.seqExported);
+      } catch (e) {
+        showToast(dict.seqExportFail, true);
+      }
     }
 
     // --- Color Palette Computation with True 3D Depth Shading (Chiaroscuro Occlusion) ---
@@ -6502,15 +6729,18 @@
       gold: 42, lava: 5, mint: 160, nebula: 250, bloodmoon: 355,
       amber: 30, monochrome: 210,
       duskMist: 265, mintFrost: 175, voltGreen: 95, copperRose: 12, auroraCyan: 185,
-      duskRose: 335, deepTeal: 185, emberGold: 32, ultraviolet: 280, sandstorm: 38
+      duskRose: 335, deepTeal: 185, emberGold: 32, ultraviolet: 280, sandstorm: 38,
+      roseQuartz: 320, deepOcean: 220, fallMaple: 15,
+      lagoon: 180, plumWine: 310, gunmetal: 220
     };
     function getPaletteMainHue() {
       return PALETTE_MAIN_HUE[window.appState.palette] ?? 210;
     }
 
-    function computeParticleColor(hue, speed, depthNorm) {
+    function computeParticleColor(hue, speed, depthNorm, dim) {
       const palette = window.appState.palette;
       const roundedSpeed = Math.min(12, speed || 0);
+      const dimFactor = (dim === undefined || dim === null) ? 1 : Math.max(0.3, Math.min(1, dim));
       let lightness;
       let satBoost = 0;
       if (depthNorm !== undefined && depthNorm !== null) {
@@ -6521,6 +6751,7 @@
       } else {
         lightness = Math.min(88, Math.round((58 + roundedSpeed * 2.3) / 4) * 4);
       }
+      lightness = Math.max(14, Math.round(lightness * dimFactor));
       const norm = (((hue || 0) % 360) + 360) % 360;
 
       const band3 = (h1, h2, h3) => {
@@ -6639,6 +6870,15 @@
       } else if (palette === 'fallMaple') {
         // 秋楓：朱紅→金橙→褐，中低飽和
         return `hsl(${Math.round(band3(15, 35, 25) / 5) * 5}, ${Math.min(100, 70 + satBoost)}%, ${Math.max(20, lightness - 2)}%)`;
+      } else if (palette === 'lagoon') {
+        // 潟湖：碧青→水綠→淺藍，清亮
+        return `hsl(${Math.round(band3(180, 160, 200) / 5) * 5}, ${Math.min(100, 78 + satBoost)}%, ${Math.min(93, lightness + 4)}%)`;
+      } else if (palette === 'plumWine') {
+        // 梅酒：深梅→紫紅→暗莓，低亮度
+        return `hsl(${Math.round(band3(310, 330, 280) / 5) * 5}, ${Math.min(100, 72 + satBoost)}%, ${Math.max(18, lightness - 5)}%)`;
+      } else if (palette === 'gunmetal') {
+        // 槍鐵：鐵灰→鋼藍→炭灰，低飽和低亮度
+        return `hsl(${Math.round(band3(215, 225, 205) / 5) * 5}, ${Math.min(100, 28 + satBoost)}%, ${Math.max(16, lightness - 6)}%)`;
       } else {
         const roundedH = Math.round(norm / 6) * 6;
         return `hsl(${roundedH}, ${Math.min(100, 88 + satBoost)}%, ${lightness}%)`;
@@ -6659,6 +6899,37 @@
     function sampleFlowAngle(x, y, t) {
       const n = perlin2D(x * 0.006 + t * 0.02, y * 0.006 - t * 0.015);
       return n * Math.PI * 2;
+    }
+
+    // F2：low 階 32×18 角度格快取（每幀至多重建一次，格內雙線性插值）；high 階直接取樣
+    const FLOW_CACHE_GW = 32, FLOW_CACHE_GH = 18;
+    let flowCache = null, flowCacheTick = -1;
+    function flowAngleCached(x, y, t) {
+      if (effectiveQualityTier() === 'high') return sampleFlowAngle(x, y, t);
+      const w = viewW || 1, h = viewH || 1;
+      if (!flowCache || flowCacheTick !== t) {
+        flowCache = new Float32Array(FLOW_CACHE_GW * FLOW_CACHE_GH);
+        for (let j = 0; j < FLOW_CACHE_GH; j++) {
+          for (let i = 0; i < FLOW_CACHE_GW; i++) {
+            flowCache[j * FLOW_CACHE_GW + i] = sampleFlowAngle(
+              (i / (FLOW_CACHE_GW - 1)) * w,
+              (j / (FLOW_CACHE_GH - 1)) * h,
+              t
+            );
+          }
+        }
+        flowCacheTick = t;
+      }
+      const gx = Math.min(1, Math.max(0, x / w)) * (FLOW_CACHE_GW - 1);
+      const gy = Math.min(1, Math.max(0, y / h)) * (FLOW_CACHE_GH - 1);
+      const x0 = Math.min(FLOW_CACHE_GW - 2, Math.max(0, Math.floor(gx)));
+      const y0 = Math.min(FLOW_CACHE_GH - 2, Math.max(0, Math.floor(gy)));
+      const tx = gx - x0, ty = gy - y0;
+      const a = flowCache[y0 * FLOW_CACHE_GW + x0];
+      const b = flowCache[y0 * FLOW_CACHE_GW + x0 + 1];
+      const c = flowCache[(y0 + 1) * FLOW_CACHE_GW + x0];
+      const d = flowCache[(y0 + 1) * FLOW_CACHE_GW + x0 + 1];
+      return perlinLerp(perlinLerp(a, b, tx), perlinLerp(c, d, tx), ty);
     }
 
     function evaluateChladni(nx, ny, n, m) {
@@ -6774,7 +7045,7 @@
       convTemp = new Float32Array(CONV_GW * CONV_GH);
       convTempNext = new Float32Array(CONV_GW * CONV_GH);
       for (let y = 0; y < CONV_GH; y++) {
-        const fill = 0.5 - (y / (CONV_GH - 1)) * 0.45; // 底部偏熱、頂部偏冷
+        const fill = 0.5 - (y / (CONV_GH - 1)) * 0.45; // 頂部偏熱、底部偏冷（與程式邊界方向一致）
         for (let x = 0; x < CONV_GW; x++) convTemp[y * CONV_GW + x] = fill;
       }
     }
@@ -6794,7 +7065,7 @@
           convTempNext[i] = Math.min(1, Math.max(0, t));
         }
       }
-      // 邊界驅動：底部列保溫、頂部列降溫
+      // 邊界驅動：頂部列保溫、底部列降溫（對應上方梯度方向）
       for (let x = 0; x < CONV_GW; x++) {
         convTempNext[x] = Math.min(1, convTempNext[x] + 0.02 * dtScale);
         const bi = (CONV_GH - 1) * CONV_GW + x;
@@ -6809,15 +7080,18 @@
       return convTemp[gy * CONV_GW + gx];
     }
 
-    // F2：reactionDiffusion Gray-Scott U/V 雙柵格（執行期暫態，不進快照／動作碼；種子固定）
+    // F2：reactionDiffusion Gray-Scott U/V 雙緩衝（執行期暫態，不進快照／動作碼；種子固定）
     const RD_GW_HI = 96, RD_GH_HI = 54, RD_GW_LO = 64, RD_GH_LO = 36;
-    let rdU = null, rdV = null, rdGW = 0, rdGH = 0;
+    let rdU = null, rdV = null, rdUNext = null, rdVNext = null, rdGW = 0, rdGH = 0, rdIsLow = false;
     function initReactionDiffusion() {
       const low = effectiveQualityTier() === 'low';
+      rdIsLow = low;
       rdGW = low ? RD_GW_LO : RD_GW_HI;
       rdGH = low ? RD_GH_LO : RD_GH_HI;
       rdU = new Float32Array(rdGW * rdGH);
       rdV = new Float32Array(rdGW * rdGH);
+      rdUNext = new Float32Array(rdGW * rdGH);
+      rdVNext = new Float32Array(rdGW * rdGH);
       rdU.fill(1);
       rdV.fill(0);
       // 確定性 LCG 滴入 V，避免依賴 Math.random 造成快照／重播不確定
@@ -6832,10 +7106,17 @@
         }
       }
     }
-    function stepReactionDiffusion() {
-      if (!rdU || !rdV) return;
+    // R-E4：畫質階層事後升降時，若仍在 reactionDiffusion 則依新階層重建解析度
+    function syncReactionDiffusionTier() {
+      if (window.appState.activeMode !== 'reactionDiffusion') return;
+      const low = effectiveQualityTier() === 'low';
+      if (rdU && low === rdIsLow) return;
+      initReactionDiffusion();
+    }
+    function stepReactionDiffusion(dtScale) {
+      if (!rdU || !rdV || !rdUNext || !rdVNext) return;
+      const ds = Math.max(0.25, Math.min(2, dtScale || 1)); // R-E3：步進隨幀率補償，避免低幀爆步
       const Du = 0.16, Dv = 0.08, F = 0.035, k = 0.062;
-      const U = new Float32Array(rdGW * rdGH), V = new Float32Array(rdGW * rdGH);
       const lapU = (x, y) => {
         const c = rdU[y * rdGW + x];
         const n = rdU[(y === 0 ? 0 : y - 1) * rdGW + x] + rdU[(y === rdGH - 1 ? rdGH - 1 : y + 1) * rdGW + x]
@@ -6853,17 +7134,23 @@
           const i = y * rdGW + x;
           const u = rdU[i], v = rdV[i];
           const uvv = u * v * v;
-          U[i] = Math.min(1, Math.max(0, u + (Du * lapU(x, y) - uvv + F * (1 - u)) * 0.9));
-          V[i] = Math.min(1, Math.max(0, v + (Dv * lapV(x, y) + uvv - (F + k) * v) * 0.9));
+          rdUNext[i] = Math.min(1, Math.max(0, u + (Du * lapU(x, y) - uvv + F * (1 - u)) * 0.9 * ds));
+          rdVNext[i] = Math.min(1, Math.max(0, v + (Dv * lapV(x, y) + uvv - (F + k) * v) * 0.9 * ds));
         }
       }
-      rdU = U; rdV = V;
+      const swapU = rdU; rdU = rdUNext; rdUNext = swapU;
+      const swapV = rdV; rdV = rdVNext; rdVNext = swapV;
     }
     function sampleRDV(x, y) {
       if (!rdV) return 0;
       const gx = Math.min(rdGW - 1, Math.max(0, Math.floor((x / (viewW || 1)) * rdGW)));
       const gy = Math.min(rdGH - 1, Math.max(0, Math.floor((y / (viewH || 1)) * rdGH)));
       return rdV[gy * rdGW + gx];
+    }
+    // B2：狀態套用（解碼／快照／Undo/Redo）收尾依當前模式補 init 場域；離開模式留 null
+    function syncFieldGrids() {
+      if (window.appState.activeMode === 'convection') initConvectionGrid();
+      else if (window.appState.activeMode === 'reactionDiffusion') initReactionDiffusion();
     }
     // v7.0 3D 吸附：每幀 2D 目標快取（執行期陣列，不進 DEFAULT_STATE / 動作碼 / 配置快照）
     // 條目：{ x, y, z, depthNorm }；x/y 為相對成形中心的投影偏移，z 為深度，depthNorm 為歸一化深度
@@ -7046,6 +7333,21 @@
           ctx.ellipse(x + Math.cos(a) * s * 0.3, y + Math.sin(a) * s * 0.3, s * 0.55, s * 0.25, a, 0, Math.PI * 2);
           ctx.fill();
         }
+      } else if (glyph === 'droplet') {
+        const s = r * 1.6;
+        ctx.beginPath();
+        ctx.moveTo(x, y - s);
+        ctx.bezierCurveTo(x + s * 0.8, y - s * 0.2, x + s * 0.6, y + s * 0.7, x, y + s * 0.7);
+        ctx.bezierCurveTo(x - s * 0.6, y + s * 0.7, x - s * 0.8, y - s * 0.2, x, y - s);
+        ctx.fill();
+      } else if (glyph === 'comet') {
+        const s = r * 1.5;
+        ctx.beginPath();
+        ctx.ellipse(x - s * 0.4, y, s * 1.1, s * 0.35, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + s * 0.5, y, r * 0.9, 0, Math.PI * 2);
+        ctx.fill();
       } else {
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
@@ -7066,12 +7368,18 @@
     // F3：sprite 本機持久化獨立 key（不進快照／動作碼）；dataURL 上限 256KB，超限靜默不存
     const CUTOUT_SPRITE_KEY = 'psb70_cutout_sprite';
     const CUTOUT_SPRITE_MAX = 262144;
+    // S-A1：開場還原 pending 旗標——config 落定字形為 custom 才允許磁碟 sprite 復原，避免 stale key 覆蓋非 custom 字形
+    let spriteRehydratePending = false;
+    function clearCutoutSpriteKey() {
+      try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e) {}
+    }
     function persistCutoutSprite() {
       const off = window.appState.customCutoutSprite;
       if (!off) return;
       try {
         const url = off.toDataURL('image/png');
         if (url.length <= CUTOUT_SPRITE_MAX) localStorage.setItem(CUTOUT_SPRITE_KEY, url);
+        else clearCutoutSpriteKey(); // R-E5：超限不留舊 key，避免下次開場載回過時圖
       } catch (e) { /* QuotaExceeded 等例外：靜默降回僅執行期 */ }
     }
     function rehydrateCutoutSprite() {
@@ -7082,15 +7390,21 @@
         // 已去背的 64×64 成品直接重建 canvas，不再二次去背（避免暗色像素被誤清）
         img.onload = () => {
           try {
+            // S-E5：naturalWidth/Height>0 守衛，空白或異常資料走清 key 兜底
+            if (!img.naturalWidth || !img.naturalHeight) { clearCutoutSpriteKey(); return; }
+            const st = window.appState;
+            // 僅當落定字形為 custom 或 pending 旗標成立才復原；否則視為 stale key 清除，不覆寫字形
+            if (st.particleGlyph !== 'custom' && !spriteRehydratePending) { clearCutoutSpriteKey(); return; }
             const off = document.createElement('canvas');
             off.width = 64; off.height = 64;
             off.getContext('2d').drawImage(img, 0, 0, 64, 64);
-            window.appState.customCutoutSprite = off;
-            window.appState.particleGlyph = 'custom';
+            st.customCutoutSprite = off;
+            st.particleGlyph = 'custom';
+            spriteRehydratePending = false;
             if (typeof window.__syncAppUI === 'function') window.__syncAppUI();
-          } catch (e) { try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e2) {} }
+          } catch (e) { clearCutoutSpriteKey(); }
         };
-        img.onerror = () => { try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e) {} };
+        img.onerror = () => { clearCutoutSpriteKey(); };
         img.src = url;
       } catch (e) {}
     }
@@ -7128,7 +7442,7 @@
         try { old.width = 0; old.height = 0; } catch (e) {}
       }
       window.appState.customCutoutSprite = null;
-      try { localStorage.removeItem(CUTOUT_SPRITE_KEY); } catch (e) {}
+      clearCutoutSpriteKey();
     }
 
     // F17：custom 字形但去背 sprite 不存在（快照/動作碼還原後常見）時，降回圓點並提示一次
@@ -7139,8 +7453,11 @@
         const dict = I18N_LOCALES[currentLang] || I18N_LOCALES['zh-Hant'];
         showToast(dict.toastGlyphCustomMissing, true);
       }
-      // R-B2：反向分支——字形已走內建但舊去背 sprite 仍被參考時，歸零 canvas 並清參考
-      if (st.particleGlyph !== 'custom' && st.customCutoutSprite) releaseCutoutSprite();
+      // R-B2：反向分支——字形已走內建時，歸零 canvas 並清參考；session sprite 為 null 也主動清磁碟 stale key
+      if (st.particleGlyph !== 'custom') {
+        if (st.customCutoutSprite) releaseCutoutSprite();
+        else clearCutoutSpriteKey();
+      }
     }
 
     // S-E5：藝術預設 custom 但圖片預覽已失效（重置/釋放/還原後常見）時，降回內建 planet 並重繪
@@ -7210,7 +7527,8 @@
         masterVolume: st.masterVolume, timeSpeed: st.timeSpeed, webDist: st.webDist,
         anchors: st.anchors.map(a => [
           Number((a.x / w).toFixed(3)), Number((a.y / h).toFixed(3)), a.type
-        ])
+        ]),
+        sequencer: serializeSeq(st.sequencer)
       };
     }
     function captureUndoSnapshot() {
@@ -7230,6 +7548,7 @@
       if (WHITELIST.materials.includes(data.material)) st.material = data.material;
       if (WHITELIST.gravityDirs.includes(data.gravityDir)) st.gravityDir = data.gravityDir;
       if (WHITELIST.glyphs.includes(data.particleGlyph)) st.particleGlyph = data.particleGlyph;
+      spriteRehydratePending = (st.particleGlyph === 'custom');
       st.particleCount = num(data.particleCount, 1000, 18000, st.particleCount);
       st.brushRadius = num(data.brushRadius, 80, 500, st.brushRadius);
       st.particleSize = num(data.particleSize, 0.5, 6.0, st.particleSize);
@@ -7297,7 +7616,9 @@
       }
       ensureCustomGlyphFallback();
       ensureCustomArtFallback();
+      st.sequencer = sanitizeSeq(data.sequencer);
       syncAudioState();
+      syncFieldGrids();
     }
     function undoAction() {
       const st = window.appState;
@@ -7361,7 +7682,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `particle-data-v8.4-${Date.now()}.csv`;
+      a.download = `particle-data-v8.5-${Date.now()}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -7481,6 +7802,7 @@
         this.phase = Math.random() * Math.PI * 2; // F4：螢火蟲 Kuramoto 相位，執行期不持久化
         this.omega = 0.04; // F4：自然頻率
         this.settled = false; // crystal 模式結晶後鎖定，跳過每幀力學
+        this.dim = 1; // R-E6：侵蝕轉暗倍率（執行期欄位，不進快照），1 為原色
         this.birth = timeTick; // 粒子再生壽命計時起點
         const hueBase = window.appState.baseHueOverride !== null && window.appState.baseHueOverride !== undefined
           ? window.appState.baseHueOverride
@@ -7621,12 +7943,23 @@
             this.vy += (dy / dist) * imp;
           }
         } else if (forceMode === 'erode') {
-          // 侵蝕：環帶內減速磨耗＋色相轉暗，不向外衝擊（與 shock 反向）
+          // 侵蝕：環帶內減速磨耗＋亮度衰減（真正轉暗），不向外衝擊（與 shock 反向）
           const erodeR = 130 * rScale;
           if (dist < erodeR) {
             this.vx *= framePow(0.86);
             this.vy *= framePow(0.86);
-            this.targetHue = (this.baseHue + 16 * colorChaos) % 360;
+            this.dim = Math.max(0.35, this.dim * framePow(0.9));
+          }
+        } else if (forceMode === 'vapor') {
+          // 蒸氣：緩升＋徑向擴散，速度逐幀消散
+          const vaporR = 180 * rScale;
+          if (dist < vaporR) {
+            const ratio = Math.max(0, (vaporR - dist) / vaporR);
+            this.vy -= 0.12 * ratio * force * weight;
+            this.vx += (dx / dist) * 0.05 * ratio * force * weight;
+            this.vy += (dy / dist) * 0.05 * ratio * force * weight;
+            this.vx *= framePow(0.96);
+            this.vy *= framePow(0.96);
           }
         }
         // ruler 為直線排放筆刷，於 emitter 處理，這裡不施加點力
@@ -7663,7 +7996,7 @@
         // crystal 結晶粒子：跳過每幀力學，僅更新速度統計與著色
         if (this.settled) {
           this.speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-          this.color = computeParticleColor(this.hue, this.speed, this.depthNorm);
+          this.color = computeParticleColor(this.hue, this.speed, this.depthNorm, this.dim);
           return;
         }
 
@@ -7841,7 +8174,7 @@
           this.vy += waveY + (Math.random() - 0.5) * 0.2 * chaos;
           this.vx += (Math.random() - 0.5) * 0.2 * chaos;
         } else if (mode === 'flowfield') {
-          const angle = sampleFlowAngle(this.x, this.y, timeTick);
+          const angle = flowAngleCached(this.x, this.y, timeTick);
           const flowSpeed = 0.65 * force;
           this.vx += Math.cos(angle) * flowSpeed + (Math.random() - 0.5) * 0.25 * chaos;
           this.vy += Math.sin(angle) * flowSpeed + (Math.random() - 0.5) * 0.25 * chaos;
@@ -8604,6 +8937,8 @@
         // Apply friction and speed cap
         this.vx *= framePow(this.friction);
         this.vy *= framePow(this.friction);
+        // R-E6：侵蝕亮度衰減緩慢回復原色
+        if (this.dim < 1) this.dim = Math.min(1, this.dim + 0.03 * dtScale);
 
         // 新材料行為（與模式力學疊加）
         const material = window.appState.material;
@@ -8680,7 +9015,7 @@
           const targetH = this.targetHue !== null ? this.targetHue : this.baseHue;
           const diff = ((targetH - this.hue + 540) % 360) - 180;
           this.hue = (this.hue + diff * 0.12 + 360) % 360;
-          this.color = computeParticleColor(this.hue, speed, this.depthNorm);
+          this.color = computeParticleColor(this.hue, speed, this.depthNorm, this.dim);
         }
       }
     }
@@ -10539,6 +10874,32 @@
         offscreenCtx.moveTo(cx, cy);
         offscreenCtx.lineTo(cx + Math.cos(-Math.PI / 3) * 22, cy + Math.sin(-Math.PI / 3) * 22);
         offscreenCtx.stroke();
+      } else if (presetName === 'compassRose') {
+        // 羅盤玫瑰：八方位放射＋雙圈，朱紅
+        offscreenCtx.strokeStyle = '#b91c1c';
+        offscreenCtx.lineWidth = 2;
+        for (let k = 0; k < 8; k++) {
+          const a = k * Math.PI / 4;
+          offscreenCtx.beginPath();
+          offscreenCtx.moveTo(cx, cy);
+          offscreenCtx.lineTo(cx + Math.cos(a) * 26, cy + Math.sin(a) * 26);
+          offscreenCtx.stroke();
+        }
+        offscreenCtx.beginPath(); offscreenCtx.arc(cx, cy, 12, 0, Math.PI * 2); offscreenCtx.stroke();
+        offscreenCtx.beginPath(); offscreenCtx.arc(cx, cy, 24, 0, Math.PI * 2); offscreenCtx.stroke();
+      } else if (presetName === 'waveTrio') {
+        // 三疊浪：三條平行正弦波，青藍
+        offscreenCtx.strokeStyle = '#0891b2';
+        offscreenCtx.lineWidth = 2;
+        for (let row = 0; row < 3; row++) {
+          const y0 = cy - 14 + row * 14;
+          offscreenCtx.beginPath();
+          for (let x = -28; x <= 28; x += 2) {
+            const y = y0 + Math.sin(x * 0.18) * 6;
+            if (x === -28) offscreenCtx.moveTo(cx + x, y); else offscreenCtx.lineTo(cx + x, y);
+          }
+          offscreenCtx.stroke();
+        }
       }
 
       const thumb = document.getElementById('mini-media-thumb');
@@ -11382,6 +11743,7 @@
           syncModeCategoryUI();
           syncShapeButtonsUI();
           updateParticleTargetsForShape(targetShape);
+          refreshOutputCode();
         });
       });
 
@@ -11501,6 +11863,7 @@
           syncArtPresetButtonsUI();
           generateProceduralArtPreset(art);
           playProceduralSound('change');
+          refreshOutputCode();
         });
       });
 
@@ -11695,7 +12058,7 @@
         const st = window.appState;
         const w = viewW || 1, h = viewH || 1;
         const payload = {
-          v: 84,
+          v: 85,
           m: st.activeMode,
           p: st.palette,
           c: st.particleCount,
@@ -11761,6 +12124,7 @@
           qv: st.quiver ? 1 : 0,
           hi: st.hoverInfluence ? 1 : 0,
           mv: Number(st.masterVolume.toFixed(2)),
+          sq: serializeSeq(st.sequencer),
           lg: currentLang
         };
         try {
@@ -11769,9 +12133,9 @@
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
             .replace(/=+$/, '');
-          return `PSB84-${encoded}`;
+          return `PSB85-${encoded}`;
         } catch (e) {
-          return 'PSB84-DEFAULT';
+          return 'PSB85-DEFAULT';
         }
       }
 
@@ -11970,7 +12334,7 @@
         const h = viewH || window.innerHeight || 600;
 
         // F5：秘技成功分派前先進 Undo 堆疊（與場景/精選按鈕同一慣例；壞碼不快照）
-        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND', 'GLACIERDRIFT', 'VOLTPULSE', 'OBSIDIANDEEP', 'CLOCKWORK', 'STARDUST', 'DRAGONBREATH', 'MIDNIGHTGARDEN']);
+        const SECRET_CODES = new Set(['SUPERNOVA', 'CYBERPUNK', 'SYMPHONY', 'HYPERCUBE', 'KALEIDO6X', 'FESTIVAL', 'BIOABYSS', 'TIMESTOP', 'CRYSTALLIZE', 'EMBERFALL', 'NEONGARDEN', 'TWINFLARE', 'STEAMWORKS', 'VOLTTRACE', 'STILLMIND', 'GLACIERDRIFT', 'VOLTPULSE', 'OBSIDIANDEEP', 'CLOCKWORK', 'STARDUST', 'DRAGONBREATH', 'MIDNIGHTGARDEN', 'IRONBLOSSOM', 'HOURGLASS', 'MOONSURF']);
         if (SECRET_CODES.has(upper)) captureUndoSnapshot();
 
         // Check Built-in Secret / Command Action Codes first
@@ -12282,11 +12646,47 @@
           syncAllUIControlsAfterActionCode();
           showToast(dict.toastAcApplied('#MIDNIGHTGARDEN'));
           return true;
+        } else if (upper === 'IRONBLOSSOM') {
+          // 鐵花綻放：古銅磁流、鏡像 4、放射光
+          st.activeMode = 'ferrofluid';
+          st.palette = 'copperRose';
+          st.attractForce = 0.62;
+          st.trailPersistence = 0.80;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 4;
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#IRONBLOSSOM'));
+          return true;
+        } else if (upper === 'HOURGLASS') {
+          // 沙漏時序：擺浪陣列、鋼灰、鏡像 2、長軌
+          st.activeMode = 'pendulumWave';
+          st.palette = 'monochrome';
+          st.attractForce = 0.48;
+          st.trailPersistence = 0.88;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 2;
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#HOURGLASS'));
+          return true;
+        } else if (upper === 'MOONSURF') {
+          // 月面衝浪：冰藍魚群、鏡像 6、柔光
+          st.activeMode = 'boids';
+          st.palette = 'ice';
+          st.attractForce = 0.58;
+          st.trailPersistence = 0.76;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 6;
+          syncAllUIControlsAfterActionCode();
+          showToast(dict.toastAcApplied('#MOONSURF'));
+          return true;
         }
 
-        // Otherwise decode state code（相容前綴 PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
+        // Otherwise decode state code（相容前綴 PSB85- / PSB84- / PSB83- / PSB82- / PSB81- / PSB80- / PSB73- / PSB72- / PSB71- / PSB70- / PSB65- / PSB50- / PSB46-；皆 6 字元，統一 slice(6)）
         const upperClean = clean.toUpperCase();
-        const ACCEPTED_PREFIXES = ['PSB84-', 'PSB83-', 'PSB82-', 'PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
+        const ACCEPTED_PREFIXES = ['PSB85-', 'PSB84-', 'PSB83-', 'PSB82-', 'PSB81-', 'PSB80-', 'PSB73-', 'PSB72-', 'PSB46-', 'PSB50-', 'PSB65-', 'PSB70-', 'PSB71-'];
         if (ACCEPTED_PREFIXES.some(px => upperClean.startsWith(px))) {
           try {
             let b64 = clean.slice(6).replace(/-/g, '+').replace(/_/g, '/');
@@ -12295,7 +12695,7 @@
             const data = JSON.parse(jsonStr);
             if (!data || typeof data !== 'object') throw new Error('Invalid');
             // F8：舊碼缺 v 欄位時由前綴推定版本；data.v 存在且有限時覆蓋
-            const PREFIX_VERSION = { 'PSB84-': 84, 'PSB83-': 83, 'PSB82-': 82, 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
+            const PREFIX_VERSION = { 'PSB85-': 85, 'PSB84-': 84, 'PSB83-': 83, 'PSB82-': 82, 'PSB81-': 81, 'PSB80-': 80, 'PSB73-': 73, 'PSB72-': 72, 'PSB71-': 71, 'PSB70-': 70, 'PSB65-': 65, 'PSB50-': 50, 'PSB46-': 46 };
             let codeVersion = 46;
             for (const px of Object.keys(PREFIX_VERSION)) { if (upperClean.startsWith(px)) { codeVersion = PREFIX_VERSION[px]; break; } }
             if (data.v !== undefined && Number.isFinite(Number(data.v))) codeVersion = Math.round(Number(data.v));
@@ -12366,6 +12766,7 @@
             if (data.ap && ART_PRESETS.includes(data.ap)) st.activeArtPreset = data.ap;
             // A6：偏好欄位對齊解碼（glyph=custom 由 ensureCustomGlyphFallback 降階）
             if (data.gy && WHITELIST.glyphs.includes(data.gy)) st.particleGlyph = data.gy;
+            spriteRehydratePending = (st.particleGlyph === 'custom');
             if (data.cr !== undefined) st.crtOverlay = asBool(data.cr, st.crtOverlay);
             if (data.ds !== undefined) st.dofScale = asBool(data.ds, st.dofScale);
             if (data.ag !== undefined) st.anaglyph = asBool(data.ag, st.anaglyph);
@@ -12373,6 +12774,7 @@
             if (data.qv !== undefined) st.quiver = asBool(data.qv, st.quiver);
             if (data.hi !== undefined) st.hoverInfluence = asBool(data.hi, st.hoverInfluence);
             if (data.mv !== undefined) st.masterVolume = num(data.mv, 0, 1, st.masterVolume);
+            if (data.sq !== undefined) st.sequencer = sanitizeSeq(data.sq);
             if (data.lg !== undefined && SUPPORTED_LANGS.includes(data.lg)) updateAppLanguage(data.lg);
             if (data.bh !== undefined && data.bh !== null) {
               const bh = Number(data.bh);
@@ -12389,10 +12791,12 @@
             ensureCustomGlyphFallback();
             ensureCustomArtFallback();
             syncAudioState();
+            syncFieldGrids();
             // E2：解碼成功且持久化開啟時回寫本機快照
             if (window.appState.persistConfig) persistConfigSnapshot();
             // A11：表外版本號不再靜默歸 PSB46，顯示實際編號（僅標籤，不影響解碼）
-            const versionLabel = codeVersion === 84 ? 'PSB84 State'
+            const versionLabel = codeVersion === 85 ? 'PSB85 State'
+              : codeVersion === 84 ? 'PSB84 State'
               : codeVersion === 83 ? 'PSB83 State'
               : codeVersion === 82 ? 'PSB82 State'
               : codeVersion === 81 ? 'PSB81 State'
@@ -12594,6 +12998,16 @@
       setupAccordion('btn-acc-advanced', 'body-acc-advanced', 'icon-acc-advanced');
       setupAccordion('btn-acc-engine', 'body-acc-engine', 'icon-acc-engine');
       setupAccordion('btn-acc-appearance', 'body-acc-appearance', 'icon-acc-appearance');
+      setupAccordion('btn-acc-seq', 'body-acc-seq', 'icon-acc-seq');
+      const seqPlayBtn = document.getElementById('btn-seq-play');
+      const seqStopBtn = document.getElementById('btn-seq-stop');
+      const seqClearBtn = document.getElementById('btn-seq-clear');
+      const seqExportBtn = document.getElementById('btn-seq-export');
+      if (seqPlayBtn) seqPlayBtn.addEventListener('click', seqPlay);
+      if (seqStopBtn) seqStopBtn.addEventListener('click', seqStop);
+      if (seqClearBtn) seqClearBtn.addEventListener('click', seqClear);
+      if (seqExportBtn) seqExportBtn.addEventListener('click', seqExportWav);
+      renderSeqSteps();
 
       // --- Collapsible Bottom Navigation Dock & Dynamic Island ---
       const mainDockWrapper = document.getElementById('main-dock-wrapper');
@@ -12887,9 +13301,12 @@
           activeModeCategory: st.activeModeCategory, activeShapeCategory: st.activeShapeCategory,
           anchors: st.anchors.map(a => [
             Number((a.x / w).toFixed(3)), Number((a.y / h).toFixed(3)), a.type
-          ])
+          ]),
+          sequencer: serializeSeq(st.sequencer)
         };
         try { localStorage.setItem(CONFIG_KEY, JSON.stringify(snap)); } catch (e) {}
+        // S-E2：持久化成功後集中刷新輸出碼，避免停留舊狀態
+        refreshOutputCode();
       }
 
       // S-A1：統一委派——任何 range 滑桿 input 收尾落盤（persistConfigSnapshot 內已自守衛）
@@ -12945,6 +13362,7 @@
         st.beatPulse = asBool(snap.beatPulse, st.beatPulse);
         // v7.0 Wave3：造型與視覺開關（列舉過白名單，布林校驗；不進動作碼 payload）
         if (WHITELIST.glyphs.includes(snap.particleGlyph)) st.particleGlyph = snap.particleGlyph;
+        spriteRehydratePending = (st.particleGlyph === 'custom');
         st.crtOverlay = asBool(snap.crtOverlay, st.crtOverlay);
         st.dofScale = asBool(snap.dofScale, st.dofScale);
         st.anaglyph = asBool(snap.anaglyph, st.anaglyph);
@@ -12992,7 +13410,9 @@
         // F17：custom 字形但去背圖不存在時靜默降回圓點並提示
         ensureCustomGlyphFallback();
         ensureCustomArtFallback();
+        st.sequencer = sanitizeSeq(snap.sequencer);
         syncAudioState();
+        syncFieldGrids();
       }
 
       document.getElementById('btn-toggle-persist').addEventListener('click', () => {
@@ -13891,6 +14311,36 @@
           st.mirrorSymmetry = 2;
           st.wallBounce = false;
           switchMode('auroraBand');
+        } else if (scene === 'frostedPanes') {
+          // 霜花玻璃：冰藍輕霧、布朗慢浮、貼牆緩落
+          selectPalette('ice');
+          st.attractForce = 0.35;
+          st.trailPersistence = 0.80;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 1;
+          st.wallBounce = true;
+          switchMode('brownian');
+        } else if (scene === 'emberDrifter') {
+          // 餘燼漂流：暖金煙流、上升飄散、柔光
+          selectPalette('emberGold');
+          st.attractForce = 0.50;
+          st.trailPersistence = 0.70;
+          st.additiveGlow = true;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 1;
+          st.wallBounce = false;
+          switchMode('smoke');
+        } else if (scene === 'drizzleRoof') {
+          // 雨簷細雨：深藍細雨、垂直滴落、弱光
+          selectPalette('deepOcean');
+          st.attractForce = 0.40;
+          st.trailPersistence = 0.74;
+          st.additiveGlow = false;
+          st.constellationWeb = false;
+          st.mirrorSymmetry = 1;
+          st.wallBounce = false;
+          switchMode('rain');
         }
         syncShape3DLabel();
       }
@@ -14045,6 +14495,9 @@
         // S-E2/R-E5：重置歸零自動畫質執行期狀態，並清螢火蟲耦合網格（下一幕需要時重建）
         resetAutoQualityRuntime();
         ffGrid.clear();
+        // S-E4/R-E7：重置清場域柵格殘留（仍在該模式時由 tick/switchMode 重建）
+        convTemp = null; convTempNext = null;
+        rdU = null; rdV = null; rdUNext = null; rdVNext = null; rdGW = 0; rdGH = 0;
         window.appState.undoStack = [];
         window.appState.redoStack = [];
         // F9：歸零殘留索引與時間戳，避免重置後舊狀態誤觸發
@@ -14102,7 +14555,7 @@
 
       // Interactive Brush Override Switcher (6 Brushes: default, pull, push, vortex, rainbow, fountain)
       const btnBrushTool = document.getElementById('btn-brush-tool');
-      const brushOrder = ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode'];
+      const brushOrder = ['default', 'pull', 'push', 'vortex', 'rainbow', 'fountain', 'freeze', 'compactor', 'dye', 'ruler', 'magnet', 'spray', 'shock', 'erode', 'vapor'];
       function cycleBrushTool() {
         const nextIdx = (brushOrder.indexOf(window.appState.brushOverride) + 1) % brushOrder.length;
         const nextBrush = brushOrder[nextIdx];
@@ -14115,6 +14568,7 @@
           : 'glass-panel rounded-full px-2.5 py-1.5 text-cyan-200 border border-cyan-400/50 bg-cyan-500/20 active:scale-95 transition-all flex items-center gap-1 text-[11px] font-medium';
         showToast(label);
         playProceduralSound('change');
+        refreshOutputCode();
       }
       btnBrushTool.addEventListener('click', cycleBrushTool);
 
@@ -14958,9 +15412,10 @@
           if (window.appState.activeMode === 'convection') {
             stepConvection(dtScale);
           } else if (window.appState.activeMode === 'reactionDiffusion') {
+            syncReactionDiffusionTier();
             const rdLow = effectiveQualityTier() === 'low';
-            if (!rdLow) { stepReactionDiffusion(); stepReactionDiffusion(); }
-            else if (frameCount % 2 === 0) stepReactionDiffusion();
+            if (!rdLow) { stepReactionDiffusion(dtScale); stepReactionDiffusion(dtScale); }
+            else if (frameCount % 2 === 0) stepReactionDiffusion(dtScale);
           }
 
           const len = particles.length;
@@ -15081,10 +15536,9 @@
         }
       } catch (e) {}
 
-      // F3：開場 config 還原後獨立還原去背 sprite；僅當還原字形為 custom 時載入，失敗走既有兜底
-      // sprite key 存在即代表使用者最後狀態為 custom（切走/重置會清 key）；
-      // 還原期 fallback 可能已把 glyph 降回 circle，故不以當前 glyph 作守衛
-      rehydrateCutoutSprite();
+      // F3：開場 config 還原後獨立還原去背 sprite；僅當落定字形為 custom 或 pending 旗標成立才載入，
+      // 否則視為 stale key 清除不覆寫字形；失敗走既有兜底
+      if (window.appState.particleGlyph === 'custom' || spriteRehydratePending) rehydrateCutoutSprite();
 
       // 開場同步一次 UI 文案與開關狀態（含 ON/OFF 字典標籤、滑桿與面板）
       updateAppLanguage(currentLang);
